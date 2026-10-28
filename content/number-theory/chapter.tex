@@ -11,6 +11,7 @@
 
 \section{Primality}
 	\kactlimport{FastEratosthenes.h}
+	\kactlimport{LinearSieve.h}
 	\kactlimport{MillerRabin.h}
 	\kactlimport{Factor.h}
 
@@ -43,6 +44,13 @@
 
 	Primitive roots exist modulo any prime power $p^a$, except for $p = 2, a > 2$, and there are $\phi(\phi(p^a))$ many.
 	For $p = 2, a > 2$, the group $\mathbb Z_{2^a}^\times$ is instead isomorphic to $\mathbb Z_2 \times \mathbb Z_{2^{a-2}}$.
+
+\section{Floor blocks}
+	$\lfloor n/i \rfloor$ takes $O(\sqrt n)$ distinct values; the blocks $[l, r]$ with equal $\lfloor n/i \rfloor$ are:\\
+	\verb@for (l = 1; l <= n; l = r + 1) {@\\
+	\verb@  r = n / (n / l); ... }@\\
+	$\lfloor \lfloor n/a \rfloor / b \rfloor = \lfloor n/(ab) \rfloor$, and
+	$\sum_{i=1}^{n} \lfloor n/i \rfloor = 2 \sum_{i \le \lfloor\sqrt n\rfloor} \lfloor n/i \rfloor - \lfloor\sqrt n\rfloor^2$.
 
 \section{Estimates}
 	$\sum_{d|n} d = O(n \log \log n)$.

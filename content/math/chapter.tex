@@ -72,6 +72,10 @@ y = r\sin\theta\sin\phi & \theta = \textrm{acos}(z/\sqrt{x^2+y^2+z^2})\\
 z = r\cos\theta & \phi = \textrm{atan2}(y,x)
 \end{array}\]
 
+\subsection{Lattice polygons}
+Pick's theorem: a simple polygon with integer vertices has area $A = I + B/2 - 1$, where $I$, $B$ count the interior and boundary lattice points.
+The segment from $(x_1,y_1)$ to $(x_2,y_2)$ contains $\gcd(|x_2 - x_1|, |y_2 - y_1|) + 1$ lattice points.
+
 \section{Derivatives/Integrals}
 \begin{align*}
 	\dfrac{d}{dx}\arcsin x = \dfrac{1}{\sqrt{1-x^2}} &&& \dfrac{d}{dx}\arccos x = -\dfrac{1}{\sqrt{1-x^2}} \\

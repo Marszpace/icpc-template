@@ -8,8 +8,8 @@
 \section{Network flow}
 	\kactlimport{PushRelabel.h}
 	\kactlimport{MinCostMaxFlow.h}
-	\kactlimport{EdmondsKarp.h}
-	% \kactlimport{Dinic.h}
+	% \kactlimport{EdmondsKarp.h}
+	\kactlimport{Dinic.h}
 	\kactlimport{MinCut.h}
 	\kactlimport{GlobalMinCut.h}
 	\kactlimport{GomoryHu.h}
@@ -28,7 +28,7 @@
 	\kactlimport{EulerWalk.h}
 
 \section{Coloring}
-	\kactlimport{EdgeColoring.h}
+	% \kactlimport{EdgeColoring.h}
 
 \section{Heuristics}
 	\kactlimport{MaximalCliques.h}
@@ -40,10 +40,29 @@
 	\kactlimport{LCA.h}
 	\kactlimport{CompressTree.h}
 	\kactlimport{HLD.h}
+	\kactlimport{CentroidDecomposition.h}
+	\kactlimport{DsuOnTree.h}
 	\kactlimport{LinkCutTree.h}
 	\kactlimport{DirectedMST.h}
 
 \section{Math}
+	\subsection{Flows with lower bounds}
+		% Used in ICPC 2026 Central, problem K (min flow on a DAG with edge and node bounds).
+		Edge $u \to v$ with bounds $[l, c]$: give it capacity $c - l$ and set $\mathrm{ex}[v] \mathrel{+}= l$, $\mathrm{ex}[u] \mathrel{-}= l$.
+		A node bounded by $[A, B]$ is split into $v_{in} \to v_{out}$ with bounds $[A, B]$.
+		Add $S^* \to v$ of capacity $\mathrm{ex}[v]$ if $\mathrm{ex}[v] > 0$, and $v \to T^*$ of capacity $-\mathrm{ex}[v]$ if $\mathrm{ex}[v] < 0$.
+		A feasible flow exists iff the max flow $S^* \to T^*$ saturates all edges out of $S^*$.
+		For an $s$--$t$ flow also add $t \to s$ of capacity $\infty$; its flow $F$ is the flow value.
+		Then delete it: \emph{max} flow is $F + \mathrm{maxflow}(s \to t)$ and \emph{min} flow is $F - \mathrm{maxflow}(t \to s)$, both in the residual graph.
+		Paths covering a DAG's vertices: bound every vertex by $[1, \infty]$, connect $s$ to all sources and all sinks to $t$, take the min flow.
+		Convex edge costs (e.g.\ $x^2$) in min-cost flow: use parallel unit edges with costs $1, 3, 5, \dots$
+
+	\subsection{Segment tree graph}
+		% Used in ICPC 2026 South, problems G and I.
+		To add edges $v \to [l, r]$ cheaply, build a segment tree whose nodes are graph vertices, with edges parent $\to$ child (cost 0), and connect $v$ to the $O(\log N)$ nodes covering $[l, r]$.
+		For $[l, r] \to v$ use a second tree with the same leaves and edges child $\to$ parent.
+		This gives $O(N + M \log N)$ edges for Dijkstra, SCC, topological sort or BFS.
+
 	\subsection{Number of Spanning Trees}
 		% I.e. matrix-tree theorem.
 		% Source: https://en.wikipedia.org/wiki/Kirchhoff%27s_theorem
