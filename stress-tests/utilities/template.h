@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include <cassert> // not included by bits/stdc++.h since GCC 16
 using namespace std;
 
 #define rep(i, from, to) for (int i = from; i < (to); ++i)
