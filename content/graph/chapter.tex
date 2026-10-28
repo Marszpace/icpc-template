@@ -24,6 +24,7 @@
 \section{DFS algorithms}
 	\kactlimport{SCC.h}
 	\kactlimport{BiconnectedComponents.h}
+	\kactlimport{BlockCutTree.h}
 	\kactlimport{2sat.h}
 	\kactlimport{EulerWalk.h}
 
@@ -56,6 +57,16 @@
 		Then delete it: \emph{max} flow is $F + \mathrm{maxflow}(s \to t)$ and \emph{min} flow is $F - \mathrm{maxflow}(t \to s)$, both in the residual graph.
 		Paths covering a DAG's vertices: bound every vertex by $[1, \infty]$, connect $s$ to all sources and all sinks to $t$, take the min flow.
 		Convex edge costs (e.g.\ $x^2$) in min-cost flow: use parallel unit edges with costs $1, 3, 5, \dots$
+
+	\subsection{Min cut models}
+		Max-weight closure (choose items, each needs its prerequisites): $s \to i$ with capacity $w_i$ if $w_i > 0$, $i \to t$ with $-w_i$ if $w_i < 0$,
+		$i \to j$ with $\infty$ if $i$ needs $j$; answer $= \sum_{w_i > 0} w_i - \mathrm{mincut}$ (chosen items are on the $s$ side).
+		Bipartite graph: max matching = min vertex cover (K\"onig), max independent set $= V -$ matching.
+		With weights, min weight vertex cover is the min cut of $s \to L$ ($w$), $L \to R$ ($\infty$), $R \to t$ ($w$).
+		DAG min path cover (vertex-disjoint) $= N -$ matching in the split graph (edge $u_{out} \to v_{in}$); paths may share vertices: use the transitive closure.
+		Dilworth: max antichain $=$ min chain cover (the latter with the transitive closure).
+		Edge-disjoint paths: unit capacities; vertex-disjoint: split $v$ into $v_{in} \to v_{out}$ of capacity 1.
+		Two labels per item with pairwise penalties: $s$ side / $t$ side is the label; penalty edges between neighbours (needs submodular costs).
 
 	\subsection{Segment tree graph}
 		% Used in ICPC 2026 South, problems G and I.
