@@ -1,5 +1,8 @@
 # Vietnam ICPC configuration
 
+> The complete, current list of added and cut files is `CHANGES-vs-original.md` in the repository root.
+> The lists below are the first round of changes and are partly superseded.
+
 This branch adapts KACTL for the Vietnamese ICPC rounds (target: ICPC Danang
 Regionals 2026). The page budget is unchanged: `kactl.pdf` is 25 pages
 (cover included), the same as before. These notes record what changed and why.
