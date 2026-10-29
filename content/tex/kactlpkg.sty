@@ -3,6 +3,17 @@
 \ProvidesPackage{kactlpkg}
 
 \usepackage[utf8]{inputenc}             % Encoding UTF-8
+
+% Characters pdflatex doesn't know about (used in team names)
+\DeclareUnicodeCharacter{208D}{\textsubscript{(}}   % SUBSCRIPT LEFT PARENTHESIS
+\DeclareUnicodeCharacter{208E}{\textsubscript{)}}   % SUBSCRIPT RIGHT PARENTHESIS
+\IfFileExists{ls1stix2frak.fd}{                      % RIGHT S-SHAPED BAG DELIMITER, from the STIX symbol font
+	\DeclareFontEncoding{LS1}{}{}
+	\DeclareFontSubstitution{LS1}{stix2frak}{m}{n}
+	\DeclareUnicodeCharacter{27C6}{{\fontencoding{LS1}\fontfamily{stix2frak}\selectfont\char"08}}
+}{
+	\DeclareUnicodeCharacter{27C6}{)}
+}
 \usepackage{listings}                   % Source code listings
 \usepackage{framed}                     % Source code listings
 \usepackage[a4paper,landscape,hmargin={0.5cm,0.5cm},vmargin={1.0cm,0.4cm}]{geometry}
