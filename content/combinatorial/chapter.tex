@@ -37,6 +37,9 @@
 	\subsection{Lucas' Theorem}
 		Let $n,m$ be non-negative integers and $p$ a prime. Write $n=n_kp^k+...+n_1p+n_0$ and $m=m_kp^k+...+m_1p+m_0$. Then $\binom{n}{m} \equiv \prod_{i=0}^k\binom{n_i}{m_i} \pmod{p}$.
 
+		Corollaries: $p \nmid \binom{n}{m} \iff m_i \le n_i\ \forall i$. In particular, $\binom{n}{m}$ is odd $\iff$ \texttt{(m \& n) == m}.
+		The number of $m \in [0,n]$ with $p \nmid \binom{n}{m}$ is $\prod_i (n_i+1)$ ($= 2^{\text{popcount}(n)}$ for $p=2$).
+
 	\subsection{Binomials}
 		\kactlimport{multinomial.h}
 		\kactlimport{Binomial.h}
