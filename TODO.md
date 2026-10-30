@@ -15,17 +15,27 @@ Book is at 24 pages (cover + 23) after the deletions. Everything below is still 
 - [ ] Sums: keep only the sum of 4th powers (others memorized).
 - [ ] Series: keep ln and sqrt only; maybe merge into one section to save lines.
 
+## Numerical
+- [ ] Add code: Bostan-Mori (nth term of a linear recurrence).
+
 ## Data structures
 - [ ] Merge `LazySegmentTree.h` and `LazySegTree.h` into one lazy segment tree that supports queries better.
 
 ## Combinatorial
+- [ ] Add code: RadixConversion.
 - [ ] `IntPerm.h`: add "integer to permutation", or delete (undecided).
+
+## Number theory
+- [ ] Add text: Garner (CRT for many moduli).
 
 ## Graph
 - [ ] `LCA.h`: undecided, binary lifting can already do LCA.
 
 ## Various
 - [ ] `BumpAllocator.h`: delete later. `LazySegmentTree.h` and `HLD.h` still include it, so reformat those first (the merged lazy segment tree may remove one of them).
+
+## Category to decide (`???`)
+- [ ] Add text: Ordinary and Exponential Generating Functions.
 
 ## Not from the CSV
 - [ ] Check the Danang page limit in the contest rules (assumed 25 pages + cover; we are at 23 + cover).
