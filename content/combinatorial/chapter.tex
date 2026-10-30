@@ -42,7 +42,7 @@
 
 	\subsection{Binomials}
 		\kactlimport{multinomial.h}
-		\kactlimport{Binomial.h}
+		% \kactlimport{Binomial.h}
 
 \section{General purpose numbers}
 	\subsection{Bernoulli numbers}
@@ -103,12 +103,3 @@
 			\item ways a convex polygon with $n+2$ sides can be cut into triangles by connecting vertices with straight lines.
 			\item permutations of $[n]$ with no 3-term increasing subseq.
 		\end{itemize}
-
-\section{Games}
-	\subsection{Sprague-Grundy}
-		% Used in ICPC 2026 Central, problem B and ICPC 2025 Regional, problem G.
-		The Grundy value of a position is $g(x) = \mathrm{mex}\{g(y) : x \to y\}$; the player to move loses iff $g = 0$.
-		A sum of independent games has Grundy value $g_1 \oplus g_2 \oplus \dots$. In Nim, $g$ is the pile size.
-		Misère Nim: as normal Nim, except that if all piles have size $\le 1$ the first player wins iff the number of piles is even.
-		Staircase Nim (move coins from step $i$ to step $i-1$): only the odd steps matter, take their xor.
-		For subtraction-like games, brute-force $g$ and look for a period.

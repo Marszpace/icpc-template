@@ -7,26 +7,18 @@
 
 \section{Misc. algorithms}
 	\kactlimport{TernarySearch.h}
-	\kactlimport{LIS.h}
+	% \kactlimport{LIS.h}
 	% \kactlimport{FastKnapsack.h}
 
 \section{Dynamic programming}
-	\kactlimport{KnuthDP.h}
+	% \kactlimport{KnuthDP.h}
 	\kactlimport{DivideAndConquerDP.h}
-	\subsection{Aliens trick}
-		If $f(k)$, the best value using exactly $k$ items, is concave (convex for min), replace the value by $v - \lambda$ per item and solve the unconstrained problem for each $\lambda$.
-		Binary search the integer $\lambda$ until the optimum uses $k$ items; the answer is $g(\lambda) + \lambda k$.
-		Ties: always take the smallest (or the largest) count at equal value, consistently.
 	\subsection{Slope trick}
 		To keep a convex piecewise-linear $f(x)$ with integer slopes, store the points where the slope changes by 1: left ones in a max-heap $L$, right ones in a min-heap $R$, and the minimum value $m$.
 		Add $|x - a|$: push $a$ to both heaps, fix the order of the tops, and add the difference to $m$ if they cross.
 		Add $\max(0, x - a)$: push $a$ to $L$, move the top of $L$ to $R$.
 		Add $\max(0, a - x)$: push $a$ to $R$, move the top of $R$ to $L$.
 		Prefix minimum: clear $R$. Shift by $c$: lazy offsets for $L$ and $R$.
-	\subsection{Digit DP}
-		Count $x \le N$ with a property: \texttt{go(pos, state, tight, started)} over the digits of $N$ from the top; memoize on \texttt{(pos, state)} only when not tight (and started).
-		Count in $[A, B]$ as $F(B) - F(A - 1)$.
-
 \section{Debugging tricks}
 	\begin{itemize}
 		\item \verb@signal(SIGSEGV, [](int) { _Exit(0); });@ converts segfaults into Wrong Answers.
@@ -51,7 +43,7 @@
 			\item \lstinline{#pragma GCC optimize ("trapv")} kills the program on integer overflows (but is really slow).
 		\end{itemize}
 	% \kactlimport{FastMod.h}
-	\kactlimport{FastInput.h}
+	% \kactlimport{FastInput.h}
 	\kactlimport{BumpAllocator.h}
 	% \kactlimport{SmallPtr.h}
 	% \kactlimport{BumpAllocatorSTL.h}

@@ -1,9 +1,9 @@
 \chapter{Graph}
 
 \section{Fundamentals}
-	\kactlimport{BellmanFord.h}
-	\kactlimport{FloydWarshall.h}
-	\kactlimport{TopoSort.h}
+	% \kactlimport{BellmanFord.h}
+	% \kactlimport{FloydWarshall.h}
+	% \kactlimport{TopoSort.h}
 
 \section{Network flow}
 	\kactlimport{PushRelabel.h}
@@ -73,15 +73,6 @@
 		To add edges $v \to [l, r]$ cheaply, build a segment tree whose nodes are graph vertices, with edges parent $\to$ child (cost 0), and connect $v$ to the $O(\log N)$ nodes covering $[l, r]$.
 		For $[l, r] \to v$ use a second tree with the same leaves and edges child $\to$ parent.
 		This gives $O(N + M \log N)$ edges for Dijkstra, SCC, topological sort or BFS.
-
-	\subsection{Number of Spanning Trees}
-		% I.e. matrix-tree theorem.
-		% Source: https://en.wikipedia.org/wiki/Kirchhoff%27s_theorem
-		% Test: stress-tests/graph/matrix-tree.cpp
-		Create an $N\times N$ matrix \texttt{mat}, and for each edge $a \rightarrow b \in G$, do
-		\texttt{mat[a][b]--, mat[b][b]++} (and \texttt{mat[b][a]--, mat[a][a]++} if $G$ is undirected).
-		Remove the $i$th row and column and take the determinant; this yields the number of directed spanning trees rooted at $i$
-		(if $G$ is undirected, remove any row/column).
 
 	\subsection{Erdős–Gallai theorem}
 		% Source: https://en.wikipedia.org/wiki/Erd%C5%91s%E2%80%93Gallai_theorem
