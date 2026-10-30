@@ -10,7 +10,7 @@ The book is now **24 PDF pages (cover + 23)**, two fewer than the original (26),
 
 | Chapter | File | Lines (whole file) | Note |
 |---|---|---:|---|
-| data-structures | `LazySegTree.h` | 57 |  |
+| data-structures | `LazySegTreeBlock.h` + `LazySegTree.h` | 38 + 45 | one lazy segment tree: edit block (default: range chmin + add, sum/max/count, segment tree beats) + fixed body; replaces `LazySegmentTree` and the old generic `LazySegTree`; `HLD` uses it |
 | data-structures | `PersistentSegmentTree.h` | 49 |  |
 | data-structures | `DynCon.h` | 45 |  |
 | data-structures | `LiChao.h` | 44 |  |
@@ -73,7 +73,7 @@ Also new in the book, as text notes (no code):
 | | **23 files** | **973** | |
 
 Kept on purpose although they were candidates: `GomoryHu`, `GlobalMinCut`, `HillClimbing`, `CircleTangents`,
-`LinkCutTree`, `DirectedMST`, `GeneralMatching`, `BumpAllocator` (used by `LazySegmentTree` and `HLD`).
+`LinkCutTree`, `DirectedMST`, `GeneralMatching`, `BumpAllocator` (nothing printed needs it any more since `LazySegTree` replaced `LazySegmentTree`; only the unprinted `SmallPtr` does).
 
 ## Removed after the team review (2026-10-30)
 
@@ -95,6 +95,7 @@ As above, code files stay in the repository with the `\kactlimport` line comment
 | various | `LIS.h`, `KnuthDP.h` | 36 | trivial |
 | various | `FastInput.h` | 29 | optimisation, never used |
 | various | Aliens trick, Digit DP | 5 | trivial |
+| data-structures | `LazySegmentTree.h` | 66 | merged into `LazySegTree` (file deleted; the generic tree with an edit block does the same, `HLD` ported) |
 
 Still open (edit / merge / undecided): see `TODO.md`.
 
@@ -109,7 +110,7 @@ Still open (edit / merge / undecided): see `TODO.md`.
 ## New stress tests (all pass; each was mutation-checked)
 
 `IntervalMap`, `DynCon`, `PersistentSegmentTree`, `CentroidDecomposition`, `DsuOnTree`, `SuffixAutomaton`,
-`HalfPlane`, `MinkowskiSum`, `LinearSieve`, `ExLucas`, `XorBasis`, `LazySegTree`, `RectangleUnion`, `PolyOps`,
+`HalfPlane`, `MinkowskiSum`, `LinearSieve`, `ExLucas`, `XorBasis`, `LazySegTree` (4 tests: beats block, affine, clamp, min query), `RectangleUnion`, `PolyOps`,
 `SolveLinearMod`, `Binomial`, `LagrangeInterpolation`, `PrimitiveRoot`, `LiChao`, `BlockCutTree`, `PalindromicTree`
 (in `stress-tests/<chapter>/`). The whole suite (`make test`) passed 101/101 before `ExLucas` (added by a teammate, with its own test) and the removals below; not re-run since.
 

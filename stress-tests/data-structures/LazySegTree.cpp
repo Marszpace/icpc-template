@@ -1,64 +1,75 @@
 #include "../utilities/template.h"
 
+#include "../../content/data-structures/LazySegTreeBlock.h"
 #include "../../content/data-structures/LazySegTree.h"
 
-// range affine update (x -> a*x + b), range sum: tags do not commute
-struct Aff {
-	typedef ll S; typedef pair<ll, ll> L;
-	static constexpr ll P = 1000000007;
-	static S e() { return 0; }
-	static L id() { return {1, 0}; }
-	static S op(S a, S b) { return (a + b) % P; }
-	static S app(S s, L x, int len) { return (x.first * s + x.second * len) % P; }
-	static L comp(L x, L y) { return {x.first * y.first % P, (x.first * y.second + x.second) % P}; }
-};
-
-int main() {
-	srand(11);
-	rep(it,0,3000) {
+// default block: range chmin / add, query sum / max / count of max
+void testBrute() {
+	rep(it,0,5000) {
 		int n = 1 + rand() % 17;
-		// min and count of min with range add
-		vi a(n);
-		vector<pii> init(n);
-		rep(i,0,n) a[i] = rand() % 4, init[i] = {a[i], 1};
-		LazySeg<MinCnt> t(init);
-		// affine tags with range sum
-		vector<ll> b(n);
-		vector<ll> binit(n);
-		rep(i,0,n) b[i] = binit[i] = rand() % 100;
-		LazySeg<Aff> u(binit);
-		rep(q,0,60) {
-			int l = rand() % (n + 1), r = rand() % (n + 1);
-			if (l > r) swap(l, r);
-			if (rand() % 2) {
-				int x = rand() % 7 - 3;
-				t.upd(l, r, x);
-				rep(i,l,r) a[i] += x;
-				ll mul = rand() % 5, add = rand() % 100;
-				u.upd(l, r, {mul, add});
-				rep(i,l,r) b[i] = (mul * b[i] + add) % Aff::P;
-			} else {
-				pii want = {INT_MAX, 0};
-				ll sum = 0;
-				rep(i,l,r) {
-					if (a[i] < want.first) want = {a[i], 1};
-					else if (a[i] == want.first) want.second++;
-					sum = (sum + b[i]) % Aff::P;
-				}
-				assert(t.query(l, r) == want);
-				assert(u.query(l, r) == sum);
+		vector<ll> b(n); vector<S> v(n);
+		rep(i,0,n) b[i] = rand() % 100, v[i] = {b[i], -INF, 1, b[i]};
+		LazySeg t(v);
+		rep(q,0,80) {
+			int l = rand() % n, r = l + 1 + rand() % (n - l), ty = rand() % 4;
+			ll x = rand() % 100;
+			if (ty == 0) { t.upd(l, r, {x, 0}); rep(i,l,r) b[i] = min(b[i], x); }
+			else if (ty == 1) { x -= 50; t.upd(l, r, {INF, x}); rep(i,l,r) b[i] += x; }
+			else {
+				ll s = 0, m = -INF, c = 0;
+				rep(i,l,r) s += b[i], m = max(m, b[i]);
+				rep(i,l,r) c += b[i] == m;
+				S g = t.query(l, r);
+				assert(g.sum == s && g.mx == m && g.cnt == c);
 			}
 		}
 	}
-	// speed
-	{
-		const int n = 200000;
-		LazySeg<MinCnt> t(vector<pii>(n, {0, 1}));
-		rep(i,0,n) {
-			int l = rand() % n, r = l + 1 + rand() % (n - l);
-			t.upd(l, r, rand() % 5 - 2);
-			t.query(rand() % n, n);
+}
+
+// chmax instead of chmin: store negated values
+void testNegated() {
+	rep(it,0,2000) {
+		int n = 1 + rand() % 17;
+		vector<ll> b(n); vector<S> v(n);
+		rep(i,0,n) b[i] = rand() % 100, v[i] = {-b[i], -INF, 1, -b[i]};
+		LazySeg t(v);
+		rep(q,0,80) {
+			int l = rand() % n, r = l + 1 + rand() % (n - l), ty = rand() % 4;
+			ll x = rand() % 100;
+			if (ty == 0) { t.upd(l, r, {-x, 0}); rep(i,l,r) b[i] = max(b[i], x); }
+			else if (ty == 1) { x -= 50; t.upd(l, r, {INF, -x}); rep(i,l,r) b[i] += x; }
+			else {
+				ll s = 0, m = INF;
+				rep(i,l,r) s += b[i], m = min(m, b[i]);
+				S g = t.query(l, r);
+				assert(-g.sum == s && -g.mx == m);
+			}
 		}
 	}
-	cout << "Tests passed!" << endl;
+}
+
+// big input: must stay fast (a wrong second maximum makes chmin O(n))
+void testSpeed() {
+	int n = 200000;
+	vector<S> v(n);
+	rep(i,0,n) { ll x = rand() % 1000000000; v[i] = {x, -INF, 1, x}; }
+	LazySeg t(v);
+	clock_t st = clock();
+	ll sink = 0;
+	rep(q,0,200000) {
+		int l = rand() % n, r = l + 1 + rand() % (n - l), ty = rand() % 3;
+		if (ty == 0) t.upd(l, r, {rand() % 1000000000, 0});
+		else if (ty == 1) t.upd(l, r, {INF, rand() % 2001 - 1000});
+		else sink += t.query(l, r).sum;
+	}
+	double sec = double(clock() - st) / CLOCKS_PER_SEC;
+	assert(sec < 10 && sink != 42);
+}
+
+int main() {
+	srand(4);
+	testBrute();
+	testNegated();
+	testSpeed();
+	cout<<"Tests passed!"<<endl;
 }

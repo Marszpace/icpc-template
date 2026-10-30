@@ -84,17 +84,16 @@ void testAgainstOld(int n, int iters, int queries) {
 		}
 		HLD<false> hld(tree1);
 		old::HLD hld2(tree2);
-		hld.tree->set(0, n, 0);
 		for (int itr = 0; itr < queries; itr++) {
 			if (rand() % 2) {
 				int node = rand() % n;
 				int val = rand() % 10;
 				hld2.update(node, val);
-				hld.modifyPath(node, node, val - hld.queryPath(node, node));
+				hld.modifyPath(node, node, {INF, val - hld.queryPath(node, node).mx});
 			} else {
 				int a = rand() % n;
 				int b = rand() % n;
-				assert(hld.queryPath(a, b) == hld2.query2(a, b).first);
+				assert(hld.queryPath(a, b).mx == hld2.query2(a, b).first);
 			}
 		}
 	}
@@ -109,24 +108,23 @@ void testAgainstBrute(int n, int iters, int queries) {
 		}
 		HLD<false> hld(tree1);
 		bruteforce hld2(tree1);
-		hld.tree->set(0, n, 0);
 		for (int itr = 0; itr < queries; itr++) {
 			int rng = rand() % 3;
 			if (rng == 0) {
 				int a = rand() % n;
 				int b = rand() % n;
 				int val = rand() % 10;
-				hld.modifyPath(a, b, val);
+				hld.modifyPath(a, b, {INF, val});
 				hld2.modifyPath(a, b, val);
 			} else if (rng == 1){
 				int a = rand() % n;
 				int b = rand() % n;
 				hld.queryPath(a, b);
 				hld2.queryPath(a, b);
-				assert(hld.queryPath(a, b) == hld2.queryPath(a, b));
+				assert(hld.queryPath(a, b).mx == hld2.queryPath(a, b));
 			} else if (rng == 2) {
 				int a = rand() % n;
-				assert(hld.querySubtree(a) == hld2.querySubtree(a));
+				assert(hld.querySubtree(a).mx == hld2.querySubtree(a));
 			}
 		}
 	}

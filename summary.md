@@ -21,8 +21,7 @@ The user is Marszpace; use they/them for people whose pronouns are unknown.
 - `CHANGES-vs-original.md`: everything added, cut and removed compared to stock KACTL, with reasons. Keep it up to date.
 - `entries - nx_entries.csv`: the team's per-entry decision (Keep / Delete / Edit / Merge / ?). Columns: Category, Topic, Lines,
   Status, Reason, "What to edit & reason". It is the source of truth for decisions. Its bottom block lists cut files.
-- `TODO.md`: open work. Mainly: edit `template.cpp`, `.bashrc`, `hash.sh`; shorten Derivatives/Sums/Series notes; merge the two
-  lazy segment trees (`LazySegmentTree.h` + `LazySegTree.h`); decide `IntPerm.h` and `LCA.h`; later delete `BumpAllocator.h`;
+- `TODO.md`: open work. Mainly: edit `template.cpp`, `.bashrc`, `hash.sh`; shorten Derivatives/Sums/Series notes; decide `IntPerm.h` and `LCA.h`; later delete `BumpAllocator.h`;
   add Bostan-Mori, RadixConversion, Garner and a generating-functions note; adapt all kept code to the new `template.cpp`.
 
 ## Conventions and gotchas
@@ -31,7 +30,8 @@ The user is Marszpace; use they/them for people whose pronouns are unknown.
 - Removed code files stay in the repo (only the import is commented out); removed text sections are deleted from `chapter.tex`.
 - Dropping a section header such as `\section{Games}` also drops its text; the script I used cut from a heading to the next heading
   of the same or higher level.
-- `LazySegmentTree.h` and `HLD.h` include `BumpAllocator.h`, so that cannot be deleted before they are reformatted.
+- Lazy segment tree = `LazySegTreeBlock.h` (edit block: `S`, `L`, `e/id/op/ok/app/comp`; default is chmin+add beats) + `LazySegTree.h` (fixed body, listed in `doc/scripts/skip_headers` because it needs the block first). Two files so each keeps its own hash. `HLD.h` includes both. Tests: `stress-tests/data-structures/LazySegTree*.cpp` (the non-default blocks in the description are tested there too).
+- `BumpAllocator.h` is no longer included by anything printed (only the unprinted `SmallPtr.h`).
 - `PolyOps.h` and `NumberTheoreticTransform.h` use modulus 998244353; other number-theory files use the global `mod` from `ModPow.h`.
 - `make test` was not re-run after the review's removals or after `ExLucas`.
 - Never commit or push without being asked. Commit messages here end with the Co-Authored-By line from the session's attribution reminder.

@@ -19,7 +19,7 @@ Book is at 24 pages (cover + 23) after the deletions. Everything below is still 
 - [ ] Add code: Bostan-Mori (nth term of a linear recurrence).
 
 ## Data structures
-- [ ] Merge `LazySegmentTree.h` and `LazySegTree.h` into one lazy segment tree that supports queries better.
+- [x] Merge `LazySegmentTree.h` and `LazySegTree.h` into one lazy segment tree that supports queries better (done: `LazySegTreeBlock.h` + `LazySegTree.h`, `HLD` ported).
 
 ## Combinatorial
 - [ ] Add code: RadixConversion.
@@ -32,7 +32,7 @@ Book is at 24 pages (cover + 23) after the deletions. Everything below is still 
 - [ ] `LCA.h`: undecided, binary lifting can already do LCA.
 
 ## Various
-- [ ] `BumpAllocator.h`: delete later. `LazySegmentTree.h` and `HLD.h` still include it, so reformat those first (the merged lazy segment tree may remove one of them).
+- [ ] `BumpAllocator.h`: delete later. nothing printed includes it any more (only the unprinted `SmallPtr.h`), so it can go whenever the team agrees.
 
 ## Category to decide (`???`)
 - [ ] Add text: Ordinary and Exponential Generating Functions.
