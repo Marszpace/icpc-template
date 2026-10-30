@@ -11,9 +11,9 @@ Book is at 24 pages (cover + 23) after the deletions. Everything below is still 
 - [ ] `hash.sh`: improve usability.
 
 ## Math
-- [ ] Derivatives/Integrals: delete integration by parts (memorized).
-- [ ] Sums: keep only the sum of 4th powers (others memorized).
-- [ ] Series: keep ln and sqrt only; maybe merge into one section to save lines.
+- [/] Derivatives/Integrals: delete integration by parts (memorized).
+- [/] Sums: keep only the sum of 4th powers (others memorized).
+- [/] Series: keep ln and sqrt only; maybe merge into one section to save lines.
 
 ## Numerical
 - [ ] Add code: Bostan-Mori (nth term of a linear recurrence).
