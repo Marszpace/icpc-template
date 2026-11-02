@@ -42,6 +42,7 @@ Also new in the book, as text notes (no code):
 - Number theory: *Floor blocks*
 - Math: *Lattice polygons* (Pick's theorem)
 - Various / dynamic programming: *Slope trick*
+- Various / dynamic programming: *Sum over subsets (SOS DP)* (definition, recurrence, in-place loop, supersets, inverse); replaces the one-line "sums of subsets" bit hack
 
 ## Cut from the book
 

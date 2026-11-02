@@ -19,6 +19,17 @@
 		Add $\max(0, x - a)$: push $a$ to $L$, move the top of $L$ to $R$.
 		Add $\max(0, a - x)$: push $a$ to $R$, move the top of $R$ to $L$.
 		Prefix minimum: clear $R$. Shift by $c$: lazy offsets for $L$ and $R$.
+	\subsection{Sum over subsets (SOS DP)}
+		Bits are numbered from 0 on the right. Let $S(x,i)$ be the set of submasks $y \subseteq x$ that equal $x$ on all bits $\ge i$ (only the lowest $i$ bits differ),
+		e.g.\ $S(1011010_2, 4)$ is the pattern $101?0?0$ with $?$ free: $1010000,1010010,1011000,1011010$.
+		Then $S(x,0) = \{x\}$, $S(x,n)$ is all submasks of $x$, and
+		$S(x,i+1) = S(x,i)$ if bit $i$ of $x$ is 0, else $S(x,i) \cup S(x \oplus 2^i,i)$ (disjoint: bit $i$ of $y$ is 1 or 0).
+		So $dp[x][i] = \sum_{y \in S(x,i)} a[y]$ has $dp[x][0] = a[x]$ and $dp[x][i+1] = dp[x][i] + [x_i = 1]\, dp[x \oplus 2^i][i]$.
+		Layer $i$ only reads entries with bit $i$ clear, which it does not change, so one array is enough: $O(n 2^n)$ time, $O(2^n)$ memory.
+		\\ \verb@rep(i,0,n) rep(x,0,1<<n)@ \\ \verb@  if (x >> i & 1) f[x] += f[x ^ 1 << i];@ \\
+		Supersets: test \verb@~x >> i & 1@ and add \verb@f[x ^ 1 << i]@ (bit $i$ is clear in $x$, so this is $x$ with bit $i$ set). Inverse (Mobius): same loops with \verb@-=@.
+		Any other operation works too (max, min, \verb@|@), since the unions are disjoint.
+		Pairs with $y \mathbin{\&} z = 0$: $z$ is a submask of $\sim y$.
 \section{Debugging tricks}
 	\begin{itemize}
 		\item \verb@signal(SIGSEGV, [](int) { _Exit(0); });@ converts segfaults into Wrong Answers.
@@ -34,7 +45,6 @@
 			\item \verb@x & -x@ is the least bit in \texttt{x}.
 			\item \verb@for (int x = m; x; ) { --x &= m; ... }@ loops over all subset masks of \texttt{m} (except \texttt{m} itself).
 			\item \verb@c = x&-x, r = x+c; (((r^x) >> 2)/c) | r@ is the next number after \texttt{x} with the same number of bits set.
-			\item \verb@rep(b,0,K) rep(i,0,(1 << K))@ \\ \verb@  if (i & 1 << b) D[i] += D[i^(1 << b)];@ computes all sums of subsets.
 		\end{itemize}
 	\subsection{Pragmas}
 		\begin{itemize}
