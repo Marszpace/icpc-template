@@ -9,6 +9,10 @@ Book is at 24 pages (cover + 23) after the deletions. Everything below is still 
 - [ ] `template.cpp`: add / remove macros.
 - [ ] `.bashrc`: change the compile command, remove `xkeymodmap`.
 - [ ] `hash.sh`: improve usability.
+- [ ] `stress.sh`: stress-test script for normal problems (compile the solution, a brute force and a generator; loop over seeds, run
+  generator -> both programs, `diff` the outputs, stop and keep the failing input on the first mismatch).
+- [ ] `interactive.sh`: stress-test script for interactive problems (run the solution against an interactor / judge program through
+  named pipes, seed-driven generator, stop on wrong answer, crash or timeout, keep the failing case). Both scripts should be short enough to type in contest.
 
 ## Math
 - [x] Derivatives/Integrals: delete integration by parts (memorized).
@@ -53,7 +57,7 @@ Add, most worthwhile first (about 50 printed lines for the first six):
 - [ ] Data structures: segment tree descent (`findFirst` / `maxRight`), about 10 lines, in the `LazySeg` body.
 - [ ] Number theory, text: generalized Euler (`a^b mod m` for huge b), lifting-the-exponent lemma, counting solutions of `ax+by=c` in a range.
 - [ ] Strings, text: suffix array / suffix automaton identities (lcp via RMQ, distinct substrings, k-th substring, generalized SAM).
-- [ ] Contest: C++ pitfalls list, `__int128` print, 5-line stress-test loop (maybe in `.bashrc`).
+- [ ] Contest: C++ pitfalls list, `__int128` print, stress-test loop (now covered by `stress.sh` / `interactive.sh` under Contest).
 - [ ] Number theory: Lucy_Hedgehog (prime counting) and Du sieve (prefix sums of phi / mu), about 40 lines, pairs with the Floor blocks text.
 - [ ] Numerical: `polyPow`, `polySqrt`, `polyDivMod` in `PolyOps.h`, about 20 lines.
 
