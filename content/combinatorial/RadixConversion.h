@@ -15,7 +15,8 @@
  * as the target: a bijection between all digit sequences and all permutations
  * (the size comes out of the data, e.g. 2000 binary digits give 296 elements),
  * (length, lexicographic) order going to (size, lexicographic) order;
- * \texttt{permToRadix(p, a)} is the inverse ($y$ is the result; it also takes $O(|y|^2)$). For a fixed size use \texttt{intToPerm}.
+ * \texttt{permToRadix(p, a)} is the inverse ($y$ is the result; it also takes $O(|y|^2)$). For a fixed size use \texttt{intToPerm},
+ * or \texttt{radixToPerm} on the digits of $r + 0! + 1! + \dots + (n-1)!$ in base $2^{31}-1$ (one digit for $n \le 12$, two up to 20).
  * Time: O(|x| \cdot |y|)
  * Status: stress-tested
  */
