@@ -85,6 +85,7 @@ As above, code files stay in the repository with the `\kactlimport` line comment
 | Chapter | Entry | Lines | Reason |
 |---|---|---:|---|
 | contest | `.vimrc` | 6 | no vim user |
+| contest | `.bashrc` | 3 | the team uses VS Code, which does not use it |
 | math | Equations | 7 | elementary |
 | math | Recurrences | 3 | can be derived |
 | math | Spherical coordinates | 5 | memorized |

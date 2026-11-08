@@ -23,7 +23,7 @@ The user is Marszpace; use they/them for people whose pronouns are unknown.
 - `CHANGES-vs-original.md`: everything added, cut and removed compared to stock KACTL, with reasons. Keep it up to date.
 - `entries - nx_entries.csv`: the team's per-entry decision (Keep / Delete / Edit / Merge / ?). Columns: Category, Topic, Lines,
   Status, Reason, "What to edit & reason". It is the source of truth for decisions. Its bottom block lists cut files.
-- `TODO.md`: open work. Mainly: edit `.bashrc`, `hash.sh`; shorten Derivatives/Sums/Series notes; decide `IntPerm.h` and `LCA.h`; later delete `BumpAllocator.h`;
+- `TODO.md`: open work. Mainly: edit `hash.sh`; shorten Derivatives/Sums/Series notes; decide `IntPerm.h` and `LCA.h`; later delete `BumpAllocator.h`;
   add Bostan-Mori, RadixConversion, Garner and a generating-functions note.
 
 ## Conventions and gotchas

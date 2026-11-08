@@ -7,7 +7,7 @@ Book is at 24 pages (cover + 23); the last code page is nearly full (adding the 
 
 ## Contest
 - [x] `template.cpp`: add / remove macros (done: renamed to `macros.cpp`, only macros and typedefs, one new macro `pb`; the define is not in the file).
-- [ ] `.bashrc`: change the compile command, remove `xkeymodmap`.
+- [x] `.bashrc`: dropped from the book (the team uses VS Code, which does not use it); file kept, import commented out.
 - [ ] `hash.sh`: improve usability.
 - [x] `stress.sh` and `interactive.sh` (reference scripts, no compile step; loop + checker call, and the fifo wiring with test / stress modes).
   Done in `content/contest/`, tested by `doc/scripts/test-contest-scripts.sh`.
