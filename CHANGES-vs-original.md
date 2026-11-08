@@ -27,7 +27,7 @@ The book is now **25 PDF pages (cover + 24)**, one fewer than the original (26).
 | number-theory | `PrimitiveRoot.h` | 30 |  |
 | number-theory | `ExLucas.h` | 59 | binomial mod any m |
 | combinatorial | `RadixConversion.h` | 33 | bijective base conversion of digit vectors (for communication problems) |
-| numerical | `BostanMori.h` | 29 | n-th term of a linear recurrence in O(n log n log k), same interface as `linearRec` (NTT, mod 998244353) |
+| numerical | `BostanMori.h` | 34 | n-th term of a linear recurrence in O(n log n log k), same interface as `linearRec` (NTT, mod 998244353) |
 | numerical | `LagrangeInterpolation.h` | 34 |  |
 | numerical | `SolveLinearMod.h` | 43 |  |
 | numerical | `XorBasis.h` | 44 |  |
@@ -35,7 +35,7 @@ The book is now **25 PDF pages (cover + 24)**, one fewer than the original (26).
 | strings | `PalindromicTree.h` | 39 |  |
 | strings | `SuffixAutomaton.h` | 47 | new; replaces `SuffixTree` |
 | various | `IntervalMap.h` | 39 | new; replaces `IntervalContainer` (with `bool` values it does the same job) |
-| | **26 files** | **1025** | |
+| | **26 files** | **1030** | |
 
 Also new in the book, as text notes (no code):
 
