@@ -10,3 +10,12 @@
 % \kactlimport{SuffixTree.h}
 \kactlimport{Hashing.h}
 \kactlimport{AhoCorasick.h}
+
+\section{Suffix array and automaton facts}
+	% Checked by doc/note-checks/check_strings.cpp against SuffixArray.h and SuffixAutomaton.h
+	With \texttt{lcp[i] = lcp(sa[i], sa[i-1])}: the lcp of two suffixes with ranks $r_1 < r_2$ is $\min \texttt{lcp}[r_1+1 \ldots r_2]$ (a range minimum query).
+	Distinct substrings: $\sum_{i \ge 1} (n - \texttt{sa}[i] - \texttt{lcp}[i]) = n(n+1)/2 - \sum \texttt{lcp}$; suffix \texttt{sa[i]} adds the prefixes longer than \texttt{lcp[i]},
+	so the $k$'th distinct substring in lexicographic order is found by subtracting these counts along the suffix array.
+	Longest common substring of $s$ and $u$: build the automaton of $s$ and run $u$ through it, keeping a state $v$ and a length (take a transition and add 1;
+	if there is none, follow \texttt{link} and set the length to \texttt{len[v]}, until there is one); the answer is the largest length seen.
+	Several strings: set \texttt{last = 0} before each string (all substrings are accepted and nothing else, and $\sum \texttt{len[v]} - \texttt{len[link[v]]}$ still counts the distinct substrings; the automaton may just have redundant states).
