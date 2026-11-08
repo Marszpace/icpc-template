@@ -12,6 +12,7 @@ The user is Marszpace; use they/them for people whose pronouns are unknown.
   the `Output written on build//kactl.pdf (N pages ...)` line.
 - `content/<chapter>/chapter.tex` decides what is printed, via `\kactlimport{File.h}`. Commenting the line out (`% \kactlimport...`)
   removes it from the book but keeps the file. `content/kactl.tex` is the cover and chapter order.
+- `doc/scripts/test-contest-scripts.sh` tests `content/contest/stress.sh` and `interactive.sh` against planted faults (WA, crash, TLE, checker, missing flush, too many queries); not part of `make test`, run it by hand (about 35 s).
 - `make test` runs the stress tests in `stress-tests/<chapter>/` (about 100). New code should get a stress test.
 - The built `kactl.pdf` is committed; rebuild and commit it with content changes.
 - Page budget: the original KACTL is 26 pages (cover + 25). The page limit of the Danang contest is unconfirmed.

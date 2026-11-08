@@ -41,6 +41,7 @@ Also new in the book, as text notes (no code):
   (closure, vertex cover, independent set, path cover, Dilworth) and *Segment tree graph*
 - Number theory: *Floor blocks*
 - Math: *Lattice polygons* (Pick's theorem)
+- Contest: `stress.sh` (stress loop with optional brute force / checker) and `interactive.sh` (interactor wired with fifos; one test or stress mode with a generator), 33 lines
 - Various / dynamic programming: *Slope trick*
 - Various / dynamic programming: *Sum over subsets (SOS DP)* (definition, recurrence, in-place loop, supersets, inverse); replaces the one-line "sums of subsets" bit hack
 
