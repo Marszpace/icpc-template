@@ -139,6 +139,6 @@ Gotchas for your own code with the define: `max(x, 0)` / `min(x, 1)` need `0LL` 
 - `PolyOps.h` and `NumberTheoreticTransform.h` use the modulus 998244353, while `ModPow.h`, `SolveLinearMod.h`,
   `ExLucas.h`, `LagrangeInterpolation.h` use the global `mod` of `ModPow.h` (default 10^9+7). Set `mod` once when
   mixing them, as with the other KACTL number-theory files.
-- The page limit of the Danang contest was assumed to be KACTL's (25 pages + cover). Please check the rules.
+- The page limit of the Danang contest is 26 PDF pages (25 + cover), confirmed by the team on 2026-11-08.
 - The cover page (`content/kactl.tex`) now names the NTU team.
 - On GCC 16 or newer, add `#include <cassert>` to the contest template if you use `assert`.

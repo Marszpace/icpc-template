@@ -18,7 +18,8 @@ The user is Marszpace; use they/them for people whose pronouns are unknown.
 - `doc/scripts/skip_headers` lists headers that cannot compile alone in `make test-compiles` (they need other headers first or clash on the global `mod`): now also `BostanMori.h`, `PolyOps.h` (both include `NumberTheoreticTransform.h`, whose `mod` clashes with `ModPow.h`; their tests include `ModPow.h` in a throwaway namespace). `make test-compiles` is 152/152 in both modes.
 - `make test` runs the stress tests in `stress-tests/<chapter>/` (about 100). New code should get a stress test.
 - The built `kactl.pdf` is committed; rebuild and commit it with content changes.
-- Page budget: the original KACTL is 26 pages (cover + 25). The page limit of the Danang contest is unconfirmed.
+- Page budget: the original KACTL is 26 pages (cover + 25). **The Danang limit is 26 PDF pages (25 + cover), confirmed by the team**; never go over it.
+- `TODO.md` now has "Standing rules" (so items can be done without asking), "Ready" items with decided specs, and "Blocked" items (Fenwick edit, ModInt, shared `mod`, techniques.txt rework from en-oi-wiki.marszpace.dev). The host `en-oi-wiki.marszpace.dev` was not reachable from the session that wrote this; a personal environment `icpc-template` with that host allowed was created for it.
 
 ## Current state (as of 2026-10-30)
 - Book is **25 pages** (cover + 24); the last page is partly used. `ExLucas.h` (number-theory) was added by a teammate; `RadixConversion.h` (combinatorial) and `BostanMori.h` (numerical) by us.
