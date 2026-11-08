@@ -15,7 +15,7 @@
  *    ed[b].emplace_back(a, eid++); }
  *  bicomps([\&](const vi\& edgelist) {...});
  * Time: O(E + V)
- * Status: tested during MIPT ICPC Workshop 2017
+ * Status: tested during MIPT ICPC Workshop 2017; stress-tested
  */
 #pragma once
 

@@ -5,7 +5,7 @@
  * Source: folklore
  * Description: Calculates determinant of a matrix. Destroys the matrix.
  * Time: $O(N^3)$
- * Status: somewhat tested
+ * Status: stress-tested
  */
 #pragma once
 

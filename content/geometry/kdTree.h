@@ -3,7 +3,7 @@
  * Date: Unknown
  * Source: Stanford Notebook
  * Description: KD-tree (2d, can be extended to 3d)
- * Status: Tested on excellentengineers
+ * Status: Tested on excellentengineers; stress-tested
  */
 #pragma once
 

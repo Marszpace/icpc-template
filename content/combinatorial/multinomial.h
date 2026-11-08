@@ -3,7 +3,7 @@
  * Date: 2002-09-26
  * Source: Max Bennedich
  * Description: Computes $\displaystyle \binom{k_1 + \dots + k_n}{k_1, k_2, \dots, k_n} = \frac{(\sum k_i)!}{k_1!k_2!...k_n!}$.
- * Status: Tested on kattis:lexicography
+ * Status: Tested on kattis:lexicography; stress-tested
  */
 #pragma once
 

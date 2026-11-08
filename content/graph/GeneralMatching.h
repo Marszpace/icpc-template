@@ -6,7 +6,7 @@
  * Description: Matching for general graphs.
  * Fails with probability $N / mod$.
  * Time: O(N^3)
- * Status: not very well tested
+ * Status: stress-tested against brute force
  */
 #pragma once
 

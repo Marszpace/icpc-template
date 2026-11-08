@@ -2,6 +2,7 @@
  * Author: David Rydh, Per Austrin
  * Date: 2003-03-16
  * Description:
+ * Status: stress-tested
  */
 #pragma once
 

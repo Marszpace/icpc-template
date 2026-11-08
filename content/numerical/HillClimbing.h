@@ -4,7 +4,7 @@
  * License: CC0
  * Source: Johan Sannemo
  * Description: Poor man's optimization for unimodal functions.
- * Status: used with great success
+ * Status: used with great success; stress-tested
  */
 #pragma once
 

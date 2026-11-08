@@ -5,7 +5,7 @@
  * Description: Calculates determinant using modular arithmetics.
  * Modulos can also be removed to get a pure-integer version.
  * Time: $O(N^3)$
- * Status: bruteforce-tested for N <= 3, mod <= 7
+ * Status: stress-tested (N <= 6, the composite mod 12345)
  */
 #pragma once
 

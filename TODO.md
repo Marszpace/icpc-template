@@ -64,11 +64,17 @@ Cleanup first (frees about 65 lines), then additions, cheapest and most useful f
     1e11 in O(n^(3/4)); prefix sums of phi and mu in about O(n^(2/3)). Test against a sieve up to 1e7 and the known value pi(1e11) = 4118054813.
 17. [x] **`polyPow`, `polySqrt`, `polyDivMod` in `PolyOps.h`** (done: `polyPow` for any a and k up to 1e18, `polySqrt` for a[0] = 1, `polyDivMod`; tests extended) (about 20 lines): `polyPow(a, k, n)` must handle leading zeros and huge `k`,
     `polySqrt(a, n)` for `a[0] = 1`, `polyDivMod(a, b)` via `polyInv` of the reversed polynomials. Test against naive O(n^2) versions.
-18. [ ] **Tests for the gaps**: first list which printed files have no coverage at all (the audit only compared file names; `HashMap`, `Manacher`,
-    `Matrix`, `BiconnectedComponents`, `OrderStatisticTree`, `kdTree`, `Angle`, `IntervalCover`, `DivideAndConquerDP`, `UnionFindRollback`,
-    `Polynomial`, `PolyInterpolate`, `Integrate`, `HillClimbing`, `TernarySearch`, `Determinant`, `MatrixInverse`, ... may be covered indirectly);
-    then write stress tests for the non-trivial ones and fix any bug found. `GeneralMatching` ("not very well tested") and `Integrate`
-    ("mostly untested") are in scope. Report the list at the end.
+18. [x] **Tests for the gaps** (done 2026-11-09). Audit: 26 printed code files had no test including the real header
+    (4 more were only covered by old tests of pasted, slightly different copies: `SolveLinear`, `IntDeterminant`, `SolveLinearBinary`, `SolveLinear2`).
+    New tests (22 files, all vs brute force, both modes, mutation-checked: 66 of 69 mutants caught, the other 3 are equivalent):
+    `MatrixInverse`, `MatrixInverse-mod` (used by `GeneralMatching`), `Determinant`, `Polynomial`, `PolyInterpolate`, `Integrate`, `HillClimbing`,
+    `TernarySearch`, `BiconnectedComponents`, `CompressTree`, `GeneralMatching`, `Manacher`, `DivideAndConquerDP`, `IntervalCover`, `HashMap`,
+    `OrderStatisticTree`, `Matrix` (also with `mint`), `phiFunction`, `multinomial`, `linearTransformation`, `kdTree`, `Angle`;
+    `SolveLinear.cpp` and `IntDeterminant.cpp` now also test the real headers. No bug found in the library code. Not testable (text only):
+    `MinCut`, `MaximumIndependentSet`, `SolveLinear2` (a patch snippet); the contest scripts are tested by `doc/scripts/test-contest-scripts.sh`.
+    Notes found on the way: `GeneralMatching.h` needs `MatrixInverse-mod.h`, which is not printed (as in the original KACTL);
+    `DivideAndConquerDP.h` stores the cost in a `pii` (truncates without `#define int long long`); `IntervalCover` needs a non-empty input range
+    to return anything; `Angle`'s `operator+` asserts if the sum is the origin.
 
 19. [x] **Edit ModInt** (done: the team's `mint<mod>` replaces the old `Mod` in `ModularArithmetic.h`; mod must be a prime below 2^30; postfix `++`/`--` take `signed` so it compiles with `#define int long long`) (the team pasted their template; saved verbatim in `doc/modint-team-template.cpp`). Replace the global-`mod` `struct Mod` in
     `content/number-theory/ModularArithmetic.h` with this `template <int mod> struct mint` (+ `using mi = mint<M>; using vmi = vector<mi>;`), keeping its

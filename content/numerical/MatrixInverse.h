@@ -6,7 +6,7 @@
  * set $A^{-1} = A^{-1} (2I - AA^{-1})\  (\text{mod }p^k)$ where $A^{-1}$ starts as
  * the inverse of A mod p, and k is doubled in each step.
  * Time: O(n^3)
- * Status: Slightly tested
+ * Status: stress-tested
  */
 #pragma once
 

@@ -150,8 +150,9 @@ Gotchas for your own code with the define: `max(x, 0)` / `min(x, 1)` need `0LL` 
 
 `IntervalMap`, `DynCon`, `PersistentSegmentTree`, `CentroidDecomposition`, `DsuOnTree`, `SuffixAutomaton`,
 `HalfPlane`, `MinkowskiSum`, `LinearSieve`, `ExLucas`, `XorBasis`, `RadixConversion` (incl. `radixToPerm` / `permToRadix`), `Int128` (file only, not printed), `Lucy`, `DuSieve`, `ModularArithmetic` (rewritten for `mint`), `IntPerm`, `TreapLazy`, `BostanMori`, `LazySegTree` (4 tests, incl. `maxRight`: beats block, affine, clamp, min query), `RectangleUnion`, `PolyOps`,
-`SolveLinearMod`, `Binomial`, `LagrangeInterpolation`, `PrimitiveRoot`, `LiChao`, `BlockCutTree`, `PalindromicTree`
-(in `stress-tests/<chapter>/`). The whole suite (`make test`) passed 101/101 before `ExLucas` (added by a teammate, with its own test) and the removals below; not re-run since.
+`SolveLinearMod`, `Binomial`, `LagrangeInterpolation`, `PrimitiveRoot`, `LiChao`, `BlockCutTree`, `PalindromicTree`,
+and for original KACTL files that had no test of the real header: `MatrixInverse`, `MatrixInverse-mod`, `Determinant`, `IntDeterminant`, `SolveLinear` (real header added to the old test), `Polynomial`, `PolyInterpolate`, `Integrate`, `HillClimbing`, `TernarySearch`, `BiconnectedComponents`, `CompressTree`, `GeneralMatching`, `Manacher`, `DivideAndConquerDP`, `IntervalCover`, `HashMap`, `OrderStatisticTree`, `Matrix`, `phiFunction`, `multinomial`, `linearTransformation`, `kdTree`, `Angle`
+(in `stress-tests/<chapter>/`). The whole suite passes: `make test` 133/133 and `make test-compiles` 155/155, both also with `LLINT=1` (2026-11-09).
 
 ## Things to know
 

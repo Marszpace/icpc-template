@@ -12,7 +12,7 @@
 \includegraphics[width=\textwidth]{content/geometry/linearTransformation}
 \vspace{-2mm}
 \end{minipage}
- * Status: not tested
+ * Status: stress-tested
  */
 #pragma once
 

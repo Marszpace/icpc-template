@@ -7,6 +7,7 @@
  * element, and finding the index of an element.
  * To get a map, change \texttt{null\_type}.
  * Time: O(\log N)
+ * Status: stress-tested
  */
 #pragma once
 

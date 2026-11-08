@@ -8,7 +8,7 @@
  *  A.d = {{{{1,2,3}}, {{4,5,6}}, {{7,8,9}}}};
  *  array<int, 3> vec = {1,2,3};
  *  vec = (A^N) * vec;
- * Status: tested
+ * Status: tested; stress-tested
  */
 #pragma once
 

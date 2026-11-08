@@ -10,7 +10,7 @@
  * Usage:
 	int ind = ternSearch(0,n-1,[\&](int i){return a[i];});
  * Time: O(\log(b-a))
- * Status: tested
+ * Status: tested; stress-tested
  */
 #pragma once
 

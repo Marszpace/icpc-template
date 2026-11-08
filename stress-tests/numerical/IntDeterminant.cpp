@@ -1,107 +1,62 @@
 #include "../utilities/template.h"
 
-const int mod = 7; // 4
+// The real header, with its composite modulus 12345 = 3 * 5 * 823.
+#include "../../content/numerical/IntDeterminant.h"
 
-typedef vector<vector<ll>> vvll;
-ll det(vvll& a) { // integer determinant
+// The pure-integer version the description mentions (modulos removed).
+ll idet(vector<vector<ll>>& a) {
 	int n = sz(a); ll ans = 1;
 	rep(i,0,n) {
 		rep(j,i+1,n) {
 			while (a[j][i] != 0) { // gcd step
 				ll t = a[i][i] / a[j][i];
-				rep(k,i,n)
-					a[i][k] = (a[i][k] - a[j][k] * t) % mod;
+				if (t) rep(k,i,n) a[i][k] -= a[j][k] * t;
 				swap(a[i], a[j]);
 				ans *= -1;
 			}
 		}
-		if (!a[i][i]) return 0;
-		ans = ans * a[i][i] % mod;
-	}
-	if (ans < 0) ans += mod;
-	return ans;
-}
-
-ll idet(vvll& a) { // integer determinant
-	int n = sz(a); ll ans = 1;
-	rep(i,0,n) {
-		rep(j,i+1,n) {
-			while (a[j][i] != 0) { // gcd step
-				ll t = a[i][i] / a[j][i]; // can take mod-inv if mod p
-				rep(k,i,n) a[i][k] -= a[j][k] * t;
-				swap(a[i], a[j]);
-				ans *= -1;
-			}
-		}
-		if (!a[i][i]) return 0;
 		ans *= a[i][i];
+		if (!ans) return 0;
 	}
 	return ans;
 }
 
-double det(vector<vector<double>>& a) {
-	int n = sz(a); double res = 1;
-	rep(i,0,n) {
-		int b = i;
-		rep(j,i+1,n) if (fabs(a[j][i]) > fabs(a[b][i])) b = j;
-		if (i != b) swap(a[i], a[b]), res *= -1;
-		res *= a[i][i];
-		if (res == 0) return 0;
-		rep(j,i+1,n) {
-			double v = a[j][i] / a[i][i];
-			if (v != 0) rep(k,i+1,n) a[j][k] -= v * a[i][k];
-		}
-	}
+// determinant by permutation expansion, mod m
+ll brute(vector<vector<ll>>& a, ll m) {
+	int n = sz(a); vi p(n); iota(all(p), 0);
+	ll res = 0;
+	do {
+		ll t = 1;
+		rep(i,0,n) t = t * a[i][p[i]] % m;
+		int inv = 0;
+		rep(i,0,n) rep(j,i+1,n) inv += p[i] > p[j];
+		res = ((res + (inv & 1 ? -t : t)) % m + m) % m;
+	} while (next_permutation(all(p)));
 	return res;
 }
 
-template<class F>
-void rec(int i, int j, vvll& A, F f) {
-	if (i == sz(A)) {
-		f();
-	}
-	else if (j == sz(A[i])) {
-		rec(i+1, 0, A, f);
-	}
-	else {
-		rep(v,0,mod) {
-			A[i][j] = v;
-			rec(i, j+1, A, f);
-		}
-	}
-}
-
-template<class F>
-void rec2(int i, vector<ll>& A, F f) {
-	if (i == sz(A)) f();
-	else {
-		rep(v,0,mod) {
-			A[i] = v;
-			rec2(i+1, A, f);
-		}
-	}
-}
+mt19937 rng(5);
+int rnd(int n) { return (int)(rng() % (unsigned)n); }
 
 signed main() {
-	rep(n,0,4) {
-		vvll mat(n, vector<ll>(n, 0)), mat2;
-		vector<vector<double>> mat3(n, vector<double>(n, 0));
-		rec(0,0,mat,[&]() {
-			rep(i,0,n) rep(j,0,n) mat3[i][j] = (double)mat[i][j];
-			// mat2 = mat; ll a = det(mat2);
-			int a = (int)round(det(mat3)) % mod;
-			mat2 = mat; ll b = idet(mat2) % mod;
-			if (a < 0) a += mod;
-			if (b < 0) b += mod;
-			if (a != b) {
-				rep(i,0,n) {
-					rep(j,0,n) cout << mat[i][j];
-					cout << endl;
-				}
-				cout << a << ' ' << b << endl;
-				assert(a == b);
-			}
-		});
+	// exhaustive small cases mod 12345 with entries 0..3, and n <= 2 with entries 0..5
+	rep(it,0,200000) {
+		int n = rnd(6) + 1, mode = rnd(4);
+		vector<vector<ll>> a(n, vector<ll>(n));
+		for (auto& r : a) for (ll& x : r)
+			x = mode == 0 ? rnd(4) : mode == 1 ? rnd((int)mod) : mode == 2 ? (rnd(3) ? 0 : rnd((int)mod)) : rnd(2001) - 1000;
+		if (mode == 3) for (auto& r : a) for (ll& x : r) x = (x % mod + mod) % mod; // header wants entries in [0, mod)
+		ll want = brute(a, mod);
+		auto b = a;
+		ll got = det(b);
+		assert(got == want);
+		// pure-integer version vs exact (small entries)
+		vector<vector<ll>> c(n, vector<ll>(n));
+		for (auto& r : c) for (ll& x : r) x = rnd(11) - 5;
+		ll e = brute(c, (ll)1e18 + 9); // exact up to sign wrap: |det| <= 5^6 * 720
+		if (e > (ll)5e17) e -= (ll)1e18 + 9;
+		auto c2 = c;
+		assert(idet(c2) == e);
 	}
-	cout<<"Tests passed!"<<endl;
+	cout << "Tests passed!" << endl;
 }
