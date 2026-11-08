@@ -77,3 +77,18 @@
 	% \kactlimport{BumpAllocatorSTL.h}
 	% \kactlimport{Unrolling.h}
 	% \kactlimport{SIMD.h}
+
+\section{Python}
+	% Checked on CPython 3.12.3 and PyPy 7.3.15 (Python 3.9.18), the two interpreters of the judge, by doc/note-checks/check_python.py
+	\begin{itemize}
+		\item Integers are unbounded, but \verb@int(s)@ and \verb@str(x)@ stop at 4300 digits with a \texttt{ValueError}: start with \verb@sys.set_int_max_str_digits(0)@ (a million digits take about 0.5 s).
+		\item \verb@math.isqrt(n)@ is the exact integer square root; \verb@int(math.sqrt(n))@ is already wrong for $n = (10^{16}+1)^2 - 1$. Also \verb@gcd@, \verb@lcm@, \verb@comb@, \verb@perm@, \verb@factorial@, \verb@prod@.
+		\item \verb@pow(a, b, m)@ is modular exponentiation and \verb@pow(a, -1, m)@ the modular inverse (\texttt{ValueError} if there is none). \verb@//@, \verb@%@ and \verb@divmod@ round towards $-\infty$ (unlike C++). Also \verb@x.bit_length()@, \verb@x.bit_count()@, \verb@int(s, base)@, \verb@format(x, 'b')@.
+		\item \texttt{decimal}: \verb@getcontext().prec = 100@ sets the digits kept in results. Build values from strings (\verb@Decimal('0.1')@, not \verb@Decimal(0.1)@). \verb@.sqrt()@, \verb@.ln()@, \verb@.exp()@, \verb@.log10()@, \verb@.quantize(Decimal('0.01'), ROUND_HALF_UP)@ (the default rounding is half-even: \verb@2.665@ gives \verb@2.66@).
+			Huge results such as $e^{3 \cdot 10^6}$ raise \texttt{Overflow} until \verb@getcontext().Emax = MAX_EMAX@. \texttt{fractions.Fraction} is exact (\verb@limit_denominator@).
+		\item Input: \verb@input = sys.stdin.readline@ or \verb@sys.stdin.buffer.read().split()@.
+		\item Recursion: CPython 3.12 only needs \verb@sys.setrecursionlimit(10**6)@ for plain functions, but PyPy overflows its stack at depth $10^5$ in the main thread. Run \texttt{main} in a thread:
+			\verb@threading.stack_size(2**29)@, \verb@threading.Thread(target=main).start()@ ($2^{27}$ is enough for $10^5$ levels, $2^{29}$ for $10^6$).
+			Recursion through \verb@functools.lru_cache@ fails on CPython 3.12 near depth 3300 whatever the limit: use a \texttt{dict} or iterate.
+		\item \verb@math.cbrt@ (3.11+) does not exist on PyPy (Python 3.9); \verb@bit_count@ and \verb@lcm@ do.
+	\end{itemize}

@@ -4,7 +4,14 @@
 cd "$(dirname "$0")/../.." || exit 1
 fail=0
 for f in doc/note-checks/check_*.py; do
-	echo "== $f"; python3 "$f" || fail=1
+	if [ "$f" = doc/note-checks/check_python.py ]; then
+		# the judge has CPython 3.12 and PyPy 3.9: run on every interpreter that exists here
+		for py in python3.12 pypy3 python3; do
+			command -v $py > /dev/null && { echo "== $f ($py)"; $py "$f" || fail=1; }
+		done
+	else
+		echo "== $f"; python3 "$f" || fail=1
+	fi
 done
 for f in doc/note-checks/check_*.cpp; do
 	echo "== $f"
