@@ -51,7 +51,7 @@ Sprague-Grundy, Pick's theorem. Every new header has a stress test in
 3D geometry (`3dHull`, `PolyhedronVolume`, `Point3D`, `sphericalDistance`),
 `FastDelaunay`, `SIMD`, `SmallPtr`, `BumpAllocatorSTL`, `Tridiagonal`,
 `PolyRoots`, `IntegrateAdaptive`, `GoldenSectionSearch`, `EdgeColoring`,
-`SubMatrix`, `FastMod`, `SuffixTree`, `EdmondsKarp`.
+`SubMatrix`, `FastMod`, `SuffixTree`, `EdmondsKarp`, `BumpAllocator`, `DFSMatching`.
 `GomoryHu`, `GlobalMinCut`, `HillClimbing` and `CircleTangents` were kept on
 purpose: they were first on the cut list and then turned out to be used.
 

@@ -1,28 +1,8 @@
 #include "../utilities/template.h"
 
 #include "../../content/graph/MinimumVertexCover.h"
-#include "../../content/graph/HopcroftKarp.h"
-
-vi coverHK(vector<vi>& g, int n, int m) {
-	vi match(m, -1);
-	int res = hopcroftKarp(g, match);
-	vector<bool> lfound(n, true), seen(m);
-	for(auto &it: match) if (it != -1) lfound[it] = false;
-	vi q, cover;
-	rep(i,0,n) if (lfound[i]) q.push_back(i);
-	while (!q.empty()) {
-		int i = q.back(); q.pop_back();
-		lfound[i] = 1;
-		for(auto &e: g[i]) if (!seen[e] && match[e] != -1) {
-			seen[e] = true;
-			q.push_back(match[e]);
-		}
-	}
-	rep(i,0,n) if (!lfound[i]) cover.push_back(i);
-	rep(i,0,m) if (seen[i]) cover.push_back(n+i);
-	assert(sz(cover) == res);
-	return cover;
-}
+// DFSMatching.h is cut from the book; it stays here as an independent oracle
+#include "../../content/graph/DFSMatching.h"
 
 signed main() {
 	const int MAXN = 20;
@@ -82,10 +62,9 @@ signed main() {
 			}
 		};
 		vi cover1 = cover(gr, N, M);
-		vi cover2 = coverHK(gr, N, M);
-		assert(sz(cover1) == sz(cover2));
+		vi match(M, -1);
+		assert(sz(cover1) == dfsMatching(gr, match)); // size of a maximum matching
 		verify(cover1);
-		verify(cover2);
 		// cout << '.' << endl;
 	}
 	cout<<"Tests passed!"<<endl;

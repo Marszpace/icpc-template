@@ -4,7 +4,7 @@
 **printed in `kactl.pdf`**; cut files stay in the repository (only their `\kactlimport` line is commented out),
 so they can be turned back on in the `chapter.tex` of their directory.
 
-The book is now **25 PDF pages (cover + 24)**, one fewer than the original (26).
+The book is now **24 PDF pages (cover + 23)**, two fewer than the original (26).
 
 ## Added to the book
 
@@ -74,10 +74,18 @@ Also new in the book, as text notes (no code):
 | various | `SmallPtr.h` | 22 |  |
 | various | `BumpAllocatorSTL.h` | 25 |  |
 | various | `SIMD.h` | 57 |  |
-| | **23 files** | **973** | |
+| data-structures | `UnionFind.h` | 24 | `UnionFindRollback` is printed (no reason recorded) |
+| geometry | `PolygonUnion.h` | 49 | no reason recorded |
+| geometry | `DelaunayTriangulation.h` | 25 | no reason recorded (`FastDelaunay` is cut too) |
+| number-theory | `Eratosthenes.h` | 22 | `FastEratosthenes` is printed instead |
+| number-theory | `Euclid.java` | 20 | Java version; no reason recorded |
+| numerical | `MatrixInverse-mod.h` | 52 | no reason recorded (the double-precision `MatrixInverse` is printed) |
+| strings | `Hashing-codeforces.h` | 64 | no reason recorded |
+| various | `Unrolling.h` | 14 | no reason recorded |
+| | **31 files** | **1243** | |
 
 Kept on purpose although they were candidates: `GomoryHu`, `GlobalMinCut`, `HillClimbing`, `CircleTangents`,
-`LinkCutTree`, `DirectedMST`, `GeneralMatching`, `BumpAllocator` (nothing printed needs it any more since `LazySegTree` replaced `LazySegmentTree`; only the unprinted `SmallPtr` does).
+`LinkCutTree`, `DirectedMST`, `GeneralMatching`.
 
 ## Removed after the team review (2026-10-30)
 
@@ -100,6 +108,8 @@ As above, code files stay in the repository with the `\kactlimport` line comment
 | various | `LIS.h`, `KnuthDP.h` | 36 | trivial |
 | various | `FastInput.h` | 29 | optimisation, never used |
 | various | Aliens trick, Digit DP | 5 | trivial |
+| various | `BumpAllocator.h` | 19 | nothing printed uses it any more (since `LazySegTree` replaced `LazySegmentTree`); team decision 2026-11-08 |
+| graph | `DFSMatching.h` | 38 | `HopcroftKarp` is faster with the same interface; `MinimumVertexCover` now uses it (team decision 2026-11-08) |
 | data-structures | `LazySegmentTree.h` | 66 | merged into `LazySegTree` (file deleted; the generic tree with an edit block does the same, `HLD` ported) |
 
 Still open (edit / merge / undecided): see `TODO.md`.

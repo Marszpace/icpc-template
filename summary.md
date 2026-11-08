@@ -22,11 +22,11 @@ The user is Marszpace; use they/them for people whose pronouns are unknown.
 - `TODO.md` now has "Standing rules" (so items can be done without asking), "Ready" items with decided specs, and "Blocked" items (Fenwick edit, ModInt, shared `mod`, techniques.txt rework from en-oi-wiki.marszpace.dev). The host `en-oi-wiki.marszpace.dev` was not reachable from the session that wrote this; a personal environment `icpc-template` with that host allowed was created for it.
 
 ## Current state (as of 2026-10-30)
-- Book is **25 pages** (cover + 24); the last page is partly used. `ExLucas.h` (number-theory) was added by a teammate; `RadixConversion.h` (combinatorial) and `BostanMori.h` (numerical) by us.
+- Book is **24 pages** (cover + 23) after the cleanup of 2026-11-08 (BumpAllocator and DFSMatching cut, four empty headings removed); the limit is 26. `ExLucas.h` (number-theory) was added by a teammate; `RadixConversion.h` (combinatorial) and `BostanMori.h` (numerical) by us.
 - `CHANGES-vs-original.md`: everything added, cut and removed compared to stock KACTL, with reasons. Keep it up to date.
 - `entries - nx_entries.csv`: the team's per-entry decision (Keep / Delete / Edit / Merge / ?). Columns: Category, Topic, Lines,
   Status, Reason, "What to edit & reason". It is the source of truth for decisions. Its bottom block lists cut files.
-- `TODO.md`: open work. Mainly: shorten Derivatives/Sums/Series notes; decide `IntPerm.h` and `LCA.h`; later delete `BumpAllocator.h`;
+- `TODO.md`: open work. Mainly: shorten Derivatives/Sums/Series notes; decide `IntPerm.h` and `LCA.h`;
   add Bostan-Mori, RadixConversion, Garner and a generating-functions note.
 
 ## Conventions and gotchas
@@ -36,7 +36,7 @@ The user is Marszpace; use they/them for people whose pronouns are unknown.
 - Dropping a section header such as `\section{Games}` also drops its text; the script I used cut from a heading to the next heading
   of the same or higher level.
 - Lazy segment tree = `LazySegTreeBlock.h` (edit block: `S`, `L`, `e/id/op/ok/app/comp`; default is chmin+add beats) + `LazySegTree.h` (fixed body, listed in `doc/scripts/skip_headers` because it needs the block first). Two files so each keeps its own hash. `HLD.h` includes both. Tests: `stress-tests/data-structures/LazySegTree*.cpp` (the non-default blocks in the description are tested there too).
-- `BumpAllocator.h` is no longer included by anything printed (only the unprinted `SmallPtr.h`).
+- `BumpAllocator.h` is cut from the book (team decision 2026-11-08; nothing printed uses it; the file stays, only the unprinted `SmallPtr.h` includes it).
 - `PolyOps.h` and `NumberTheoreticTransform.h` use modulus 998244353; other number-theory files use the global `mod` from `ModPow.h`.
 - `make test` was not re-run after the review's removals or after `ExLucas`.
 - Never commit or push without being asked. Commit messages here end with the Co-Authored-By line from the session's attribution reminder.

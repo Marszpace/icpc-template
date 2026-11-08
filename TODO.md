@@ -1,7 +1,7 @@
 # TODO (from the team review, `entries - nx_entries.csv`, and the coverage audit)
 
-State (2026-11-08): the book is 25 PDF pages (cover + 24). **The Danang page limit is 26 (25 + cover), confirmed by the team**,
-so there is about one page of room (about 160 lines) plus what the cleanup items free.
+State (2026-11-08): the book is 24 PDF pages (cover + 23) after items 1-5. **The Danang page limit is 26 (25 + cover), confirmed by the team**,
+so there are about two pages of room (about 320 lines).
 
 ## Standing rules (so every item below can be done without asking)
 - **Page cap:** never go over 26 PDF pages; aim for 26 or fewer with a few lines to spare. Rebuild with `make kactl` after every item and check
@@ -20,14 +20,14 @@ so there is about one page of room (about 160 lines) plus what the cleanup items
 
 ## Ready: spec decided, do these without asking (suggested order)
 Cleanup first (frees about 65 lines), then additions, cheapest and most useful first.
-1. [ ] **Cut `BumpAllocator.h`** (decided): comment out its import in `content/various/chapter.tex`, add it to the cut table in `CHANGES-vs-original.md`
+1. [x] **Cut `BumpAllocator.h`** (done 2026-11-08) (decided): comment out its import in `content/various/chapter.tex`, add it to the cut table in `CHANGES-vs-original.md`
    and the CSV; the file stays in the repo. Frees about 19 lines.
-2. [ ] **Drop `DFSMatching.h`**: point `MinimumVertexCover.h` at `HopcroftKarp.h` (same signature; its stress test already includes it), comment out
+2. [x] **Drop `DFSMatching.h`** (done: `MinimumVertexCover` uses `hopcroftKarp`; its test keeps `DFSMatching.h` as an oracle for the matching size): point `MinimumVertexCover.h` at `HopcroftKarp.h` (same signature; its stress test already includes it), comment out
    the import of `DFSMatching.h`, record the cut. Frees about 38 lines. Re-run the `MinimumVertexCover` test.
-3. [ ] **Remove the empty headings** that print with nothing under them: graph "Fundamentals" and "Coloring", number theory "Fractions",
+3. [x] **Remove the empty headings** (done: the four headings are commented out, the commented imports stay under them) that print with nothing under them: graph "Fundamentals" and "Coloring", number theory "Fractions",
    geometry "3D" (check in the built PDF that nothing is left under them first).
-4. [ ] **`lineDistance.h`**: remove the mentions of `Point3D` (the 3D files are cut).
-5. [ ] **`CHANGES-vs-original.md` cut table**: add the missing unprinted files: `UnionFind`, `PolygonUnion`, `DelaunayTriangulation`,
+4. [x] **`lineDistance.h`** (done): remove the mentions of `Point3D` (the 3D files are cut).
+5. [x] **`CHANGES-vs-original.md` cut table** (done: 8 rows added, totals now 31 files / 1243 lines): add the missing unprinted files: `UnionFind`, `PolygonUnion`, `DelaunayTriangulation`,
    `Hashing-codeforces`, `MatrixInverse-mod`, `Eratosthenes.h`, `Euclid.java`, `Unrolling`.
 6. [ ] **Segment tree descent** (`LazySegTree.h` body, about 10 lines): `template<class F> int maxRight(int l, F f)` returning the largest `r`
    such that `f(query(l, r))` holds (`f(e())` must hold), O(log N), AtCoder style; mention it in the description with a usage line.
