@@ -1,0 +1,13 @@
+diff --git a/content/tex/kactlpkg.sty b/content/tex/kactlpkg.sty
+index 1ea5bd6..4bef3f6 100644
+--- a/content/tex/kactlpkg.sty
++++ b/content/tex/kactlpkg.sty
+@@ -364,7 +364,7 @@
+ 
+ \long\def\@makecaption#1#2{
+ 	\vspace{-3pt}
+-	\ifthenelse{\boolean{hasdescription}}{\codeheader{Description}{\@defdescription}}{}
++	\ifthenelse{\boolean{hasdescription}}{\ifthenelse{\boolean{hastime}\and\not\boolean{hasusage}\and\not\boolean{hasmemory}}{\codeheader{Description}{\@defdescription{} \textbf{Time:} \@deftime}\setboolean{hastime}{false}}{\codeheader{Description}{\@defdescription}}}{}
+ 	\ifthenelse{\boolean{hasusage}}{\codeheader{Usage}{\@defusage}}{}
+ 	\ifthenelse{\boolean{hasmemory}}{\codeheader{Memory}{\@defmemory}}{}
+ 	\ifthenelse{\boolean{hastime}}{\codeheader{Time}{\@deftime}}{}

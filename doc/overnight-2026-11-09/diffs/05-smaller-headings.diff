@@ -1,0 +1,42 @@
+diff --git a/content/tex/kactlpkg.sty b/content/tex/kactlpkg.sty
+index 1ea5bd6..a411e7d 100644
+--- a/content/tex/kactlpkg.sty
++++ b/content/tex/kactlpkg.sty
+@@ -137,9 +137,9 @@
+ 
+ 	\parindent \z@ \raggedright \normalfont
+ 		\interlinepenalty\@M
+-	{\underline{\huge \bfseries #1} }
++	{\underline{\LARGE \bfseries #1} }
+ 	\ifnum \c@secnumdepth >\m@ne
+-		{\huge\bfseries (\thechapter) \par\nobreak }
++		{\LARGE\bfseries (\thechapter) \par\nobreak }
+ 	\fi
+ 	\startcontents[chapters]
+ }
+@@ -147,12 +147,12 @@
+ \renewcommand\section{\@startsection {section}{1}{\z@}%
+                                    {-0.5ex \@plus -1ex \@minus -.2ex}%
+                                    {.4ex}%
+-                                   {\normalfont\LARGE\bfseries}}
++                                   {\normalfont\Large\bfseries}}
+ 
+ \renewcommand\subsection{\@startsection{subsection}{2}{\z@}
+ 	{-1ex\@plus -1ex \@minus -.3ex}
+ 	{.2ex}
+-	{\normalfont\large\bfseries}}
++	{\normalfont\normalsize\bfseries}}
+ 
+ \renewcommand\subsubsection{\@startsection{subsubsection}{3}{\z@}
+ 	{-1ex\@plus -1ex \@minus -.3ex}
+@@ -169,8 +169,8 @@
+ \renewcommand{\chaptermark}[1]{\markboth{\emph{ #1}}{}}
+ \renewcommand{\cftbeforetoctitleskip}{-45pt}
+ \renewcommand{\cftaftertoctitleskip}{10pt}
+-\renewcommand{\cftbeforechapskip}{11pt}
+-\renewcommand\cftchapfont{\large\bfseries}
++\renewcommand{\cftbeforechapskip}{2pt}
++\renewcommand\cftchapfont{\normalsize\bfseries}
+ \renewcommand{\cftdotsep}{4.5}
+ 
+ % Proper carets and tildes

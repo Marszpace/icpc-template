@@ -1,0 +1,62 @@
+data-structures/LazySegTreeBlock.h 81:   if (a.mx == b.mx) return {a.mx, max(a.se, b.se), a.cnt + b.cnt, a.sum + b.sum};
+data-structures/LazySegTree.h 78:   LazySeg(vector<S> v) : n(sz(v)), t(4*n), z(4*n, id()) { build(v, 1, 0, n); }
+data-structures/LazySegTree.h 82:   void ap(int o, int len, L x) { t[o] = app(t[o], x, len); z[o] = comp(x, z[o]); }
+data-structures/LazySegTree.h 64:     ap(2*o, m - lo, z[o]); ap(2*o+1, hi - m, z[o]); z[o] = id();
+data-structures/LazySegTree.h 67:   void upd(int l, int r, L x, int o = 1, int lo = 0, int hi = -1) {
+data-structures/LazySegTree.h 68:     if (l <= lo && hi <= r && ok(t[o], x)) return ap(o, hi - lo, x);
+data-structures/LazySegTree.h 66:     return op(query(l, r, 2*o, lo, m), query(l, r, 2*o+1, m, hi));
+data-structures/LazySegTree.h 64:       if (l <= lo && f(op(a, t[o]))) return a = op(a, t[o]), hi;
+data-structures/PersistentSegmentTree.h 67:     return query(t[v].l, l, r, lo, m) + query(t[v].r, l, r, m, hi);
+data-structures/DynCon.h 76:   void add(int l, int r, int a, int b, int o = 1, int lo = 0, int hi = -1) {
+data-structures/DynCon.h 65:     if (l <= lo && hi <= r) { seg[o].push_back({a, b}); return; }
+data-structures/DynCon.h 73:   template<class F> void run(F&& f, int o = 1, int lo = 0, int hi = -1) {
+data-structures/LiChao.h 69:   struct Ln { ll k = 0, m = INF; ll at(ll x) { return k * x + m; } };
+data-structures/LiChao.h 68:     bool l = ln.at(lo) < t[o].at(lo), m = ln.at(mid) < t[o].at(mid);
+data-structures/LiChao.h 68:     if (l != m) ins(ln, 2*o, lo, mid); else ins(ln, 2*o+1, mid, hi);
+data-structures/LiChao.h 77:   void addSeg(ll k, ll m, int a, int b, int o = 1, int lo = 0, int hi = -1) {
+data-structures/LiChao.h 73:     addSeg(k, m, a, b, 2*o, lo, mid); addSeg(k, m, a, b, 2*o+1, mid, hi);
+data-structures/Treap.h 65: // app(0, 1) reverses, n->sum is the sum (f is skipped if empty).
+geometry/HalfPlane.h 73:   auto out = [&](H& l, P p) { return dir(l).cross(p - l.first) < -eps; };
+geometry/HalfPlane.h 69:     return lineInter(a.first, a.second, b.first, b.second).second; };
+geometry/HalfPlane.h 74:   sort(all(h), [&](H a, H b) { return dir(a).angle() < dir(b).angle(); });
+geometry/HalfPlane.h 65:       if (out(l, q[b-1].first)) b--; // same direction, l tighter
+geometry/HalfPlane.h 67:   rep(i,a,b) // a bounded polygon turns left by < pi at each corner
+geometry/HalfPlane.h 69:     if (dir(q[i]).cross(dir(q[i+1 == b ? a : i+1])) < eps) return {};
+geometry/MinkowskiSum.h 65: template<class P> vector<P> minkowski(vector<P> a, vector<P> b) {
+geometry/MinkowskiSum.h 68:   auto low = [](P p, P q) { return tie(p.y, p.x) < tie(q.y, q.x); };
+geometry/RectangleUnion.h 75:   auto upd = [&](auto&& self, int o, int lo, int hi, int l, int r, int d) {
+geometry/RectangleUnion.h 77:       self(self, 2*o, lo, mid, l, r, d); self(self, 2*o+1, mid, hi, l, r, d);
+geometry/RectangleUnion.h 79:     cov[o] = c[o] ? ys[hi] - ys[lo] : hi - lo == 1 ? 0 : cov[2*o] + cov[2*o+1];
+graph/MaximumClique.h 68:         int j = 0, mxk = 1, mnk = max<int>(sz(qmax) - sz(q) + 1, 1);
+graph/CentroidDecomposition.h 76:   Centroid(vector<vi> g) : g(g), sub(sz(g)), cpar(sz(g), -1), dead(sz(g)) {}
+graph/CentroidDecomposition.h 68:     for (int u : g[v]) if (u != p && !dead[u]) sub[v] += calc(u, v);
+graph/DsuOnTree.h 72:   DsuOnTree(vector<vi> g, int r = 0) : g(g), sub(sz(g)), big(sz(g), -1),
+graph/DsuOnTree.h 65:     tin(sz(g)), tout(sz(g)), ord(sz(g)), root(r) { init(r, -1); }
+graph/DsuOnTree.h 71:   template<class A, class R, class Q> void run(A add, R rem, Q query) {
+number-theory/ExLucas.h 71:   ll inv(ll b) { ll x, y; euclid(b, q, x, y); return (x % q + q) % q; }
+number-theory/ExLucas.h 71:   BinomPP(ll p, ll q, ll mx, ll m) : p(p), q(q), f(min(q, mx + 1), 1) {
+number-theory/ExLucas.h 71:   ll nu(ll n) { ll e = 0; while (n /= p) e += n; return e; } // v_p(n!)
+number-theory/ExLucas.h 79:     for (r = fact(n) * inv(fact(k) * fact(n - k) % q) % q; e--;) r = r * p % q;
+numerical/LagrangeInterpolation.h 72:   for (int i = n; i--;) suf[i] = suf[i+1] * ((x - i + mod) % mod) % mod;
+numerical/LagrangeInterpolation.h 66:   for (int i = n - 1; i--;) ifact[i] = ifact[i+1] * (i + 1) % mod;
+numerical/LagrangeInterpolation.h 86:     ll t = y[i] * pre[i] % mod * suf[i+1] % mod * ifact[i] % mod * ifact[n-1-i] % mod;
+numerical/SolveLinearMod.h 64:     rep(r,i,n) rep(c,i,m) if (br < 0 && A[r][c]) br = r, bc = c;
+numerical/SolveLinearMod.h 64:     swap(A[i], A[br]); swap(b[i], b[br]); swap(col[i], col[bc]);
+numerical/SolveLinearMod.h 73:       rep(k,i+1,m) A[j][k] = (A[j][k] - fac * A[i][k] % mod + mod) % mod;
+numerical/SolveLinearMod.h 64:     rep(j,0,i) b[j] = (b[j] - A[j][i] * b[i] % mod + mod) % mod;
+numerical/XorBasis.h 69:     rep(i,0,64) rep(j,0,i) if (b[j] && (b[i] >> j & 1)) b[i] ^= b[j];
+numerical/PolyOps.h 67:     vl f(a.begin(), a.begin() + min(sz(a), 2 * m)), c = conv(f, b);
+numerical/PolyOps.h 71:   rep(i,2,sz(a)) inv[i] = (mod - (mod / i) * inv[mod % i] % mod) % mod;
+numerical/PolyOps.h 68:     rep(i,0,2*m) f[i] = ((i < sz(a) ? a[i] : 0) - l[i] + mod) % mod;
+strings/PalindromicTree.h 64:     Nd(int len, int link) : len(len), link(link) { nx.fill(0); }
+strings/PalindromicTree.h 78:       while (i - t[v].len - 1 < 0 || s[i - t[v].len - 1] != ch) v = t[v].link;
+strings/PalindromicTree.h 73:       int nw = sz(t), lk = t[cur].len < 0 ? 1 : t[up(t[cur].link)].nx[c];
+strings/PalindromicTree.h 78:   void count() { for (int v = sz(t); v-- > 2;) t[t[v].link].cnt += t[v].cnt; }
+strings/MinRotation.h 68:     if (a+k == b || s[a+k] < s[b+k]) {b += max<int>(0, k-1); break;}
+strings/SuffixArray.h 68:     for (int j = 0, p = 0; p < n; j = max<int>(1, j * 2), lim = p) {
+strings/SuffixAutomaton.h 69:     for (; p >= 0 && t[p].nx[c] < 0; p = t[p].link) t[p].nx[c] = cur;
+strings/SuffixAutomaton.h 67:         t.push_back(t[q]); t[cl].len = t[p].len + 1; t[cl].cnt = 0;
+strings/SuffixAutomaton.h 68:     sort(all(o), [&](int a, int b) { return t[a].len > t[b].len; });
+strings/SuffixAutomaton.h 69:     for (int v : o) if (t[v].link >= 0) t[t[v].link].cnt += t[v].cnt;
+various/IntervalMap.h 65:   IntervalMap(int lo, int hi, T v) : hi(hi) { m[lo] = v; m[hi]; }
+various/IntervalMap.h 68:     for (; it != e; ++it) f(it->first, next(it)->first, it->second);

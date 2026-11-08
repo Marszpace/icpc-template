@@ -1,0 +1,556 @@
+diff --git a/content/combinatorial/RadixConversion.h b/content/combinatorial/RadixConversion.h
+index 4984a06..eacf7d6 100644
+--- a/content/combinatorial/RadixConversion.h
++++ b/content/combinatorial/RadixConversion.h
+@@ -3,20 +3,12 @@
+  * Date: 2026-11-08
+  * License: CC0
+  * Source: bijective numeration
+- * Description: Converts a sequence of digits in $[0, a)$ to a sequence
+- * of digits in $[0, b)$, with $a, b \ge 2$ (below $2^{31}$), most significant
+- * first. It is a bijection between all finite sequences: the empty one
+- * maps to the empty one, and the $k$-th sequence in (length, lexicographic)
+- * order in base $a$ goes to the $k$-th in base $b$. So
+- * \texttt{radixconv(radixconv(x, a, b), b, a) == x} always, with no length
+- * or leading zeros to remember, and the result has about
+- * $|x| \log_b a$ digits (e.g. to send $n$ numbers below $a$ in messages below $b$).
+- * \texttt{radixToPerm(x, a)} is the same with permutations of $0, \ldots, n-1$
+- * as the target: a bijection between all digit sequences and all permutations
+- * (the size comes out of the data, e.g. 2000 binary digits give 296 elements),
+- * (length, lexicographic) order going to (size, lexicographic) order;
+- * \texttt{permToRadix(p, a)} is the inverse ($y$ is the result; it also takes $O(|y|^2)$). For a fixed size use \texttt{intToPerm},
+- * or \texttt{radixToPerm} on the digits of $r + 0! + 1! + \dots + (n-1)!$ in base $2^{31}-1$ (one digit for $n \le 12$, two up to 20).
++ * Description: Bijective base conversion: digits in $[0, a)$ to digits in $[0, b)$ ($2 \le a, b < 2^{31}$), most significant first.
++ * The $k$-th sequence in (length, lexicographic) order in base $a$ maps to the $k$-th in base $b$ (empty to empty),
++ * so \texttt{radixconv(radixconv(x, a, b), b, a) == x} with no length or leading zeros to store; the result has about $|x| \log_b a$ digits.
++\texttt{radixToPerm(x, a)} does the same onto all permutations of $0, \ldots, n-1$ ($n$ comes from the data: 2000 bits give 296 elements),
++ * in (size, lexicographic) order; \texttt{permToRadix(p, a)} is its inverse ($O(|y|^2)$, $y$ the result).
++ * Fixed size: \texttt{intToPerm}, or \texttt{radixToPerm} on the base $2^{31}-1$ digits of $r + 0! + \dots + (n-1)!$ (one digit for $n \le 12$, two up to 20).
+  * Time: O(|x| \cdot |y|)
+  * Status: stress-tested
+  */
+diff --git a/content/data-structures/MoQueries.h b/content/data-structures/MoQueries.h
+index cda9246..c17aceb 100644
+--- a/content/data-structures/MoQueries.h
++++ b/content/data-structures/MoQueries.h
+@@ -3,9 +3,8 @@
+  * Date: 2019-12-28
+  * License: CC0
+  * Source: https://github.com/hoke-t/tamu-kactl/blob/master/content/data-structures/MoQueries.h
+- * Description: Answer interval or tree path queries by finding an approximate TSP through the queries,
+- * and moving from one query to the next by adding/removing points at the ends.
+- * If values are on tree edges, change \texttt{step} to add/remove the edge $(a, c)$ and remove the initial \texttt{add} call (but keep \texttt{in}).
++ * Description: Interval or tree path queries: visit the queries along an approximate TSP, adding/removing points at the ends.
++ * Values on tree edges: \texttt{step} adds/removes the edge $(a, c)$ and the initial \texttt{add} goes (keep \texttt{in}).
+  * Time: O(N \sqrt Q)
+  * Status: stress-tested
+  */
+diff --git a/content/geometry/CircleTangents.h b/content/geometry/CircleTangents.h
+index 21dcfc0..aeb218a 100644
+--- a/content/geometry/CircleTangents.h
++++ b/content/geometry/CircleTangents.h
+@@ -3,11 +3,9 @@
+  * Date: 2019-10-31
+  * License: CC0
+  * Source: https://vlecomte.github.io/cp-geo.pdf
+- * Description: Finds the external tangents of two circles, or internal if r2 is negated.
+- * Can return 0, 1, or 2 tangents -- 0 if one circle contains the other (or overlaps it, in the internal case, or if the circles are the same);
+- * 1 if the circles are tangent to each other (in which case .first = .second and the tangent line is perpendicular to the line between the centers).
+- * .first and .second give the tangency points at circle 1 and 2 respectively.
+- * To find the tangents of a circle with a point set r2 to 0.
++ * Description: External tangents of two circles (internal ones if r2 is negated). Returns 0 tangents if one circle contains the other
++ * (internal case: also if they overlap; also if equal), 1 if they touch (.first = .second, perpendicular to the center line), else 2.
++ * .first and .second are the tangency points on circle 1 and 2. Tangents from a point: r2 = 0.
+  * Status: tested
+  */
+ #pragma once
+diff --git a/content/geometry/LineHullIntersection.h b/content/geometry/LineHullIntersection.h
+index 0ad709c..3dcf48c 100644
+--- a/content/geometry/LineHullIntersection.h
++++ b/content/geometry/LineHullIntersection.h
+@@ -3,17 +3,10 @@
+  * Date: 2019-05-07
+  * License: Boost Software License
+  * Source: https://github.com/AlCash07/ACTL/blob/master/include/actl/geometry/algorithm/intersect/line_convex_polygon.hpp
+- * Description: Line-convex polygon intersection. The polygon must be ccw and have no collinear points.
+- * lineHull(line, poly) returns a pair describing the intersection of a line with the polygon:
+- *  \begin{itemize*}
+- *    \item $(-1, -1)$ if no collision,
+- *    \item $(i, -1)$ if touching the corner $i$,
+- *    \item $(i, i)$ if along side $(i, i+1)$,
+- *    \item $(i, j)$ if crossing sides $(i, i+1)$ and $(j, j+1)$.
+- *  \end{itemize*}
+- *  In the last case, if a corner $i$ is crossed, this is treated as happening on side $(i, i+1)$.
+- *  The points are returned in the same order as the line hits the polygon.
+- * \texttt{extrVertex} returns the point of a hull with the max projection onto a line.
++ * Description: Line vs convex polygon (ccw, no collinear points). \texttt{lineHull(line, poly)} returns
++ * $(-1, -1)$ if no collision, $(i, -1)$ if touching corner $i$, $(i, i)$ if along side $(i, i+1)$,
++ * $(i, j)$ if crossing sides $(i, i+1)$ and $(j, j+1)$ (a crossed corner $i$ counts as side $(i, i+1)$), in the order the line hits them.
++\texttt{extrVertex} returns the hull point with the max projection onto a line.
+  * Time: O(\log n)
+  * Status: stress-tested
+  */
+diff --git a/content/geometry/SegmentIntersection.h b/content/geometry/SegmentIntersection.h
+index 83b7886..0de6b2d 100644
+--- a/content/geometry/SegmentIntersection.h
++++ b/content/geometry/SegmentIntersection.h
+@@ -3,13 +3,12 @@
+  * Date: 2019-04-27
+  * License: CC0
+  * Source: https://vlecomte.github.io/cp-geo.pdf
+- * Description:\\
++ * Description: \\
+ \begin{minipage}{75mm}
+-If a unique intersection point between the line segments going from s1 to e1 and from s2 to e2 exists then it is returned.
+-If no intersection point exists an empty vector is returned.
+-If infinitely many exist a vector with 2 elements is returned, containing the endpoints of the common line segment.
+-The wrong position will be returned if P is Point<ll> and the intersection point does not have integer coordinates.
+-Products of three coordinates are used in intermediate steps so watch out for overflow if using int or long long.
++ * Intersection of segments s1-e1 and s2-e2: one point, none (empty vector),
++ * or the two endpoints of the common segment if there are infinitely many.
++ * With Point<ll> the point is wrong if it is not integral.
++ * Uses products of three coordinates (overflow).
+ \end{minipage}
+ \begin{minipage}{15mm}
+ \includegraphics[width=\textwidth]{content/geometry/SegmentIntersection}
+diff --git a/content/geometry/lineDistance.h b/content/geometry/lineDistance.h
+index b415f6f..16f5518 100644
+--- a/content/geometry/lineDistance.h
++++ b/content/geometry/lineDistance.h
+@@ -3,12 +3,11 @@
+  * Date: 2009-03-21
+  * License: CC0
+  * Source: Basic math
+- * Description:\\
++ * Description: \\
+ \begin{minipage}{75mm}
+-Returns the signed distance between point p and the line containing points a and b.
+-Positive value on left side and negative on right as seen from a towards b. a==b gives nan.
+-P is supposed to be Point<T> where T is e.g. double or long long.
+-It uses products in intermediate steps so watch out for overflow if using int or long long.
++ * Signed distance from p to the line through a and b, positive on the left
++ * as seen from a towards b; a==b gives nan. T is double or long long;
++ * uses products of two coordinates (overflow).
+ \end{minipage}
+ \begin{minipage}{15mm}
+ \includegraphics[width=\textwidth]{content/geometry/lineDistance}
+diff --git a/content/geometry/lineIntersection.h b/content/geometry/lineIntersection.h
+index 1240ec5..d871db4 100644
+--- a/content/geometry/lineIntersection.h
++++ b/content/geometry/lineIntersection.h
+@@ -3,12 +3,12 @@
+  * Date: 2019-05-05
+  * License: CC0
+  * Source: https://vlecomte.github.io/cp-geo.pdf
+- * Description:\\
++ * Description: \\
+ \begin{minipage}{75mm}
+-If a unique intersection point of the lines going through s1,e1 and s2,e2 exists \{1, point\} is returned.
+-If no intersection point exists \{0, (0,0)\} is returned and if infinitely many exists \{-1, (0,0)\} is returned.
+-The wrong position will be returned if P is Point<ll> and the intersection point does not have integer coordinates.
+-Products of three coordinates are used in intermediate steps so watch out for overflow if using int or ll.
++ * Intersection of the lines through s1,e1 and s2,e2: \{1, point\} if unique,
++\{0, (0,0)\} if parallel, \{-1, (0,0)\} if they are the same line.
++ * With Point<ll> the point is wrong if it is not integral.
++ * Uses products of three coordinates (overflow).
+ \end{minipage}
+ \begin{minipage}{15mm}
+ \includegraphics[width=\textwidth]{content/geometry/lineIntersection}
+diff --git a/content/geometry/sideOf.h b/content/geometry/sideOf.h
+index 14e31ae..83c87ba 100644
+--- a/content/geometry/sideOf.h
++++ b/content/geometry/sideOf.h
+@@ -3,10 +3,8 @@
+  * Date: 2009-03-21
+  * License: CC0
+  * Source:
+- * Description: Returns where $p$ is as seen from $s$ towards $e$. 1/0/-1 $\Leftrightarrow$ left/on line/right.
+- * If the optional argument $eps$ is given 0 is returned if $p$ is within distance $eps$ from the line.
+- * P is supposed to be Point<T> where T is e.g. double or long long.
+- * It uses products in intermediate steps so watch out for overflow if using int or long long.
++ * Description: 1/0/-1 if $p$ is left of/on/right of the line from $s$ towards $e$.
++ * With $eps$, 0 if $p$ is within distance $eps$ of the line. Uses products of coordinates (overflow).
+  * Usage:
+  * 	bool left = sideOf(p1,p2,q)==1;
+  * Status: tested
+diff --git a/content/graph/BiconnectedComponents.h b/content/graph/BiconnectedComponents.h
+index 2dcf298..d00438f 100644
+--- a/content/graph/BiconnectedComponents.h
++++ b/content/graph/BiconnectedComponents.h
+@@ -3,11 +3,8 @@
+  * Date: 2017-04-17
+  * License: CC0
+  * Source: folklore
+- * Description: Finds all biconnected components in an undirected graph, and
+- *  runs a callback for the edges in each. In a biconnected component there
+- *  are at least two internally disjoint paths between any two nodes (a cycle
+- *  exists through them). Note that a node can be in several components. An
+- *  edge which is not in a component is a bridge, i.e., not part of any cycle.
++ * Description: Runs the callback on the edges of each biconnected component (any two of its nodes lie on a common cycle).
++ * A node can be in several components; an edge in none is a bridge.
+  * Usage:
+  *  int eid = 0; ed.resize(N);
+  *  for each edge (a,b) {
+diff --git a/content/graph/EulerWalk.h b/content/graph/EulerWalk.h
+index 2131324..24f57a5 100644
+--- a/content/graph/EulerWalk.h
++++ b/content/graph/EulerWalk.h
+@@ -3,12 +3,8 @@
+  * Date: 2019-12-31
+  * License: CC0
+  * Source: folklore
+- * Description: Eulerian undirected/directed path/cycle algorithm.
+- * Input should be a vector of (dest, global edge index), where
+- * for undirected graphs, forward/backward edges have the same index.
+- * Returns a list of nodes in the Eulerian path/cycle with src at both start and end, or
+- * empty list if no cycle/path exists.
+- * To get edge indices back, add .second to s and ret.
++ * Description: Euler path/cycle, undirected or directed. Input: lists of (dest, global edge index); both directions of an undirected edge share the index.
++ * Returns the nodes of the walk (src at both ends for a cycle), or empty if there is none. Edge indices: add .second to s and ret.
+  * Time: O(V + E)
+  * Status: stress-tested
+  */
+diff --git a/content/graph/HLD.h b/content/graph/HLD.h
+index e84ad85..92c9636 100644
+--- a/content/graph/HLD.h
++++ b/content/graph/HLD.h
+@@ -3,15 +3,10 @@
+  * Date: 2020-01-12
+  * License: CC0
+  * Source: https://codeforces.com/blog/entry/53170, https://github.com/bqi343/USACO/blob/master/Implementations/content/graphs%20(12)/Trees%20(10)/HLD%20(10.3).h
+- * Description: Decomposes a tree into vertex disjoint heavy paths and light
+- * edges such that the path from any leaf to the root contains at most log(n)
+- * light edges. Code does additive modifications and max queries, but can
+- * support commutative segtree modifications/queries on paths and subtrees.
+- * Uses LazySeg (edit its block for other operations); modifications take
+- * its tag \texttt{L}, queries return its value \texttt{S}.
+- * Takes as input the full adjacency list. VALS\_EDGES being true means that
+- * values are stored in the edges, as opposed to the nodes. All values
+- * initialized to \texttt{S()}. Root must be 0.
++ * Description: Heavy-light decomposition: every path to the root has $O(\log n)$ light edges.
++ * Path and subtree updates and queries go to a \texttt{LazySeg} (edit its block for other operations):
++ * updates take its tag \texttt{L}, queries return its value \texttt{S}, all values start as \texttt{S()}.
++ * Takes the full adjacency list, root 0. \texttt{VALS\_EDGES}: values on the edges instead of the nodes.
+  * Time: O((\log N)^2)
+  * Status: stress-tested against old HLD
+  */
+diff --git a/content/graph/HopcroftKarp.h b/content/graph/HopcroftKarp.h
+index 809cdc5..2ab40ed 100644
+--- a/content/graph/HopcroftKarp.h
++++ b/content/graph/HopcroftKarp.h
+@@ -2,11 +2,8 @@
+  * Author: Adam Soltan
+  * Date: 2026-01-13
+  * License: CC0
+- * Description: Fast bipartite matching algorithm. Graph $g$ should be a list
+- * of neighbors of the left partition, and $r$ should be a vector full of
+- * $-1$'s of the same size as the right partition. Returns the size of
+- * the matching. $r[i]$ will be the match for vertex $i$ on the right side,
+- * or $-1$ if it's not matched.
++ * Description: Bipartite matching. $g$: neighbours of each left vertex; $r$: all $-1$, size of the right side.
++ * Returns the matching size; $r[i]$ is the match of right vertex $i$, or $-1$.
+  * Time: O(E \sqrt{V})
+  * Status: stress-tested by MinimumVertexCover and tested on Library Checker
+  */
+diff --git a/content/graph/WeightedMatching.h b/content/graph/WeightedMatching.h
+index 89b806e..6d44b07 100644
+--- a/content/graph/WeightedMatching.h
++++ b/content/graph/WeightedMatching.h
+@@ -3,12 +3,8 @@
+  * Date: 2026-07-09
+  * License: CC0
+  * Source: https://github.com/scipy/scipy/blob/main/scipy/optimize/rectangular_lsap/rectangular_lsap.cpp
+- * Description: Given a weighted bipartite graph, matches every node on
+- * the left with a node on the right such that no
+- * nodes are in two matchings and the sum of the edge weights is minimal. Takes
+- * cost[N][M], where cost[i][j] = cost for L[i] to be matched with R[j], and
+- * returns (min cost, match), where L[i] is matched with
+- * R[match[i]]. Negate costs for max cost. Requires $N \le M$.
++ * Description: Min-cost bipartite matching that matches every left node, $N \le M$. Takes cost[N][M] (cost[i][j]: L[i] with R[j]),
++ * returns (min cost, match) with L[i] matched to R[match[i]]. Negate costs for max cost.
+  * Time: O(N^2M)
+  * Status: Tested on kattis:cordonbleu, kattis:engaging, stress-tested
+  */
+diff --git a/content/kactl.tex b/content/kactl.tex
+index 0830fb6..53612cb 100644
+--- a/content/kactl.tex
++++ b/content/kactl.tex
+@@ -28,9 +28,6 @@
+ 	\kactlchapter{geometry}
+ 	\kactlchapter{strings}
+ 	\kactlchapter{various}
+-	\end{multicols*}
+-
+-	\begin{multicols*}{3}
+ 	\kactlchapter{appendix}
+ 	\end{multicols*}
+ \end{document}
+diff --git a/content/numerical/FastFourierTransform.h b/content/numerical/FastFourierTransform.h
+index 95b4f7f..946d17a 100644
+--- a/content/numerical/FastFourierTransform.h
++++ b/content/numerical/FastFourierTransform.h
+@@ -4,14 +4,9 @@
+  * License: CC0
+  * Source: http://neerc.ifmo.ru/trains/toulouse/2017/fft2.pdf (do read, it's excellent)
+    Accuracy bound from http://www.daemonology.net/papers/fft.pdf
+- * Description: fft(a) computes $\hat f(k) = \sum_x a[x] \exp(2\pi i \cdot k x / N)$ for all $k$. N must be a power of 2.
+-   Useful for convolution:
+-   \texttt{conv(a, b) = c}, where $c[x] = \sum a[i]b[x-i]$.
+-   For convolution of complex numbers or more than two vectors: FFT, multiply
+-   pointwise, divide by n, reverse(start+1, end), FFT back.
+-   Rounding is safe if $(\sum a_i^2 + \sum b_i^2)\log_2{N} < 9\cdot10^{14}$
+-   (in practice $10^{16}$; higher for random inputs).
+-   Otherwise, use NTT/FFTMod.
++ * Description: \texttt{fft(a)} computes $\hat f(k) = \sum_x a[x] \exp(2\pi i \cdot k x / N)$ for all $k$, $N$ a power of 2.
++\texttt{conv(a, b) = c} with $c[x] = \sum a[i]b[x-i]$. Complex or more than two vectors: FFT, multiply pointwise, divide by n, reverse(start+1, end), FFT back.
++ * Rounding is safe if $(\sum a_i^2 + \sum b_i^2)\log_2{N} < 9\cdot10^{14}$ (in practice $10^{16}$, more if random); else NTT/FFTMod.
+  * Time: O(N \log N) with $N = |A|+|B|$ ($\tilde 1s$ for $N=2^{22}$)
+  * Status: somewhat tested
+  * Details: An in-depth examination of precision for both FFT and FFTMod can be found
+diff --git a/content/numerical/NumberTheoreticTransform.h b/content/numerical/NumberTheoreticTransform.h
+index 3c8d900..a8d0b0b 100644
+--- a/content/numerical/NumberTheoreticTransform.h
++++ b/content/numerical/NumberTheoreticTransform.h
+@@ -3,14 +3,9 @@
+  * Date: 2019-04-16
+  * License: CC0
+  * Source: based on KACTL's FFT
+- * Description: ntt(a) computes $\hat f(k) = \sum_x a[x] g^{xk}$ for all $k$, where $g=\text{root}^{(mod-1)/N}$.
+- * N must be a power of 2.
+- * Useful for convolution modulo specific nice primes of the form $2^a b+1$,
+- * where the convolution result has size at most $2^a$. For arbitrary modulo, see FFTMod.
+-   \texttt{conv(a, b) = c}, where $c[x] = \sum a[i]b[x-i]$.
+-   For manual convolution: NTT the inputs, multiply
+-   pointwise, divide by n, reverse(start+1, end), NTT back.
+- * Inputs must be in [0, mod).
++ * Description: \texttt{ntt(a)} computes $\hat f(k) = \sum_x a[x] g^{xk}$ for all $k$, $g=\text{root}^{(mod-1)/N}$, $N$ a power of 2.
++\texttt{conv(a, b) = c} with $c[x] = \sum a[i]b[x-i]$, modulo primes $2^a b+1$ with result size at most $2^a$ (any modulus: FFTMod).
++ * By hand: NTT the inputs, multiply pointwise, divide by n, reverse(start+1, end), NTT back. Inputs in [0, mod).
+  * Time: O(N \log N)
+  * Status: stress-tested
+  */
+diff --git a/content/strings/AhoCorasick.h b/content/strings/AhoCorasick.h
+index 18c2de3..67fcb55 100644
+--- a/content/strings/AhoCorasick.h
++++ b/content/strings/AhoCorasick.h
+@@ -3,14 +3,11 @@
+  * Date: 2015-02-18
+  * License: CC0
+  * Source: marian's (TC) code
+- * Description: Aho-Corasick automaton, used for multiple pattern matching.
+- * Initialize with AhoCorasick ac(patterns); the automaton start node will be at index 0.
+- * find(word) returns for each position the index of the longest word that ends there, or -1 if none.
+- * findAll($-$, word) finds all words (up to $N \sqrt N$ many if no duplicate patterns)
+- * that start at each position (shortest first).
+- * Duplicate patterns are allowed; empty patterns are not.
+- * To find the longest words that start at each position, reverse all input.
+- * For large alphabets, split each symbol into chunks, with sentinel bits for symbol boundaries.
++ * Description: Multiple pattern matching. \texttt{AhoCorasick ac(patterns)}; the start node is 0.
++\texttt{find(word)} gives for each position the index of the longest word ending there, or $-1$.
++\texttt{findAll($-$, word)} lists all words starting at each position, shortest first (up to $N \sqrt N$ without duplicate patterns).
++ * Duplicate patterns are allowed, empty ones are not. Longest words starting at each position: reverse all input.
++ * Large alphabets: split symbols into chunks, with sentinel bits for symbol boundaries.
+  * Time: construction takes $O(26N)$, where $N =$ sum of length of patterns.
+  * find(x) is $O(N)$, where N = length of x. findAll is $O(NM)$.
+  * Status: stress-tested
+diff --git a/content/strings/PalindromicTree.h b/content/strings/PalindromicTree.h
+index dd971cd..62caffb 100644
+--- a/content/strings/PalindromicTree.h
++++ b/content/strings/PalindromicTree.h
+@@ -8,7 +8,7 @@
+  * (so there are \texttt{sz(t) - 2} of them). \texttt{link} is the longest proper palindromic
+  * suffix, \texttt{last} the node of the longest palindromic suffix of the current prefix.
+  * After \texttt{count()}, \texttt{cnt[v]} is the number of occurrences of palindrome $v$.
+- * Time: O(N) amortized for N characters over a fixed alphabet (26 letters)
++ * Time: O(N) amortized, for a fixed alphabet
+  * Status: stress-tested
+  */
+ #pragma once
+diff --git a/content/strings/SuffixArray.h b/content/strings/SuffixArray.h
+index cdd9c16..0c8ec8b 100644
+--- a/content/strings/SuffixArray.h
++++ b/content/strings/SuffixArray.h
+@@ -4,14 +4,8 @@
+  * License: Unknown
+  * Source: Suffix array - a powerful tool for dealing with strings
+  * (Chinese IOI National team training paper, 2009)
+- * Description: Builds suffix array for a string.
+- * \texttt{sa[i]} is the starting index of the suffix which
+- * is $i$'th in the sorted suffix array.
+- * The returned vector is of size $n+1$, and \texttt{sa[0] = n}.
+- * The \texttt{lcp} array contains longest common prefixes for
+- * neighbouring strings in the suffix array:
+- * \texttt{lcp[i] = lcp(sa[i], sa[i-1])}, \texttt{lcp[0] = 0}.
+- * The input string must not contain any nul chars.
++ * Description: \texttt{sa[i]} is the start of the $i$'th smallest suffix; size $n+1$, \texttt{sa[0] = n}.
++\texttt{lcp[i] = lcp(sa[i], sa[i-1])}, \texttt{lcp[0] = 0}. The input must not contain nul chars.
+  * Time: O(n \log n)
+  * Status: stress-tested
+  */
+diff --git a/content/tex/kactlpkg.sty b/content/tex/kactlpkg.sty
+index 88e21d5..c6fc327 100644
+--- a/content/tex/kactlpkg.sty
++++ b/content/tex/kactlpkg.sty
+@@ -15,6 +15,10 @@
+ 	\DeclareUnicodeCharacter{27C6}{)}
+ }
+ \usepackage{listings}                   % Source code listings
++\usepackage{etoolbox}
++% Keep a file's title with its description: no break between them.
++\patchcmd{\lst@Init}{\par\penalty-50\relax}{\par\nobreak}{}{\PackageWarning{kactlpkg}{lst@Init patch failed}}
++\patchcmd{\lst@MakeCaption}{\allowbreak}{}{}{\PackageWarning{kactlpkg}{lst@MakeCaption patch failed}}
+ \usepackage{framed}                     % Source code listings
+ \usepackage[a4paper,landscape,hmargin={0.5cm,0.5cm},vmargin={1.0cm,0.4cm}]{geometry}
+ \usepackage{multicol}                   % Split page in multiple columns
+@@ -126,16 +130,15 @@
+ 	\def\thechapter{\Alph{chapter}}
+ 	% Switch to appendixmode defined above (disables TOC entries)
+ 	\setboolean{appendixmode}{true}
+-	\clearpage
+ }
+ 
+ \def\@makechapterhead#1{
+ 
+ 	\parindent \z@ \raggedright \normalfont
+ 		\interlinepenalty\@M
+-	{\underline{\huge \bfseries #1} }
++	{\underline{\LARGE \bfseries #1} }
+ 	\ifnum \c@secnumdepth >\m@ne
+-		{\huge\bfseries (\thechapter) \par\nobreak }
++		{\LARGE\bfseries (\thechapter) \par\nobreak }
+ 	\fi
+ 	\startcontents[chapters]
+ }
+@@ -143,15 +146,15 @@
+ \renewcommand\section{\@startsection {section}{1}{\z@}%
+                                    {-0.5ex \@plus -1ex \@minus -.2ex}%
+                                    {.4ex}%
+-                                   {\normalfont\LARGE\bfseries}}
++                                   {\normalfont\Large\bfseries}}
+ 
+ \renewcommand\subsection{\@startsection{subsection}{2}{\z@}
+-	{1ex\@plus -1ex \@minus -.3ex}
++	{-1ex\@plus -1ex \@minus -.3ex}
+ 	{.2ex}
+-	{\normalfont\large\bfseries}}
++	{\normalfont\normalsize\bfseries}}
+ 
+ \renewcommand\subsubsection{\@startsection{subsubsection}{3}{\z@}
+-	{1ex\@plus -1ex \@minus -.3ex}
++	{-1ex\@plus -1ex \@minus -.3ex}
+ 	{1ex \@plus .2ex}
+ 	{\normalfont\large\bfseries}}
+ 
+@@ -165,8 +168,8 @@
+ \renewcommand{\chaptermark}[1]{\markboth{\emph{ #1}}{}}
+ \renewcommand{\cftbeforetoctitleskip}{-45pt}
+ \renewcommand{\cftaftertoctitleskip}{10pt}
+-\renewcommand{\cftbeforechapskip}{11pt}
+-\renewcommand\cftchapfont{\large\bfseries}
++\renewcommand{\cftbeforechapskip}{2pt}
++\renewcommand\cftchapfont{\normalsize\bfseries}
+ \renewcommand{\cftdotsep}{4.5}
+ 
+ % Proper carets and tildes
+@@ -207,6 +210,7 @@
+ \lstset{morekeywords={alignas,alignof}}
+ \lstset{deletedirectives={line}}
+ \lstset{frame=t}
++\lstset{framesep=1pt}
+ \lstset{tabsize=2}
+ \lstset{showstringspaces=false}
+ \lstset{breaklines=true}
+@@ -215,13 +219,13 @@
+ \lstset{literate={^}{\caret}{1} {~}{\tilde}{1} {\{}{\nicelbrace}{1} {\}}{\nicerbrace}{1}}
+ \lstset{emptylines=*1}
+ \lstset{inputencoding=utf8}
+-\lstset{aboveskip=3pt}
+-\lstset{belowskip=2pt}
++\lstset{aboveskip=1pt}
++\lstset{belowskip=0pt}
+ 
+ \lstdefinelanguage{raw}{} % Raw language, no keywords.
+ 
+ \setlength{\columnseprule}{0.5pt} % Multicol separation line with
+-\setlength{\columnsep}{10pt} % Multicol separation margin
++\setlength{\columnsep}{6pt} % Multicol separation margin
+ \setcounter{tocdepth}{1} % Table of contents depth
+ 
+ \pdfsuppresswarningpagegroup=1
+@@ -278,12 +282,14 @@
+ 	\setboolean{hasleftcaption}{false}
+ 	\myneedspace{3\baselineskip}
+ 	\penalty-100
+-	{\large #2}
+ 	\immediate\write18{rm -f \@builddir/kactl.tmp} % Don't include old kactl.tmp on failure.
+ 	\immediate\write18{python3 content/tex/preprocessor.py -i "\@kactldir/#2" -o \@builddir/kactl.tmp #1}
+ 	\immediate\input{\@builddir/kactl.tmp}
+ }
+ 
++% Title line of a file: name on the left, hash and line count on the right.
++\newcommand{\kactltitle}[1]{{\large #1}\hfill{\tiny\@rightcaption}\par\nobreak}
++
+ \newcommand{\import}[1]{
+ 	\input{"\@kactldir/#1"}
+ }
+@@ -360,13 +366,11 @@
+ 
+ \long\def\@makecaption#1#2{
+ 	\vspace{-3pt}
+-	\ifthenelse{\boolean{hasdescription}}{\codeheader{Description}{\@defdescription}}{}
++	\ifthenelse{\boolean{hasdescription}}{\ifthenelse{\boolean{hastime}\and\not\boolean{hasusage}\and\not\boolean{hasmemory}}{\codeheader{Description}{\@defdescription{} \textbf{Time:} \@deftime}\setboolean{hastime}{false}}{\codeheader{Description}{\@defdescription}}}{}
+ 	\ifthenelse{\boolean{hasusage}}{\codeheader{Usage}{\@defusage}}{}
+ 	\ifthenelse{\boolean{hasmemory}}{\codeheader{Memory}{\@defmemory}}{}
+ 	\ifthenelse{\boolean{hastime}}{\codeheader{Time}{\@deftime}}{}
+-	\ifthenelse{\boolean{hasleftcaption}}{\vspace{0pt}}{\vspace{-5pt}}
+-	\tiny
+-	\texttt{\@leftcaption} \hfill \@rightcaption
++	\ifthenelse{\equal{\@leftcaption}{}}{}{\tiny\texttt{\@leftcaption}}
+ }
+ 
+ \newcommand{\bigo}[1] {\ensuremath{\mathcal{O} \left( #1 \right)}}
+diff --git a/content/tex/preprocessor.py b/content/tex/preprocessor.py
+index 891517a..ce86eee 100755
+--- a/content/tex/preprocessor.py
++++ b/content/tex/preprocessor.py
+@@ -174,6 +174,7 @@ def processwithcomments(caption, instream, outstream, listingslang):
+         if nsource:
+             out.append(r"\rightcaption{%s%d lines}" % (hsh, len(nsource.split("\n"))))
+         langstr = ", language="+listingslang
++        out.append(r"\kactltitle{%s}" % pathescape(caption))
+         out.append(r"\begin{lstlisting}[caption={%s}%s]" % (pathescape(caption), langstr))
+         out.append(nsource)
+         out.append(r"\end{lstlisting}")
+@@ -186,6 +187,7 @@ def processraw(caption, instream, outstream, listingslang = 'raw'):
+         source = instream.read().strip()
+         addref(caption, outstream)
+         print(r"\rightcaption{%d lines}" % len(source.split("\n")), file=outstream)
++        print(r"\kactltitle{%s}" % pathescape(caption), file=outstream)
+         print(r"\begin{lstlisting}[language=%s,caption={%s}]" % (listingslang, pathescape(caption)), file=outstream)
+         print(source, file=outstream)
+         print(r"\end{lstlisting}", file=outstream)
+@@ -222,8 +224,10 @@ def print_header(data, outstream):
+         return name if name.startswith('.') else name.split('.')[0]
+     output = r"\enspace{}".join(map(adjust, lines[:ind]))
+     font_size = 10
+-    if header_length > 150:
++    if header_length > 120:
+         font_size = 8
++    if header_length > 150:
++        font_size = 7
+     output = r"\hspace{3mm}\textbf{" + output + "}"
+     output = "\\fontsize{%d}{%d}" % (font_size, font_size) + output
+     print(output, file=outstream)
+diff --git a/content/various/IntervalMap.h b/content/various/IntervalMap.h
+index 98344ae..f3d5030 100644
+--- a/content/various/IntervalMap.h
++++ b/content/various/IntervalMap.h
+@@ -11,7 +11,7 @@
+  * \texttt{T = bool}, \texttt{m.assign(l, r, 1)} adds, \texttt{0} removes.
+  * Usage: IntervalMap<int> m(0, n, 0); m.assign(l, r, v);
+  *  m.each(l, r, [\&](int a, int b, int\& x){ ... }); m.get(i);
+- * Time: amortized $O(\log N)$ per assign, plus pieces visited by each
++ * Time: amortized $O(\log N)$ per assign, plus the pieces visited
+  * Status: stress-tested
+  */
+ #pragma once

@@ -1,0 +1,81 @@
+diff --git a/content/strings/PalindromicTree.h b/content/strings/PalindromicTree.h
+index dd971cd..62caffb 100644
+--- a/content/strings/PalindromicTree.h
++++ b/content/strings/PalindromicTree.h
+@@ -8,7 +8,7 @@
+  * (so there are \texttt{sz(t) - 2} of them). \texttt{link} is the longest proper palindromic
+  * suffix, \texttt{last} the node of the longest palindromic suffix of the current prefix.
+  * After \texttt{count()}, \texttt{cnt[v]} is the number of occurrences of palindrome $v$.
+- * Time: O(N) amortized for N characters over a fixed alphabet (26 letters)
++ * Time: O(N) amortized, for a fixed alphabet
+  * Status: stress-tested
+  */
+ #pragma once
+diff --git a/content/tex/kactlpkg.sty b/content/tex/kactlpkg.sty
+index 88e21d5..1ea5bd6 100644
+--- a/content/tex/kactlpkg.sty
++++ b/content/tex/kactlpkg.sty
+@@ -15,6 +15,10 @@
+ 	\DeclareUnicodeCharacter{27C6}{)}
+ }
+ \usepackage{listings}                   % Source code listings
++\usepackage{etoolbox}
++% Keep a file's title with its description: no break between them.
++\patchcmd{\lst@Init}{\par\penalty-50\relax}{\par\nobreak}{}{\PackageWarning{kactlpkg}{lst@Init patch failed}}
++\patchcmd{\lst@MakeCaption}{\allowbreak}{}{}{\PackageWarning{kactlpkg}{lst@MakeCaption patch failed}}
+ \usepackage{framed}                     % Source code listings
+ \usepackage[a4paper,landscape,hmargin={0.5cm,0.5cm},vmargin={1.0cm,0.4cm}]{geometry}
+ \usepackage{multicol}                   % Split page in multiple columns
+@@ -146,12 +150,12 @@
+                                    {\normalfont\LARGE\bfseries}}
+ 
+ \renewcommand\subsection{\@startsection{subsection}{2}{\z@}
+-	{1ex\@plus -1ex \@minus -.3ex}
++	{-1ex\@plus -1ex \@minus -.3ex}
+ 	{.2ex}
+ 	{\normalfont\large\bfseries}}
+ 
+ \renewcommand\subsubsection{\@startsection{subsubsection}{3}{\z@}
+-	{1ex\@plus -1ex \@minus -.3ex}
++	{-1ex\@plus -1ex \@minus -.3ex}
+ 	{1ex \@plus .2ex}
+ 	{\normalfont\large\bfseries}}
+ 
+@@ -278,7 +282,7 @@
+ 	\setboolean{hasleftcaption}{false}
+ 	\myneedspace{3\baselineskip}
+ 	\penalty-100
+-	{\large #2}
++	{\large #2}\par\nobreak
+ 	\immediate\write18{rm -f \@builddir/kactl.tmp} % Don't include old kactl.tmp on failure.
+ 	\immediate\write18{python3 content/tex/preprocessor.py -i "\@kactldir/#2" -o \@builddir/kactl.tmp #1}
+ 	\immediate\input{\@builddir/kactl.tmp}
+diff --git a/content/tex/preprocessor.py b/content/tex/preprocessor.py
+index 891517a..048f4f8 100755
+--- a/content/tex/preprocessor.py
++++ b/content/tex/preprocessor.py
+@@ -222,8 +222,10 @@ def print_header(data, outstream):
+         return name if name.startswith('.') else name.split('.')[0]
+     output = r"\enspace{}".join(map(adjust, lines[:ind]))
+     font_size = 10
+-    if header_length > 150:
++    if header_length > 120:
+         font_size = 8
++    if header_length > 150:
++        font_size = 7
+     output = r"\hspace{3mm}\textbf{" + output + "}"
+     output = "\\fontsize{%d}{%d}" % (font_size, font_size) + output
+     print(output, file=outstream)
+diff --git a/content/various/IntervalMap.h b/content/various/IntervalMap.h
+index 98344ae..f3d5030 100644
+--- a/content/various/IntervalMap.h
++++ b/content/various/IntervalMap.h
+@@ -11,7 +11,7 @@
+  * \texttt{T = bool}, \texttt{m.assign(l, r, 1)} adds, \texttt{0} removes.
+  * Usage: IntervalMap<int> m(0, n, 0); m.assign(l, r, v);
+  *  m.each(l, r, [\&](int a, int b, int\& x){ ... }); m.get(i);
+- * Time: amortized $O(\log N)$ per assign, plus pieces visited by each
++ * Time: amortized $O(\log N)$ per assign, plus the pieces visited
+  * Status: stress-tested
+  */
+ #pragma once

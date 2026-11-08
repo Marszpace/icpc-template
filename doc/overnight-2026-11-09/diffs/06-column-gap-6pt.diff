@@ -1,0 +1,13 @@
+diff --git a/content/tex/kactlpkg.sty b/content/tex/kactlpkg.sty
+index 1ea5bd6..a5f0df3 100644
+--- a/content/tex/kactlpkg.sty
++++ b/content/tex/kactlpkg.sty
+@@ -225,7 +225,7 @@
+ \lstdefinelanguage{raw}{} % Raw language, no keywords.
+ 
+ \setlength{\columnseprule}{0.5pt} % Multicol separation line with
+-\setlength{\columnsep}{10pt} % Multicol separation margin
++\setlength{\columnsep}{6pt} % Multicol separation margin
+ \setcounter{tocdepth}{1} % Table of contents depth
+ 
+ \pdfsuppresswarningpagegroup=1

@@ -1,0 +1,13 @@
+diff --git a/content/tex/kactlpkg.sty b/content/tex/kactlpkg.sty
+index 1ea5bd6..8c4baba 100644
+--- a/content/tex/kactlpkg.sty
++++ b/content/tex/kactlpkg.sty
+@@ -217,7 +217,7 @@
+ \lstset{basicstyle=\footnotesize\ttfamily}
+ \lstset{commentstyle=\normalfont\itshape}
+ \lstset{literate={^}{\caret}{1} {~}{\tilde}{1} {\{}{\nicelbrace}{1} {\}}{\nicerbrace}{1}}
+-\lstset{emptylines=*1}
++\lstset{emptylines=*0}
+ \lstset{inputencoding=utf8}
+ \lstset{aboveskip=3pt}
+ \lstset{belowskip=2pt}

@@ -1,0 +1,26 @@
+diff --git a/content/kactl.tex b/content/kactl.tex
+index 0830fb6..53612cb 100644
+--- a/content/kactl.tex
++++ b/content/kactl.tex
+@@ -28,9 +28,6 @@
+ 	\kactlchapter{geometry}
+ 	\kactlchapter{strings}
+ 	\kactlchapter{various}
+-	\end{multicols*}
+-
+-	\begin{multicols*}{3}
+ 	\kactlchapter{appendix}
+ 	\end{multicols*}
+ \end{document}
+diff --git a/content/tex/kactlpkg.sty b/content/tex/kactlpkg.sty
+index 1ea5bd6..8d289ab 100644
+--- a/content/tex/kactlpkg.sty
++++ b/content/tex/kactlpkg.sty
+@@ -130,7 +130,6 @@
+ 	\def\thechapter{\Alph{chapter}}
+ 	% Switch to appendixmode defined above (disables TOC entries)
+ 	\setboolean{appendixmode}{true}
+-	\clearpage
+ }
+ 
+ \def\@makechapterhead#1{

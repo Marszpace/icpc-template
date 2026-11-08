@@ -89,6 +89,11 @@ Cleanup first (frees about 65 lines), then additions, cheapest and most useful f
     remembers; keep: named techniques that are error-prone or easy to forget), a short reason where it is not obvious, and a count of how many lines the
     `keep` entries add up to against the one-page budget (about 155 lines). The team edits the marks; then regenerate `content/appendix/techniques.txt`.
 
+- [ ] **Layout report (2026-11-09): pick the patches** (`doc/overnight-2026-11-09/REPORT.md`). Found and fixed in `diffs/01-layout-fixes.diff`
+    (not applied yet): overlapping lines on pages 19 and 25 (upstream `\subsection` skip has negative stretch), page 20 header overflow,
+    two `Time:` lines over the hash, 3 orphaned file titles. Space: `10-combined-...` gives 25 pages without content changes,
+    `11-combined-...` 25 pages with 0.6 column spare. 62 code lines wrap (`wrapped-code-lines.txt`).
+
 ## Blocked: needs the team or you (do not start these)
 - [ ] **Edit Fenwick Trees** (your template). Not decided: the team first has to answer (a) is `FenwickTree.h` 0- or 1-indexed (it is 0-indexed:
   `update(pos, dif)` and `query(pos)` = sum of `[0, pos)`; the confusion is probably about this, so a clearer description / usage line may be
