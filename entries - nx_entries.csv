@@ -2,7 +2,7 @@ Category,Topic,Lines (approx),Status,Reason for inclusion / exclusion,What to ed
 contest,Code: macros.cpp (was template.cpp),7,Edit,done 2026-11-08: only macros and typedefs + pb (no includes / using namespace std / main),add/remove macros,NOTE : ALL CODE THAT ARE KEEP WILL HAVE TO BE EDITED ACCORDING TO TEMPLATE.CPP (done: the library also works with #define int long long)
 contest,Code: .bashrc,3,Cut,team uses VS Code (does not use it),"change compile, remove xkeymodmap",
 contest,Code: .vimrc,6,Delete,,no vim user,
-contest,Code: hash.sh,3,Edit,,improve usability,
+contest,Code: hash.sh,7,Edit,done 2026-11-08: ./hash.sh [file.cpp] prints the hash (stdin still works),improve usability,
 contest,Code: troubleshoot.txt,52,Keep,,,
 math,Text: Equations,7,Delete,,elementary,
 math,Text: Recurrences,3,Delete,,"can be derived, and not too necessary (matrix powers)",

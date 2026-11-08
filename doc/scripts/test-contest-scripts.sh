@@ -131,4 +131,21 @@ expect 1 'exit 124.*flush' "interactive transcript variant: missing flush" run_i
 cp I_good A; bash $W/transcript.sh gen 40 > /dev/null 2>&1 && echo "ok: transcript variant, stress mode" || { echo "FAIL: transcript stress"; fails=$((fails+1)); }
 [ ! -e to ] && [ ! -e from ] || { echo "FAIL: fifos not cleaned up"; fails=$((fails+1)); }
 
+# ---- hash.sh
+HS=$ROOT/content/contest/hash.sh; cp $HS hash.sh; chmod +x hash.sh
+printf 'int main() { // hi\n\tint x = 1; /* c */\n\treturn x;\n}\n' > h1.cpp
+printf 'int main(){int x=1;return x;}' > h2.cpp
+printf 'int main(){int x=2;return x;}' > h3.cpp
+printf 'int main() {\r\n\tint x = 1; /* c */\r\n\treturn x;\r\n}\r\n' > h4.cpp
+expect 0 '^[0-9a-f]{6}$' "hash: prints 6 hex chars" ./hash.sh h1.cpp
+[ "$(./hash.sh h1.cpp)" = "$(./hash.sh h2.cpp)" ] && [ "$(./hash.sh h1.cpp)" = "$(./hash.sh h4.cpp)" ] \
+	&& echo "ok: hash ignores comments, whitespace and CRLF" || { echo "FAIL: hash ignores comments/whitespace"; fails=$((fails+1)); }
+[ "$(./hash.sh h1.cpp)" != "$(./hash.sh h3.cpp)" ] && echo "ok: hash changes with the code" || { echo "FAIL: hash changes with the code"; fails=$((fails+1)); }
+[ "$(./hash.sh < h1.cpp)" = "$(./hash.sh h1.cpp)" ] && [ "$(sh $HS < h1.cpp)" = "$(./hash.sh h1.cpp)" ] \
+	&& echo "ok: hash: stdin (book / vim use) gives the same hash" || { echo "FAIL: hash stdin"; fails=$((fails+1)); }
+[ "$(./hash.sh h1.cpp)" = "$(cpp -dD -P -fpreprocessed < h1.cpp | tr -d '[:space:]' | md5sum | cut -c-6)" ] \
+	&& echo "ok: hash equals the original one-liner" || { echo "FAIL: hash vs original one-liner"; fails=$((fails+1)); }
+expect 1 "can't read" "hash: missing file is an error" ./hash.sh nope.cpp
+cp h1.cpp keep.txt; ./hash.sh h1.cpp keep.txt > /dev/null; cmp -s h1.cpp keep.txt && echo "ok: hash does not overwrite a second argument" || { echo "FAIL: hash overwrote its second argument"; fails=$((fails+1)); }
+
 [ $fails -eq 0 ] && echo "all contest script tests passed" || { echo "$fails failed"; exit 1; }

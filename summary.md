@@ -14,6 +14,7 @@ The user is Marszpace; use they/them for people whose pronouns are unknown.
   removes it from the book but keeps the file. `content/kactl.tex` is the cover and chapter order.
 - `doc/scripts/test-contest-scripts.sh` tests `content/contest/stress.sh` and `interactive.sh` against planted faults (WA, crash, TLE, checker, missing flush, too many queries); not part of `make test`, run it by hand (about 35 s).
 - The contest file is `content/contest/macros.cpp` (only macros/typedefs: `rep all sz pb ll pii vi`; the includes, `using namespace std` and `main` are not printed, the team remembers them). The team usually adds `#define int long long` + `signed main` after the includes; it is not in the file but the library works with it: `LLINT=1 make test` and `LLINT=1 make test-compiles` run everything in that mode (CI does both). `doc/scripts/prelude.h` is the includes + macros prelude for `make test-compiles`; `stress-tests/utilities/template.h` includes `macros.cpp` itself. Code rules for both modes: `(int)(x)` not `int(x)`, `max<int>(x, 0)` not `max(x, 0)`, wrap `#include <bits/extc++.h>` in `#pragma push_macro("int")` / `#undef int` / `#pragma pop_macro("int")`, tests use `signed main`.
+- `content/contest/hash.sh [file]` prints the first 6 hex chars of the md5 of a file (or stdin) with whitespace and comments stripped; it is also what `content/tex/preprocessor.py` runs (`sh hash.sh < code`) to compute the hashes printed in the book. The typed code is hashed, so a repo file with `#pragma once`, local `#include`s or `include-line` lines will not match the printed hash (the book prints those differently).
 - `make test` runs the stress tests in `stress-tests/<chapter>/` (about 100). New code should get a stress test.
 - The built `kactl.pdf` is committed; rebuild and commit it with content changes.
 - Page budget: the original KACTL is 26 pages (cover + 25). The page limit of the Danang contest is unconfirmed.
@@ -23,7 +24,7 @@ The user is Marszpace; use they/them for people whose pronouns are unknown.
 - `CHANGES-vs-original.md`: everything added, cut and removed compared to stock KACTL, with reasons. Keep it up to date.
 - `entries - nx_entries.csv`: the team's per-entry decision (Keep / Delete / Edit / Merge / ?). Columns: Category, Topic, Lines,
   Status, Reason, "What to edit & reason". It is the source of truth for decisions. Its bottom block lists cut files.
-- `TODO.md`: open work. Mainly: edit `hash.sh`; shorten Derivatives/Sums/Series notes; decide `IntPerm.h` and `LCA.h`; later delete `BumpAllocator.h`;
+- `TODO.md`: open work. Mainly: shorten Derivatives/Sums/Series notes; decide `IntPerm.h` and `LCA.h`; later delete `BumpAllocator.h`;
   add Bostan-Mori, RadixConversion, Garner and a generating-functions note.
 
 ## Conventions and gotchas

@@ -109,6 +109,7 @@ Still open (edit / merge / undecided): see `TODO.md`.
 | `content/data-structures/UnionFindRollback.h` | optional parity argument `join(a, b, w)` and `par(x)`; old calls behave as before (`DirectedMST` test passes) |
 | `content/contest/template.cpp` -> `macros.cpp` | removed `cin.exceptions(cin.failbit);` (it makes `while (cin >> x)` throw at EOF); then renamed to `macros.cpp` and reduced to the macros and typedefs: no `#include <bits/stdc++.h>`, no `using namespace std`, no `main` (remembered by the team), plus the new macro `#define pb push_back` |
 | `stress-tests/utilities/template.h` | includes `<cassert>`, which GCC 16's `<bits/stdc++.h>` no longer does; now includes `macros.cpp` itself, and `-DLLINT` adds `#define int long long` |
+| `content/contest/hash.sh` | takes a file argument (`./hash.sh file.cpp`; stdin still works for the book build); refuses unreadable files; same hash as before for the same input |
 | `doc/scripts/prelude.h` | new: what `macros.cpp` assumes before it (includes, `using namespace std`, optional `#define int long long`), used by `make test-compiles` |
 | 8 printed headers + 3 unprinted | work with `#define int long long` as well as without it (see below) |
 
