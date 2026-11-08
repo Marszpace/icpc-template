@@ -22,6 +22,7 @@ Book is at 25 pages (cover + 24): the last code page holds only `BumpAllocator.h
 
 ## Data structures
 - [x] Merge `LazySegmentTree.h` and `LazySegTree.h` into one lazy segment tree that supports queries better (done: `LazySegTreeBlock.h` + `LazySegTree.h`, `HLD` ported).
+- [ ] Edit Fenwick Trees
 
 ## Combinatorial
 - [ ] Add code: RadixConversion.
@@ -29,11 +30,13 @@ Book is at 25 pages (cover + 24): the last code page holds only `BumpAllocator.h
 
 ## Number theory
 - [ ] Add text: Garner (CRT for many moduli).
+- [ ] Edit ModInt
 
 ## Graph
 - [ ] `LCA.h`: undecided, binary lifting can already do LCA.
 
 ## Various
+- [ ] Add Python Tricks
 - [ ] `BumpAllocator.h`: delete later. nothing printed includes it any more (only the unprinted `SmallPtr.h`), so it can go whenever the team agrees.
 
 ## Category to decide (`???`)
