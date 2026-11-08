@@ -4,7 +4,7 @@
 **printed in `kactl.pdf`**; cut files stay in the repository (only their `\kactlimport` line is commented out),
 so they can be turned back on in the `chapter.tex` of their directory.
 
-The book is now **26 PDF pages (cover + 25)**, the same as the original and exactly the Danang limit (26). The book is now full (about 0.6 of a column free on the techniques page).
+The book is now **27 PDF pages (cover + 26)**, one over the Danang limit (26). The team allows this temporarily (decision 2026-11-09); the overflow (about 0.37 of a column on the last page) goes away with the techniques rework.
 
 ## Added to the book
 
@@ -26,17 +26,19 @@ The book is now **26 PDF pages (cover + 25)**, the same as the original and exac
 | graph | `DsuOnTree.h` | 43 |  |
 | number-theory | `PrimitiveRoot.h` | 30 |  |
 | number-theory | `ExLucas.h` | 59 | binomial mod any m |
+| number-theory | `Lucy.h` | 37 | prime counting / prime sums for all n/i in O(n^(3/4)), generic in f(p) and the prefix sum g(v) |
+| number-theory | `DuSieve.h` | 56 | prefix sums of phi (128 bit) and mu for all n/i in O(n^(2/3)) |
 | various | `Int128.h` | 21 | printing for `__int128` (`to_string`, `operator<<`), correct for the smallest value |
 | combinatorial | `RadixConversion.h` | 67 | bijective base conversion of digit vectors (for communication problems), and the same with permutations as the target (`radixToPerm` / `permToRadix`, exact bijection between all digit sequences and all permutations, (length, lex) order to (size, lex) order); shared helper `mulAdd` |
 | numerical | `BostanMori.h` | 34 | n-th term of a linear recurrence in O(n log n log k), same interface as `linearRec` (NTT, mod 998244353) |
 | numerical | `LagrangeInterpolation.h` | 34 |  |
 | numerical | `SolveLinearMod.h` | 43 |  |
 | numerical | `XorBasis.h` | 44 |  |
-| numerical | `PolyOps.h` | 53 |  |
+| numerical | `PolyOps.h` | 87 | now also `polyPow` (any a, k up to 1e18), `polySqrt` (a[0] = 1) and `polyDivMod` |
 | strings | `PalindromicTree.h` | 39 |  |
 | strings | `SuffixAutomaton.h` | 47 | new; replaces `SuffixTree` |
 | various | `IntervalMap.h` | 39 | new; replaces `IntervalContainer` (with `bool` values it does the same job) |
-| | **26 files** | **1030** | |
+| | **28 files** | **1126** | |
 
 Also new in the book, as text notes (no code):
 
@@ -124,6 +126,7 @@ Still open (edit / merge / undecided): see `TODO.md`.
 |---|---|
 | `content/data-structures/Treap.h` | lazy range add and reverse with subtree sums (`go(t, l, r, f)`, `Node::app`, `push`); `val` is now `ll`; the old API (`split`, `merge`, `ins`, `each`, `move`) is unchanged and its test still passes |
 | `content/combinatorial/IntPerm.h` | `permToInt` is now the lexicographic rank (order preserving), widened to `ll` (the old `int` version overflowed from n = 13), exact for n <= 20, plus its exact inverse `intToPerm` |
+| `content/number-theory/ModularArithmetic.h` | replaced by the team's `mint<mod>` (prime `mod` below 2^30, Fermat inverse, no global `mod` any more; the old euclid-based `Mod` also inverted modulo composites); postfix `++` / `--` take `signed` so that it builds with `#define int long long` |
 | `content/data-structures/UnionFindRollback.h` | optional parity argument `join(a, b, w)` and `par(x)`; old calls behave as before (`DirectedMST` test passes) |
 | `content/contest/template.cpp` -> `macros.cpp` | removed `cin.exceptions(cin.failbit);` (it makes `while (cin >> x)` throw at EOF); then renamed to `macros.cpp` and reduced to the macros and typedefs: no `#include <bits/stdc++.h>`, no `using namespace std`, no `main` (remembered by the team), plus the new macro `#define pb push_back` |
 | `stress-tests/utilities/template.h` | includes `<cassert>`, which GCC 16's `<bits/stdc++.h>` no longer does; now includes `macros.cpp` itself, and `-DLLINT` adds `#define int long long` |
@@ -146,7 +149,7 @@ Gotchas for your own code with the define: `max(x, 0)` / `min(x, 1)` need `0LL` 
 ## New stress tests (all pass; each was mutation-checked)
 
 `IntervalMap`, `DynCon`, `PersistentSegmentTree`, `CentroidDecomposition`, `DsuOnTree`, `SuffixAutomaton`,
-`HalfPlane`, `MinkowskiSum`, `LinearSieve`, `ExLucas`, `XorBasis`, `RadixConversion` (incl. `radixToPerm` / `permToRadix`), `Int128`, `IntPerm`, `TreapLazy`, `BostanMori`, `LazySegTree` (4 tests, incl. `maxRight`: beats block, affine, clamp, min query), `RectangleUnion`, `PolyOps`,
+`HalfPlane`, `MinkowskiSum`, `LinearSieve`, `ExLucas`, `XorBasis`, `RadixConversion` (incl. `radixToPerm` / `permToRadix`), `Int128`, `Lucy`, `DuSieve`, `ModularArithmetic` (rewritten for `mint`), `IntPerm`, `TreapLazy`, `BostanMori`, `LazySegTree` (4 tests, incl. `maxRight`: beats block, affine, clamp, min query), `RectangleUnion`, `PolyOps`,
 `SolveLinearMod`, `Binomial`, `LagrangeInterpolation`, `PrimitiveRoot`, `LiChao`, `BlockCutTree`, `PalindromicTree`
 (in `stress-tests/<chapter>/`). The whole suite (`make test`) passed 101/101 before `ExLucas` (added by a teammate, with its own test) and the removals below; not re-run since.
 

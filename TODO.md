@@ -60,9 +60,9 @@ Cleanup first (frees about 65 lines), then additions, cheapest and most useful f
     on the installed Python (3.13); the wiki's `lang/python.md` is a beginner tutorial and is not a source for this: `math.isqrt`, `gcd`, `lcm`, `comb`, `perm`, `factorial`, `prod`, `pow(a, b, m)` and `pow(a, -1, m)`, `divmod`,
     `int.bit_length`, `sys.set_int_max_str_digits(0)` (int <-> str conversion is limited to 4300 digits since 3.11), `decimal` (`getcontext().prec`,
     `sqrt`, `ln`, `exp`, `quantize`, rounding modes), `fractions.Fraction`, fast input via `sys.stdin`, `sys.setrecursionlimit` with a thread for stack.
-16. [ ] **Lucy_Hedgehog and Du sieve** (Number theory, about 40 lines, pairs with the Floor blocks text): prime counting and prime sums up to about
+16. [x] **Lucy_Hedgehog and Du sieve** (done: `Lucy.h` (generic in f and g, pi(1e11) in 0.4 s) and `DuSieve.h` (phi 128-bit and mu, n = 1e10 in 0.3 s) in the Floor blocks section) (Number theory, about 40 lines, pairs with the Floor blocks text): prime counting and prime sums up to about
     1e11 in O(n^(3/4)); prefix sums of phi and mu in about O(n^(2/3)). Test against a sieve up to 1e7 and the known value pi(1e11) = 4118054813.
-17. [ ] **`polyPow`, `polySqrt`, `polyDivMod` in `PolyOps.h`** (about 20 lines): `polyPow(a, k, n)` must handle leading zeros and huge `k`,
+17. [x] **`polyPow`, `polySqrt`, `polyDivMod` in `PolyOps.h`** (done: `polyPow` for any a and k up to 1e18, `polySqrt` for a[0] = 1, `polyDivMod`; tests extended) (about 20 lines): `polyPow(a, k, n)` must handle leading zeros and huge `k`,
     `polySqrt(a, n)` for `a[0] = 1`, `polyDivMod(a, b)` via `polyInv` of the reversed polynomials. Test against naive O(n^2) versions.
 18. [ ] **Tests for the gaps**: first list which printed files have no coverage at all (the audit only compared file names; `HashMap`, `Manacher`,
     `Matrix`, `BiconnectedComponents`, `OrderStatisticTree`, `kdTree`, `Angle`, `IntervalCover`, `DivideAndConquerDP`, `UnionFindRollback`,
@@ -70,7 +70,7 @@ Cleanup first (frees about 65 lines), then additions, cheapest and most useful f
     then write stress tests for the non-trivial ones and fix any bug found. `GeneralMatching` ("not very well tested") and `Integrate`
     ("mostly untested") are in scope. Report the list at the end.
 
-19. [ ] **Edit ModInt** (the team pasted their template; saved verbatim in `doc/modint-team-template.cpp`). Replace the global-`mod` `struct Mod` in
+19. [x] **Edit ModInt** (done: the team's `mint<mod>` replaces the old `Mod` in `ModularArithmetic.h`; mod must be a prime below 2^30; postfix `++`/`--` take `signed` so it compiles with `#define int long long`) (the team pasted their template; saved verbatim in `doc/modint-team-template.cpp`). Replace the global-`mod` `struct Mod` in
     `content/number-theory/ModularArithmetic.h` with this `template <int mod> struct mint` (+ `using mi = mint<M>; using vmi = vector<mi>;`), keeping its
     API (`+ - * /`, `+= -= *= /=`, `++ --`, unary `-`, `== != <`, `>> <<`, `fpow`, `inverse`, explicit `int`). Required changes: (1) it has two functional casts,
     `int(a)` in `operator<<` and `int((ll)v * o.v % mod)` in `operator*=`, which **do not compile under `#define int long long`**; write `(int)(...)`, and
@@ -88,7 +88,7 @@ Cleanup first (frees about 65 lines), then additions, cheapest and most useful f
   `update(pos, dif)` and `query(pos)` = sum of `[0, pos)`; the confusion is probably about this, so a clearer description / usage line may be
   all that is wanted) and (b) what to do about `FenwickTree2d.h`, which is "really weird" because it needs `fakeUpdate()` for every updated cell before
   `init()` (offline). Options once known: a plain 2D BIT with fixed size, or the offline version with a clearer interface.
-- [ ] **One shared `mod`** (six headers define their own `const ll mod`: `ModInverse`, `ModPow`, `ModularArithmetic`, `IntDeterminant`,
+- [ ] **One shared `mod`** (now decidable: the ModInt rewrite is done and `ModularArithmetic.h` no longer defines a global `mod`; five headers still define their own `const ll mod`: `ModInverse`, `ModPow`, `IntDeterminant`, `LinearRecurrence`, `NumberTheoreticTransform`, so two of them cannot be included together; `BostanMori.h` and `PolyOps.h` are in `skip_headers` and their tests use a namespace hack because of it). Ask the team which fix they want (one shared `mod` in `ModPow.h`, or leave).
   `LinearRecurrence`, `NumberTheoreticTransform`, so two of them cannot be included together; `BostanMori.h` and `PolyOps.h` are in `skip_headers`
   and their tests use a namespace hack because of it). Decided to wait for the ModInt rewrite (item 19); after it, check how many headers still define their own `mod` and ask only if the choice is not obvious.
 - [ ] **Rework `techniques.txt`** (159 lines, one page, stale after the cuts). Source: the content dump of the OI Wiki translation the team uploaded
