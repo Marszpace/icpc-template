@@ -1,6 +1,6 @@
 # TODO (from the team review, `entries - nx_entries.csv`)
 
-Book is at 25 pages (cover + 24): the last code page holds only `BumpAllocator.h` (8 lines), so deleting it gives 24. Everything below is still open.
+Book is at 25 pages (cover + 24); the last page is partly used. Everything below is still open.
 
 ## Applies to all code
 - [x] Every kept code file has to be edited to match the new `macros.cpp` (done: `ll` stays, no library macro changes, everything also compiles and passes with `#define int long long`; run `LLINT=1 make test` / `LLINT=1 make test-compiles`).
@@ -18,7 +18,7 @@ Book is at 25 pages (cover + 24): the last code page holds only `BumpAllocator.h
 - [x] Series: keep ln and sqrt only; maybe merge into one section to save lines.
 
 ## Numerical
-- [ ] Add code: Bostan-Mori (nth term of a linear recurrence).
+- [x] Add code: Bostan-Mori (done: `BostanMori.h`, same interface as `linearRec`, O(n log n log k) with NTT mod 998244353; n = 1e4 takes 0.2 s, n = 1e5 about 2 s at k = 1e18).
 
 ## Data structures
 - [x] Merge `LazySegmentTree.h` and `LazySegTree.h` into one lazy segment tree that supports queries better (done: `LazySegTreeBlock.h` + `LazySegTree.h`, `HLD` ported).
