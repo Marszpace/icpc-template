@@ -1,6 +1,6 @@
 # TODO (from the team review, `entries - nx_entries.csv`)
 
-Book is at 24 pages (cover + 23) after the deletions. Everything below is still open.
+Book is at 25 pages (cover + 24): the last code page holds only `BumpAllocator.h`, so there is about a page of free room (deleting `BumpAllocator.h` gives 24). Everything below is still open.
 
 ## Applies to all code
 - [ ] Every kept code file has to be edited to match the new `template.cpp` (macros, `ll`, etc.), once that is final.
@@ -40,7 +40,7 @@ Book is at 24 pages (cover + 23) after the deletions. Everything below is still 
 - [ ] Add text: Ordinary and Exponential Generating Functions.
 
 ## Not from the CSV
-- [ ] Check the Danang page limit in the contest rules (assumed 25 pages + cover; we are at 23 + cover).
+- [ ] Check the Danang page limit in the contest rules (assumed 25 pages + cover; we are at 24 + cover).
 - [x] Re-run `make test` (104/104 passed after the lazy segment tree merge). `make test-compiles` fails on `PolyOps.h` (`mod` redefined via `NumberTheoreticTransform.h`), not yet fixed.
 - [ ] With the space freed, decide what to add back or add new (candidates: the 23+8 cut files listed in `CHANGES-vs-original.md`).
 

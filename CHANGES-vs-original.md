@@ -4,7 +4,7 @@
 **printed in `kactl.pdf`**; cut files stay in the repository (only their `\kactlimport` line is commented out),
 so they can be turned back on in the `chapter.tex` of their directory.
 
-The book is now **24 PDF pages (cover + 23)**, two fewer than the original (26), after the team review below.
+The book is now **25 PDF pages (cover + 24)**, one fewer than the original (26). It was 24 after the team review; the contest scripts pushed `BumpAllocator.h` alone onto the last code page (the 24th page is almost empty, so there is about a page of free room; deleting `BumpAllocator.h` brings it back to 24).
 
 ## Added to the book
 
