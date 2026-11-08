@@ -8,15 +8,15 @@ measured experiment, packaged as a patch in `diffs/` that applies to the current
 
 - **Tests (item 18): done.** 22 new stress tests, so every printed code file is now tested through its real header.
   `make test` 133/133 and `make test-compiles` 155/155, both also with `LLINT=1`. No bug found in the library.
-- **The PDF has real layout bugs:** overlapping lines in 3 text sections (pages 19 and 25), the page 20 header
+- **The PDF has real layout bugs:** overlapping lines in three places (pages 19 and 25), the page 20 header
   running into "NTU" and the page number, two `Time:` lines running into the hash, and 3 file titles stranded at
   the bottom of a column. **`diffs/01-layout-fixes.diff` fixes all of them and stays at 26 pages.** Recommended.
 - **Space:** the biggest savings come from the format, not the content. Two combinations reach **25 pages**:
   - `10-combined-25-pages-layout-only.diff`: 25 pages, 105pt (about 0.2 column) spare. No content changes.
   - `11-combined-25-pages-roomier.diff`: 25 pages, 336pt (0.6 column) spare. Patch 10 plus 17 shorter descriptions.
-  - Removing blank lines inside code adds another 1.3 columns on top of that, if the team accepts it.
-- **62 code lines are wider than 63 characters** and wrap onto 2 lines in the PDF, mostly in files added this season.
-  The list is in `wrapped-code-lines.txt`.
+  - With every patch except removing blank lines in code: 25 pages, 1.2 columns spare. With that too: 2.4 columns spare.
+- **62 code lines are wider than 63 characters** and wrap onto 2 lines in the PDF. All of them come from this season's
+  edits. `12-unwrap-code-lines.diff` shortens 27 of them to fit (stress tests pass); the list is in `wrapped-code-lines.txt`.
 
 One column is about 556pt (about 72 code lines). "Saved" below is measured, not estimated (method at the end).
 
@@ -68,8 +68,8 @@ Page 25: "offsets for L and R." collides with "10.3.2 Sum over subsets". The sam
 **Cause.** `kactlpkg.sty` (from upstream KACTL) gives `\subsection` the skip `1ex plus -1ex minus -.3ex`, which
 has *negative* stretch. `multicols` stretches every column to full height. In a column with text paragraphs and
 subsections, that negative stretch makes some gaps shrink below zero (lines overlap) and others grow huge. It also
-caused the 114pt hole at the bottom of page 18. Upstream rarely shows it because few subsections there are followed
-by text.
+caused the 114pt hole at the bottom of page 18. (The original KACTL has few subsections followed by text, which is
+probably why it went unnoticed there.)
 
 **Fix (in patch 01).** Use `-1ex plus -1ex minus -.3ex`, the usual LaTeX idiom: a negative value means "this
 amount, and no indent after". Result: no overlaps, and the hole on page 18 shrinks from 114pt to 40pt.
@@ -140,9 +140,15 @@ lines. By file: `LazySegTree` 7, `HalfPlane` 6, `LiChao` 5, `SuffixAutomaton` 4,
 `SolveLinearMod` 4, `ExLucas` 4, `PolyOps` 3, `LagrangeInterpolation` 3, `DsuOnTree` 3, `RectangleUnion` 3,
 `DynCon` 3, and 1–2 in 10 others. Full list with lengths: `wrapped-code-lines.txt`.
 
-By length: 14 lines are 64–66 characters (delete a space or two), 22 are 67–70 (small rewording), and 26 are over 70
-(split by hand). Shortening the first two groups saves about 36 lines, roughly 280pt or 0.5 column. This changes code,
-so hashes change and the tests must be re-run. I left it for when those files are next touched.
+By length: 14 lines are 64–66 characters, 22 are 67–70, and 26 are over 70. Even the original KACTL files on the list
+(`MinRotation`, `SuffixArray`, `MaximumClique`) only got too long because of our `max<int>` edits for
+`#define int long long`.
+
+**Patch 12** shortens 27 of them to 63 characters or less by dropping a few spaces or a word in a comment. Examples:
+`int o = 1, int lo = 0` becomes `int o=1, int lo=0`, and `query(l, r, 2*o, lo, m)` becomes `query(l,r,2*o,lo,m)`. It
+saves 240pt (0.4 column) and touches 15 files, so their hashes change. On the patched code `make test` passes 133/133
+in both modes (`make test-compiles` was still running when this was written). The other 35 lines need a real rewrite; splitting them by hand gives the same number of
+lines as the automatic wrap, but with proper indentation.
 
 ### 2.7 Clean
 
@@ -169,6 +175,7 @@ book the saving happens. Baseline: patch 01 applied, `U = 39094`pt for pages 2�
 | 07 | Techniques in the same flow as the rest (no forced new page) | 0 by itself | | Lets the leftover space of the last body page and the techniques page pool together. This is what makes 25 pages reachable |
 | 08 | No blank lines inside code (`emptylines=*0`) | 751 | 1.35 | Biggest single item, but blank lines between functions help reading. Hashes are unchanged (whitespace is ignored) |
 | 09 | Shorter wording for 17 long descriptions (same facts; script `shorter-descriptions.py`) | 262 | 0.5 | About 2 lines per file. Needs team review. Doing this for more files would give more |
+| 12 | Shorten 27 code lines that wrap (section 2.6) | 240 | 0.4 | Code change; stress tests pass in both modes |
 | | Margins 0.5→0.4cm left/right | 27 | 0.05 | Not worth the printing risk |
 | | Top margin 1.0→0.8cm | about +400 capacity | 0.7 | Header would be 3.5mm from the paper edge; printer risk |
 | | File titles `\large`→`\normalsize` | 13 | 0 | Not worth it |
@@ -191,6 +198,11 @@ Patch 02 looks like this. The right column shows `GlobalMinCut.h` with the hash 
 | 10 | 01 + 02 + 03 + 04 + 05 + 06 + 07 | **25** | 105pt (0.2 column) |
 | 11 | 10 + 09 (shorter descriptions) | **25** | 336pt (0.6 column) |
 | | 11 without 07, plus 08 (no blank lines in code) | **25** | 857pt after the body + 368pt on the techniques page |
+| | 01–07 + 09 + 12 (everything except 08) | **25** | 662pt (1.2 columns) |
+| | 01–09 + 12 (everything) | **25** | 1345pt (2.4 columns) |
+
+A full page for comparison: `img/current-page15.png` (now) and `img/patch10-page15.png` (patch 10, which starts
+one file later because everything before it got shorter).
 
 ## 4. Suggested order
 
@@ -198,18 +210,19 @@ Patch 02 looks like this. The right column shows `GlobalMinCut.h` with the hash 
    no content, and stays at 26 pages.
 2. Look at 02, 03 and 04 (the format of each file block). Printing one page of patch 10 is the quickest way to judge.
    If you like them, apply **10** instead of 01; it contains 01. That gets back a page with no content changes.
-3. Review the wording in 09 (`shorter-descriptions.py` has the new texts side by side with nothing else). It is
-   easy to extend to more files, and the long descriptions also cause the biggest column-break gaps.
-4. Fix the wrapped code lines in our own files when we next touch them.
+3. Review the wording in 09 (the diff shows old and new side by side; `shorter-descriptions.py` has just the new
+   texts). It is easy to extend to more files, and the long descriptions also cause the biggest column-break gaps.
+4. Apply 12 (shorter code lines) if the slightly tighter spacing in those 27 lines is acceptable. It needs nothing but
+   a rebuild, since the tests already pass.
 5. 08 (no blank lines) and `\scriptsize` code are the big reserves if more room is ever needed.
 
-Patch 01 applies to the branch as it is now. Patches 02–09 are written on top of 01, so apply 01 first; after that,
-they are independent of each other. 10 and 11 already contain 01. Applying 01, 02, 03, 04, 05, 06, 07 in order gives
-exactly 10, and adding 09 gives exactly 11 (both checked).
+Patch 01 applies to the branch as it is now. Patches 02–09 and 12 are written on top of 01, so apply 01 first. After
+that they apply in any order and in any combination (every pair was checked). 10 and 11 already contain 01. Applying
+01, 02, 03, 04, 05, 06, 07 in order gives exactly 10, and adding 09 gives exactly 11 (both checked).
 
 ## Files
 
-- `diffs/*.diff`: the patches. 01, 10 and 11 apply to the branch as is; 02–09 apply on top of 01.
+- `diffs/*.diff`: the patches. 01, 10 and 11 apply to the branch as is; 02–09 and 12 apply on top of 01.
 - `layout-check.py`: overlap / header / orphan / free-space checker for any build of `kactl.pdf`.
 - `wrapped-code-lines.txt`: the 62 wrapped code lines.
 - `shorter-descriptions.py`: the 17 proposed descriptions (the script patch 09 was made with).

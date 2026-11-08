@@ -1,0 +1,281 @@
+diff --git a/content/data-structures/DynCon.h b/content/data-structures/DynCon.h
+index 60e403f..8fb053a 100644
+--- a/content/data-structures/DynCon.h
++++ b/content/data-structures/DynCon.h
+@@ -25,7 +25,7 @@ struct DynCon {
+ 	void add(int l, int r, int a, int b, int o = 1, int lo = 0, int hi = -1) {
+ 		if (hi < 0) hi = T;
+ 		if (r <= lo || hi <= l) return;
+-		if (l <= lo && hi <= r) { seg[o].push_back({a, b}); return; }
++		if (l<=lo && hi<=r) { seg[o].push_back({a, b}); return; }
+ 		int m = (lo + hi) / 2;
+ 		add(l, r, a, b, 2*o, lo, m); add(l, r, a, b, 2*o+1, m, hi);
+ 	}
+diff --git a/content/data-structures/LazySegTree.h b/content/data-structures/LazySegTree.h
+index 4ebf3ea..6b4eaa6 100644
+--- a/content/data-structures/LazySegTree.h
++++ b/content/data-structures/LazySegTree.h
+@@ -27,12 +27,12 @@ struct LazySeg {
+ 	void ap(int o, int len, L x) { t[o] = app(t[o], x, len); z[o] = comp(x, z[o]); }
+ 	void push(int o, int lo, int hi) {
+ 		int m = (lo + hi) / 2;
+-		ap(2*o, m - lo, z[o]); ap(2*o+1, hi - m, z[o]); z[o] = id();
++		ap(2*o, m-lo, z[o]); ap(2*o+1, hi-m, z[o]); z[o] = id();
+ 	}
+-	void upd(int l, int r, L x, int o = 1, int lo = 0, int hi = -1) {
++	void upd(int l, int r, L x, int o=1, int lo=0, int hi=-1) {
+ 		if (hi < 0) hi = n;
+ 		if (r <= lo || hi <= l) return;
+-		if (l <= lo && hi <= r && ok(t[o], x)) return ap(o, hi - lo, x);
++		if (l<=lo && hi<=r && ok(t[o], x)) return ap(o, hi-lo, x);
+ 		push(o, lo, hi); int m = (lo + hi) / 2;
+ 		upd(l, r, x, 2*o, lo, m); upd(l, r, x, 2*o+1, m, hi);
+ 		t[o] = op(t[2*o], t[2*o+1]);
+@@ -42,13 +42,13 @@ struct LazySeg {
+ 		if (r <= lo || hi <= l) return e();
+ 		if (l <= lo && hi <= r) return t[o];
+ 		push(o, lo, hi); int m = (lo + hi) / 2;
+-		return op(query(l, r, 2*o, lo, m), query(l, r, 2*o+1, m, hi));
++		return op(query(l,r,2*o,lo,m), query(l,r,2*o+1,m,hi));
+ 	}
+ 	template<class F> int maxRight(int l, F f) {
+ 		S a = e();
+ 		auto go = [&](auto&& go, int o, int lo, int hi) -> int {
+ 			if (hi <= l) return hi;
+-			if (l <= lo && f(op(a, t[o]))) return a = op(a, t[o]), hi;
++			if (l<=lo && f(op(a, t[o]))) return a = op(a, t[o]), hi;
+ 			if (hi - lo == 1) return lo;
+ 			push(o, lo, hi); int m = (lo + hi) / 2;
+ 			int r = go(go, 2*o, lo, m);
+diff --git a/content/data-structures/LiChao.h b/content/data-structures/LiChao.h
+index 6968791..cadc019 100644
+--- a/content/data-structures/LiChao.h
++++ b/content/data-structures/LiChao.h
+@@ -14,22 +14,22 @@
+ 
+ struct LiChao {
+ 	static const ll INF = 4e18;
+-	struct Ln { ll k = 0, m = INF; ll at(ll x) { return k * x + m; } };
++	struct Ln { ll k=0, m=INF; ll at(ll x) { return k*x + m; } };
+ 	int n; vector<Ln> t;
+ 	LiChao(int n) : n(n), t(4*n) {}
+ 	void ins(Ln ln, int o, int lo, int hi) {
+ 		int mid = (lo + hi) / 2;
+-		bool l = ln.at(lo) < t[o].at(lo), m = ln.at(mid) < t[o].at(mid);
++		bool l=ln.at(lo)<t[o].at(lo), m=ln.at(mid)<t[o].at(mid);
+ 		if (m) swap(t[o], ln);
+ 		if (hi - lo == 1) return;
+-		if (l != m) ins(ln, 2*o, lo, mid); else ins(ln, 2*o+1, mid, hi);
++		if (l != m) ins(ln,2*o,lo,mid); else ins(ln,2*o+1,mid,hi);
+ 	}
+ 	void addSeg(ll k, ll m, int a, int b, int o = 1, int lo = 0, int hi = -1) {
+ 		if (hi < 0) hi = n;
+ 		if (b <= lo || hi <= a) return;
+ 		if (a <= lo && hi <= b) return ins({k, m}, o, lo, hi);
+ 		int mid = (lo + hi) / 2;
+-		addSeg(k, m, a, b, 2*o, lo, mid); addSeg(k, m, a, b, 2*o+1, mid, hi);
++		addSeg(k,m,a,b,2*o,lo,mid); addSeg(k,m,a,b,2*o+1,mid,hi);
+ 	}
+ 	void add(ll k, ll m) { addSeg(k, m, 0, n); }
+ 	ll query(int x) {
+diff --git a/content/data-structures/PersistentSegmentTree.h b/content/data-structures/PersistentSegmentTree.h
+index 5e6f4e2..803f624 100644
+--- a/content/data-structures/PersistentSegmentTree.h
++++ b/content/data-structures/PersistentSegmentTree.h
+@@ -35,7 +35,7 @@ struct PST {
+ 		if (!v || r <= lo || hi <= l) return 0;
+ 		if (l <= lo && hi <= r) return t[v].s;
+ 		int m = (lo + hi) / 2;
+-		return query(t[v].l, l, r, lo, m) + query(t[v].r, l, r, m, hi);
++		return query(t[v].l,l,r,lo,m) + query(t[v].r,l,r,m,hi);
+ 	}
+ 	int kth(int a, int b, ll k) {
+ 		int lo = 0, hi = n;
+diff --git a/content/data-structures/Treap.h b/content/data-structures/Treap.h
+index 36edb48..ef612df 100644
+--- a/content/data-structures/Treap.h
++++ b/content/data-structures/Treap.h
+@@ -80,7 +80,7 @@ Node* ins(Node* t, Node* n, int pos) {
+ 
+ // Run f on the subtree of positions [l, r), e.g.
+ // go(t, l, r, [&](Node* n) { n->app(5, 0); }); // add 5
+-// app(0, 1) reverses, n->sum is the sum (f is skipped if empty).
++// app(0, 1) reverses, n->sum is the sum (f skipped if empty).
+ template<class F> void go(Node*& t, int l, int r, F f) {
+ 	Node *a, *b, *c;
+ 	tie(a,b) = split(t, l); tie(b,c) = split(b, r - l);
+diff --git a/content/geometry/HalfPlane.h b/content/geometry/HalfPlane.h
+index b6699eb..c10e324 100644
+--- a/content/geometry/HalfPlane.h
++++ b/content/geometry/HalfPlane.h
+@@ -33,7 +33,7 @@ template<class P> vector<P> halfPlanes(vector<pair<P, P>> h) {
+ 		for (; b - a > 1 && out(l, inter(q[a], q[a+1])); a++);
+ 		if (b > a && fabs(dir(l).cross(dir(q[b-1]))) < eps) {
+ 			if (dir(l).dot(dir(q[b-1])) < 0) return {};
+-			if (out(l, q[b-1].first)) b--; // same direction, l tighter
++			if (out(l, q[b-1].first)) b--; // same dir, l tighter
+ 			else continue;
+ 		}
+ 		q[b++] = l;
+@@ -41,7 +41,7 @@ template<class P> vector<P> halfPlanes(vector<pair<P, P>> h) {
+ 	for (; b - a > 2 && out(q[a], inter(q[b-1], q[b-2])); b--);
+ 	for (; b - a > 2 && out(q[b-1], inter(q[a], q[a+1])); a++);
+ 	if (b - a < 3) return {};
+-	rep(i,a,b) // a bounded polygon turns left by < pi at each corner
++	rep(i,a,b) // bounded: turns left by < pi at each corner
+ 		if (dir(q[i]).cross(dir(q[i+1 == b ? a : i+1])) < eps) return {};
+ 	vector<P> r;
+ 	rep(i,a,b) r.push_back(inter(q[i], q[i+1 == b ? a : i+1]));
+diff --git a/content/graph/DsuOnTree.h b/content/graph/DsuOnTree.h
+index f0f4dbd..0b8d012 100644
+--- a/content/graph/DsuOnTree.h
++++ b/content/graph/DsuOnTree.h
+@@ -16,8 +16,9 @@
+ 
+ struct DsuOnTree {
+ 	vector<vi> g; vi sub, big, tin, tout, ord; int tim = 0, root;
+-	DsuOnTree(vector<vi> g, int r = 0) : g(g), sub(sz(g)), big(sz(g), -1),
+-		tin(sz(g)), tout(sz(g)), ord(sz(g)), root(r) { init(r, -1); }
++	DsuOnTree(vector<vi> g, int r = 0) : g(g), sub(sz(g)),
++		big(sz(g), -1), tin(sz(g)), tout(sz(g)), ord(sz(g)),
++		root(r) { init(r, -1); }
+ 	void init(int v, int p) {
+ 		sub[v] = 1; ord[tin[v] = tim++] = v;
+ 		for (int u : g[v]) if (u != p) {
+diff --git a/content/graph/MaximumClique.h b/content/graph/MaximumClique.h
+index 83b41ee..83a03b2 100644
+--- a/content/graph/MaximumClique.h
++++ b/content/graph/MaximumClique.h
+@@ -36,7 +36,7 @@ struct Maxclique {
+ 			for(auto v:R) if (e[R.back().i][v.i]) T.push_back({v.i});
+ 			if (sz(T)) {
+ 				if (S[lev]++ / ++pk < limit) init(T);
+-				int j = 0, mxk = 1, mnk = max<int>(sz(qmax) - sz(q) + 1, 1);
++				int j = 0, mxk = 1, mnk = max<int>(sz(qmax)-sz(q)+1,1);
+ 				C[1].clear(), C[2].clear();
+ 				for (auto v : T) {
+ 					int k = 1;
+diff --git a/content/numerical/LagrangeInterpolation.h b/content/numerical/LagrangeInterpolation.h
+index 4eb27d7..fd6899c 100644
+--- a/content/numerical/LagrangeInterpolation.h
++++ b/content/numerical/LagrangeInterpolation.h
+@@ -24,7 +24,7 @@ ll lagrange(const vector<ll>& y, ll x) {
+ 	ll f = 1;
+ 	rep(i,1,n) f = f * i % mod;
+ 	ifact[n-1] = modpow(f, mod - 2);
+-	for (int i = n - 1; i--;) ifact[i] = ifact[i+1] * (i + 1) % mod;
++	for (int i = n-1; i--;) ifact[i] = ifact[i+1] * (i+1) % mod;
+ 	ll ans = 0;
+ 	rep(i,0,n) {
+ 		ll t = y[i] * pre[i] % mod * suf[i+1] % mod * ifact[i] % mod * ifact[n-1-i] % mod;
+diff --git a/content/numerical/PolyOps.h b/content/numerical/PolyOps.h
+index 471c46f..af2a3e5 100644
+--- a/content/numerical/PolyOps.h
++++ b/content/numerical/PolyOps.h
+@@ -20,7 +20,7 @@
+ vl polyInv(vl a, int n) {
+ 	vl b = {modpow(a[0], mod - 2)};
+ 	for (int m = 1; m < n; m *= 2) {
+-		vl f(a.begin(), a.begin() + min(sz(a), 2 * m)), c = conv(f, b);
++		vl f(a.begin(), a.begin()+min(sz(a), 2*m)), c = conv(f, b);
+ 		c.resize(2 * m);
+ 		for (ll& x : c) x = (mod - x) % mod;
+ 		c[0] = (c[0] + 2) % mod;
+@@ -36,7 +36,7 @@ vl polyDer(vl a) {
+ vl polyInt(vl a) {
+ 	a.insert(a.begin(), 0);
+ 	vl inv(sz(a), 1);
+-	rep(i,2,sz(a)) inv[i] = (mod - (mod / i) * inv[mod % i] % mod) % mod;
++	rep(i,2,sz(a)) inv[i] = (mod - mod/i*inv[mod%i] % mod) % mod;
+ 	rep(i,1,sz(a)) a[i] = a[i] * inv[i] % mod;
+ 	return a;
+ }
+@@ -48,7 +48,7 @@ vl polyExp(vl a, int n) {
+ 	vl b = {1};
+ 	for (int m = 1; m < n; m *= 2) {
+ 		vl l = polyLog(b, 2 * m), f(2 * m);
+-		rep(i,0,2*m) f[i] = ((i < sz(a) ? a[i] : 0) - l[i] + mod) % mod;
++		rep(i,0,2*m) f[i] = ((i<sz(a) ? a[i] : 0)-l[i]+mod) % mod;
+ 		f[0] = (f[0] + 1) % mod;
+ 		b = conv(b, f); b.resize(2 * m);
+ 	}
+diff --git a/content/numerical/SolveLinearMod.h b/content/numerical/SolveLinearMod.h
+index 83316ce..f991e48 100644
+--- a/content/numerical/SolveLinearMod.h
++++ b/content/numerical/SolveLinearMod.h
+@@ -18,12 +18,12 @@ int solveLinearMod(vector<vl>& A, vl& b, vl& x) {
+ 	vi col(m); iota(all(col), 0);
+ 	rep(i,0,n) {
+ 		int br = -1, bc = 0;
+-		rep(r,i,n) rep(c,i,m) if (br < 0 && A[r][c]) br = r, bc = c;
++		rep(r,i,n) rep(c,i,m) if (br<0 && A[r][c]) br = r, bc = c;
+ 		if (br < 0) {
+ 			rep(j,i,n) if (b[j]) return -1;
+ 			break;
+ 		}
+-		swap(A[i], A[br]); swap(b[i], b[br]); swap(col[i], col[bc]);
++		swap(A[i], A[br]); swap(b[i], b[br]); swap(col[i],col[bc]);
+ 		rep(j,0,n) swap(A[j][i], A[j][bc]);
+ 		ll iv = modpow(A[i][i], mod - 2);
+ 		rep(j,i+1,n) {
+@@ -37,7 +37,7 @@ int solveLinearMod(vector<vl>& A, vl& b, vl& x) {
+ 	for (int i = rank; i--;) {
+ 		b[i] = b[i] * modpow(A[i][i], mod - 2) % mod;
+ 		x[col[i]] = b[i];
+-		rep(j,0,i) b[j] = (b[j] - A[j][i] * b[i] % mod + mod) % mod;
++		rep(j,0,i) b[j] = (b[j] - A[j][i]*b[i] % mod + mod) % mod;
+ 	}
+ 	return rank; // (multiple solutions if rank < m)
+ }
+diff --git a/content/strings/MinRotation.h b/content/strings/MinRotation.h
+index 616d1f1..0323664 100644
+--- a/content/strings/MinRotation.h
++++ b/content/strings/MinRotation.h
+@@ -13,7 +13,7 @@
+ int minRotation(string s) {
+ 	int a=0, N=sz(s); s += s;
+ 	rep(b,0,N) rep(k,0,N) {
+-		if (a+k == b || s[a+k] < s[b+k]) {b += max<int>(0, k-1); break;}
++		if (a+k==b || s[a+k]<s[b+k]) {b += max<int>(0,k-1); break;}
+ 		if (s[a+k] > s[b+k]) { a = b; break; }
+ 	}
+ 	return a;
+diff --git a/content/strings/PalindromicTree.h b/content/strings/PalindromicTree.h
+index 62caffb..54a51e8 100644
+--- a/content/strings/PalindromicTree.h
++++ b/content/strings/PalindromicTree.h
+@@ -16,7 +16,7 @@
+ struct PalTree {
+ 	struct Nd {
+ 		int len, link, cnt = 0; array<int, 26> nx;
+-		Nd(int len, int link) : len(len), link(link) { nx.fill(0); }
++		Nd(int len, int link) : len(len), link(link) {nx.fill(0);}
+ 	};
+ 	vector<Nd> t{Nd(-1, 0), Nd(0, 0)};
+ 	string s; int last = 1;
+diff --git a/content/strings/SuffixArray.h b/content/strings/SuffixArray.h
+index cdd9c16..ceecc05 100644
+--- a/content/strings/SuffixArray.h
++++ b/content/strings/SuffixArray.h
+@@ -23,7 +23,7 @@ struct SuffixArray {
+ 		s.push_back(0); int n = sz(s), k = 0, a, b;
+ 		vi x(all(s)), y(n), ws(max(n, lim));
+ 		sa = lcp = y, iota(all(sa), 0);
+-		for (int j = 0, p = 0; p < n; j = max<int>(1, j * 2), lim = p) {
++		for (int j=0, p=0; p < n; j = max<int>(1, j*2), lim = p) {
+ 			p = j, iota(all(y), n - j);
+ 			rep(i,0,n) if (sa[i] >= j) y[p++] = sa[i] - j;
+ 			fill(all(ws), 0);
+diff --git a/content/various/IntervalMap.h b/content/various/IntervalMap.h
+index f3d5030..3d08793 100644
+--- a/content/various/IntervalMap.h
++++ b/content/various/IntervalMap.h
+@@ -19,7 +19,7 @@
+ template<class T> struct IntervalMap {
+ 	map<int, T> m; int hi; // m[x] = value on [x, next key)
+ 	typedef typename map<int, T>::iterator It;
+-	IntervalMap(int lo, int hi, T v) : hi(hi) { m[lo] = v; m[hi]; }
++	IntervalMap(int lo, int hi, T v) : hi(hi) {m[lo] = v; m[hi];}
+ 	It split(int x) { // makes x a key
+ 		It it = m.lower_bound(x);
+ 		return it->first == x ? it :

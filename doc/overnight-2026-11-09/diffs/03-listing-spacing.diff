@@ -2,22 +2,14 @@ diff --git a/content/tex/kactlpkg.sty b/content/tex/kactlpkg.sty
 index 1ea5bd6..67f75dd 100644
 --- a/content/tex/kactlpkg.sty
 +++ b/content/tex/kactlpkg.sty
-@@ -211,6 +211,7 @@
- \lstset{morekeywords={alignas,alignof}}
- \lstset{deletedirectives={line}}
+@@ -213,2 +213,3 @@
  \lstset{frame=t}
 +\lstset{framesep=1pt}
  \lstset{tabsize=2}
- \lstset{showstringspaces=false}
- \lstset{breaklines=true}
-@@ -219,8 +220,8 @@
- \lstset{literate={^}{\caret}{1} {~}{\tilde}{1} {\{}{\nicelbrace}{1} {\}}{\nicerbrace}{1}}
- \lstset{emptylines=*1}
+@@ -221,4 +222,4 @@
  \lstset{inputencoding=utf8}
 -\lstset{aboveskip=3pt}
 -\lstset{belowskip=2pt}
 +\lstset{aboveskip=1pt}
 +\lstset{belowskip=0pt}
- 
- \lstdefinelanguage{raw}{} % Raw language, no keywords.
  

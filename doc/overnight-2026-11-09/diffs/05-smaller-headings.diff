@@ -1,5 +1,5 @@
 diff --git a/content/tex/kactlpkg.sty b/content/tex/kactlpkg.sty
-index 1ea5bd6..a411e7d 100644
+index 1ea5bd6..ed5f8ba 100644
 --- a/content/tex/kactlpkg.sty
 +++ b/content/tex/kactlpkg.sty
 @@ -137,9 +137,9 @@
@@ -29,9 +29,12 @@ index 1ea5bd6..a411e7d 100644
  
  \renewcommand\subsubsection{\@startsection{subsubsection}{3}{\z@}
  	{-1ex\@plus -1ex \@minus -.3ex}
-@@ -169,8 +169,8 @@
+@@ -167,10 +167,10 @@
+ 
+ % Styles for main toc
  \renewcommand{\chaptermark}[1]{\markboth{\emph{ #1}}{}}
- \renewcommand{\cftbeforetoctitleskip}{-45pt}
+-\renewcommand{\cftbeforetoctitleskip}{-45pt}
++\renewcommand{\cftbeforetoctitleskip}{-37pt}
  \renewcommand{\cftaftertoctitleskip}{10pt}
 -\renewcommand{\cftbeforechapskip}{11pt}
 -\renewcommand\cftchapfont{\large\bfseries}

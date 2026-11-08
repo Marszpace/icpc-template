@@ -92,7 +92,7 @@ Cleanup first (frees about 65 lines), then additions, cheapest and most useful f
 - [ ] **Layout report (2026-11-09): pick the patches** (`doc/overnight-2026-11-09/REPORT.md`). Found and fixed in `diffs/01-layout-fixes.diff`
     (not applied yet): overlapping lines on pages 19 and 25 (upstream `\subsection` skip has negative stretch), page 20 header overflow,
     two `Time:` lines over the hash, 3 orphaned file titles. Space: `10-combined-...` gives 25 pages without content changes,
-    `11-combined-...` 25 pages with 0.6 column spare. 62 code lines wrap (`wrapped-code-lines.txt`).
+    `11-combined-...` 25 pages with 0.6 column spare. 62 code lines wrap (`wrapped-code-lines.txt`); `12-unwrap-code-lines.diff` fixes 27 of them.
 
 ## Blocked: needs the team or you (do not start these)
 - [ ] **Edit Fenwick Trees** (your template). Not decided: the team first has to answer (a) is `FenwickTree.h` 0- or 1-indexed (it is 0-indexed:

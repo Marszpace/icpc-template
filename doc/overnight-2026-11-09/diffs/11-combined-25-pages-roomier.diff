@@ -388,7 +388,7 @@ index cdd9c16..0c8ec8b 100644
   * Status: stress-tested
   */
 diff --git a/content/tex/kactlpkg.sty b/content/tex/kactlpkg.sty
-index 88e21d5..c6fc327 100644
+index 88e21d5..97780e4 100644
 --- a/content/tex/kactlpkg.sty
 +++ b/content/tex/kactlpkg.sty
 @@ -15,6 +15,10 @@
@@ -441,9 +441,12 @@ index 88e21d5..c6fc327 100644
  	{1ex \@plus .2ex}
  	{\normalfont\large\bfseries}}
  
-@@ -165,8 +168,8 @@
+@@ -163,10 +166,10 @@
+ 
+ % Styles for main toc
  \renewcommand{\chaptermark}[1]{\markboth{\emph{ #1}}{}}
- \renewcommand{\cftbeforetoctitleskip}{-45pt}
+-\renewcommand{\cftbeforetoctitleskip}{-45pt}
++\renewcommand{\cftbeforetoctitleskip}{-37pt}
  \renewcommand{\cftaftertoctitleskip}{10pt}
 -\renewcommand{\cftbeforechapskip}{11pt}
 -\renewcommand\cftchapfont{\large\bfseries}
