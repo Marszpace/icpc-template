@@ -54,7 +54,7 @@ Cleanup first (frees about 65 lines), then additions, cheapest and most useful f
     problems, stack limit on deep recursion, uninitialized locals and globals not cleared between tests, `max(int, ll)` mixing, anti-hash tests for
     `unordered_map`; plus a 3-line `__int128` output function (tested).
 15. [ ] **Python tricks (big integers)** (Various, text, about 12 lines; the team uses Python mostly for big integers). Include only what is verified
-    on the installed Python (3.13): `math.isqrt`, `gcd`, `lcm`, `comb`, `perm`, `factorial`, `prod`, `pow(a, b, m)` and `pow(a, -1, m)`, `divmod`,
+    on the installed Python (3.13); the wiki's `lang/python.md` is a beginner tutorial and is not a source for this: `math.isqrt`, `gcd`, `lcm`, `comb`, `perm`, `factorial`, `prod`, `pow(a, b, m)` and `pow(a, -1, m)`, `divmod`,
     `int.bit_length`, `sys.set_int_max_str_digits(0)` (int <-> str conversion is limited to 4300 digits since 3.11), `decimal` (`getcontext().prec`,
     `sqrt`, `ln`, `exp`, `quantize`, rounding modes), `fractions.Fraction`, fast input via `sys.stdin`, `sys.setrecursionlimit` with a thread for stack.
 16. [ ] **Lucy_Hedgehog and Du sieve** (Number theory, about 40 lines, pairs with the Floor blocks text): prime counting and prime sums up to about
@@ -67,21 +67,35 @@ Cleanup first (frees about 65 lines), then additions, cheapest and most useful f
     then write stress tests for the non-trivial ones and fix any bug found. `GeneralMatching` ("not very well tested") and `Integrate`
     ("mostly untested") are in scope. Report the list at the end.
 
+19. [ ] **Edit ModInt** (the team pasted their template; saved verbatim in `doc/modint-team-template.cpp`). Replace the global-`mod` `struct Mod` in
+    `content/number-theory/ModularArithmetic.h` with this `template <int mod> struct mint` (+ `using mi = mint<M>; using vmi = vector<mi>;`), keeping its
+    API (`+ - * /`, `+= -= *= /=`, `++ --`, unary `-`, `== != <`, `>> <<`, `fpow`, `inverse`, explicit `int`). Required changes: (1) it has two functional casts,
+    `int(a)` in `operator<<` and `int((ll)v * o.v % mod)` in `operator*=`, which **do not compile under `#define int long long`**; write `(int)(...)`, and
+    check `-Wconversion` is clean in both modes; (2) the header no longer needs `euclid.h` (inverse is Fermat, so `mod` must be prime; say so); (3) add a
+    stress test against plain `%` arithmetic (all operators, negative inputs, `mod - 1`, division, `fpow` with large exponents, `>>`/`<<`) in both modes;
+    (4) update the description and usage line (`using mi = mint<998244353>` etc.), and check whether other headers can use it. Fixed `mod` for the
+    shared-`mod` item below stays a separate decision (template parameter does not clash with the global `const ll mod` of other headers).
+20. [ ] **Techniques worksheet** (prepares the rework above, no questions needed): write `doc/techniques-worksheet.txt` from the zip's 370-line list: one
+    entry per line, marked `keep`, `?` or `drop` with my suggestion (drop: trivial sorting / basic techniques / language items / things the team already
+    remembers; keep: named techniques that are error-prone or easy to forget), a short reason where it is not obvious, and a count of how many lines the
+    `keep` entries add up to against the one-page budget (about 155 lines). The team edits the marks; then regenerate `content/appendix/techniques.txt`.
+
 ## Blocked: needs the team or you (do not start these)
 - [ ] **Edit Fenwick Trees** (your template). Not decided: the team first has to answer (a) is `FenwickTree.h` 0- or 1-indexed (it is 0-indexed:
   `update(pos, dif)` and `query(pos)` = sum of `[0, pos)`; the confusion is probably about this, so a clearer description / usage line may be
   all that is wanted) and (b) what to do about `FenwickTree2d.h`, which is "really weird" because it needs `fakeUpdate()` for every updated cell before
   `init()` (offline). Options once known: a plain 2D BIT with fixed size, or the offline version with a clearer interface.
-- [ ] **Edit ModInt** (your template): you will paste your version; then adapt `ModularArithmetic.h` to it and test it.
 - [ ] **One shared `mod`** (six headers define their own `const ll mod`: `ModInverse`, `ModPow`, `ModularArithmetic`, `IntDeterminant`,
   `LinearRecurrence`, `NumberTheoreticTransform`, so two of them cannot be included together; `BostanMori.h` and `PolyOps.h` are in `skip_headers`
-  and their tests use a namespace hack because of it). Decided to wait for the ModInt rewrite.
-- [ ] **Rework `techniques.txt`** (159 lines, one page, stale after the cuts): replace its content with the non-trivial entries of
-  https://en-oi-wiki.marszpace.dev/ (the English translation of oi-wiki.org). It may shrink or grow, and a lot of techniques are trivial for the team,
-  so the team lists what goes in. Blocked on (a) the host: it did not resolve from this session even after a personal environment `icpc-template` with
-  `en-oi-wiki.marszpace.dev` on its allowlist was created and this session was switched to it (the proxy can take up to an hour to pick it up); if it still
-  fails in a new session, add the host under the environment's network settings; (b) the team's list. Then draft a candidate list from the wiki for the team
-  to cross out.
+  and their tests use a namespace hack because of it). Decided to wait for the ModInt rewrite (item 19); after it, check how many headers still define their own `mod` and ask only if the choice is not obvious.
+- [ ] **Rework `techniques.txt`** (159 lines, one page, stale after the cuts). Source: the content dump of the OI Wiki translation the team uploaded
+  (`oiwiki-content.zip`: 452 markdown pages in 14 sections, 453 `.cpp` examples, 450 `.in` / `.ans` test pairs). **The zip is enough; the live site is
+  not needed** (it never resolved from the session, and the `icpc-template` environment created for it can be ignored). The zip also has a ready-made
+  `techniques.txt` in our format: **370 lines, 23 sections** (the wiki's whole table of contents; ours is 159 lines), so it has to *shrink* by about 55%
+  to stay near one page. Only 66 of our 158 entry names match exactly (different wording). Roughly 78 of its lines are in sections that are mostly
+  basic or niche for the team (Sorting 14, Algorithm analysis 3, Basic techniques 13, Topics 5, Miscellaneous 13, Abstract algebra 5, Probability 5,
+  Other math 5, Offline algorithms 10, Randomization 5). Licence: the wiki is CC BY-SA 4.0 + SATA, so use it for topic names and as a reference only;
+  do not copy its text or code into the book or the repo. Next step (ready, see item 20): a worksheet. Blocked on: the team's marks in the worksheet.
 
 ## Deferred / ideas (skipped for now by the team's decision)
 Stable marriage, min mean cycle (Karp), Steiner tree DP, tree isomorphism hashing, Lyndon factorization, subset convolution, online (CDQ) convolution,
