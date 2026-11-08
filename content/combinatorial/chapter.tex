@@ -106,3 +106,44 @@
 			\item ways a convex polygon with $n+2$ sides can be cut into triangles by connecting vertices with straight lines.
 			\item permutations of $[n]$ with no 3-term increasing subseq.
 		\end{itemize}
+
+\section{Generating functions}
+	% Every identity is checked by doc/note-checks/check_gf.py
+	\subsection{Dictionary}
+		OGF $A(x) = \sum_n a_n x^n$; EGF $\hat A(x) = \sum_n a_n x^n / n!$ (labeled objects), so $a_n = n!\,[x^n] \hat A$.
+		\begin{center}
+		\begin{tabular}{l|l|l}
+			$a_n$ & OGF & EGF \\ \hline
+			$a_n + b_n$ & $A + B$ & $\hat A + \hat B$ \\
+			$\sum_i a_i b_{n-i}$ & $AB$ & \\
+			$\sum_i \binom ni a_i b_{n-i}$ & & $\hat A \hat B$ \\
+			$a_{n-1}$ & $xA$ & $\int \hat A$ \\
+			$a_{n+1}$ & $(A - a_0)/x$ & $\hat A'$ \\
+			$n a_n$ & $xA'$ & $x \hat A'$ \\
+			$\sum_{i \le n} a_i$ & $A / (1-x)$ & \\
+		\end{tabular}
+		\end{center}
+
+	\subsection{Common series}
+		OGF: $\frac1{(1-x)^k} = \sum_n \binom{n+k-1}{k-1} x^n$, $\frac{x}{1-x-x^2} = \sum_n F_n x^n$, $\frac1{\sqrt{1-4x}} = \sum_n \binom{2n}n x^n$,
+		Catalan $C = \frac{1-\sqrt{1-4x}}{2x} = 1 + xC^2$, partitions $\prod_{k \ge 1} \frac1{1-x^k}$.
+
+		EGF: $\frac1{1-x}$ (permutations), $\frac{e^{-x}}{1-x}$ (derangements), $e^{e^x-1}$ (Bell), $e^{x + x^2/2}$ (involutions),
+		$\frac{(e^x-1)^k}{k!}$ ($S(n,k)$), $\frac{(-\ln(1-x))^k}{k!}$ ($c(n,k)$), $\frac{x}{e^x-1}$ (Bernoulli).
+
+	\subsection{Counting structures}
+		Labeled, $F$ the EGF of one kind of structure ($F(0) = 0$): sequence $\frac1{1-F}$, set $e^F$, cycle $\ln\frac1{1-F}$, one marked element $xF'$, pair $F \cdot G$.
+		E.g.\ permutations are sets of cycles ($e^{\ln \frac1{1-x}} = \frac1{1-x}$), set partitions are sets of non-empty sets, rooted trees $T = xe^T$ give $n^{n-1}$;
+		all cycle lengths in $S$: $\exp\bigl(\sum_{k \in S} x^k/k\bigr)$.
+
+		Unlabeled, $F$ the OGF with $f_k$ objects of size $k$: sequence $\frac1{1-F}$; multiset $\prod_k (1-x^k)^{-f_k} = \exp \sum_{j \ge 1} F(x^j)/j$ (Euler transform);
+		set $\prod_k (1+x^k)^{f_k} = \exp \sum_{j \ge 1} (-1)^{j+1} F(x^j)/j$; rooted trees $T = x \exp \sum_{j \ge 1} T(x^j)/j$ ($1, 1, 2, 4, 9, 20, 48, \dots$).
+
+	\subsection{Computing}
+		$P/Q$ with $Q(0) = 1$: $a_n = \sum_i c_i a_{n-i}$ for $Q = 1 - \sum_i c_i x^i$ (see \texttt{BostanMori}, \texttt{BerlekampMassey}); partial fractions give closed forms.
+
+		Lagrange inversion: if $f = x \varphi(f)$ with $\varphi(0) \ne 0$, then $[x^n] f^k = \frac kn [x^{n-k}] \varphi^n$ and $[x^n] H(f) = \frac1n [x^{n-1}] H'\varphi^n$.
+
+		$b = e^F$ with $F(0) = 0$: $n b_n = \sum_{k=1}^n k f_k b_{n-k}$ in $O(n^2)$; in $O(n \log n)$ with \texttt{polyExp} (also \texttt{polyLog}, \texttt{polyInv}).
+
+		Store EGF coefficients as $a_n/n!$ and a product is a plain \texttt{conv}; converting to the sequence $a_n$ multiplies coefficient $n$ by $n!$.
