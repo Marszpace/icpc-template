@@ -26,8 +26,7 @@ The user is Marszpace; use they/them for people whose pronouns are unknown.
 - `CHANGES-vs-original.md`: everything added, cut and removed compared to stock KACTL, with reasons. Keep it up to date.
 - `entries - nx_entries.csv`: the team's per-entry decision (Keep / Delete / Edit / Merge / ?). Columns: Category, Topic, Lines,
   Status, Reason, "What to edit & reason". It is the source of truth for decisions. Its bottom block lists cut files.
-- `TODO.md`: open work. Mainly: shorten Derivatives/Sums/Series notes; decide `IntPerm.h` and `LCA.h`;
-  add Bostan-Mori, RadixConversion, Garner and a generating-functions note.
+- `TODO.md`: the work list: standing rules, ready items with decided specs (work through them in order, one plan / go / report cycle per item), blocked items.
 
 ## Conventions and gotchas
 - Team policy: remove entries that are trivial or memorized by a team member (the reason given in the CSV). Hard-to-remember

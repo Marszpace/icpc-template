@@ -9,7 +9,7 @@
  * \texttt{comp(x, y)} is the tag "$y$ first, then $x$". Ranges are $[l, r)$. Beats with add is $O(\log^2 N)$ amortized.
  * \texttt{maxRight(l, f)} is the largest $r$ with \texttt{f(query(l, r))} true, for monotone $f$ with \texttt{f(e())} true (descent in $O(\log N)$).
  * Usage: vector<S> v(n); LazySeg t(v); t.upd(l, r, {5, 0}); t.query(l, r).sum;
- * t.maxRight(l, [&](S s) { return s.mx < x; }); // first index >= l with value >= x
+ * t.maxRight(l, [\&](S s) { return s.mx < x; }); // first index >= l with value >= x
  * Time: O(\log N)
  * Status: stress-tested
  */

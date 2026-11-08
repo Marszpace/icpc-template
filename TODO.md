@@ -29,12 +29,12 @@ Cleanup first (frees about 65 lines), then additions, cheapest and most useful f
 4. [x] **`lineDistance.h`** (done): remove the mentions of `Point3D` (the 3D files are cut).
 5. [x] **`CHANGES-vs-original.md` cut table** (done, corrected: the 8 files turned out to be unprinted in the original KACTL too, so they are noted in a separate sentence, not listed as cuts; totals stay 23 files / 973 lines).
    `Hashing-codeforces`, `MatrixInverse-mod`, `Eratosthenes.h`, `Euclid.java`, `Unrolling`.
-6. [ ] **Segment tree descent** (`LazySegTree.h` body, about 10 lines): `template<class F> int maxRight(int l, F f)` returning the largest `r`
+6. [x] **Segment tree descent** (done: `maxRight`, 12 lines; mutation-checked in the default, clamp and min tests) (`LazySegTree.h` body, about 10 lines): `template<class F> int maxRight(int l, F f)` returning the largest `r`
    such that `f(query(l, r))` holds (`f(e())` must hold), O(log N), AtCoder style; mention it in the description with a usage line.
    Test against brute force with the default block (sum / max predicates) and with the affine block. The block file stays unchanged.
-7. [ ] **Lazy implicit treap** (`Treap.h`, about +10 to 15 lines): lazy range reverse and range add, with subtree `sum`; keep the existing API
+7. [x] **Lazy implicit treap** (done: `Treap.h` with lazy add / reverse / sum and `go`; `val` is `ll`; new `TreapLazy` test, 10 mutations caught) (`Treap.h`, about +10 to 15 lines): lazy range reverse and range add, with subtree `sum`; keep the existing API
    (`split`, `merge`, `each`, ...); add `push` and make `split` / `merge` call it. Test against a plain `vector` with random operations.
-8. [ ] **`IntPerm.h`: add integer -> permutation** (decided). **It must be an exact bijection with `permToInt`:** `intToPerm(permToInt(p), n) == p`
+8. [x] **`IntPerm.h`: add integer -> permutation** (done: `IntPerm.h` is now the lexicographic rank, widened to `ll`, with `intToPerm`; order preserving, exact for n <= 20; plus, by the team's choice C, `radixToPerm` / `permToRadix` in `RadixConversion.h`, a bijection between all digit sequences and all permutations; `mulAdd` is shared with `radixconv`) (decided). **It must be an exact bijection with `permToInt`:** `intToPerm(permToInt(p), n) == p`
    for every permutation and `permToInt(intToPerm(r, n)) == r` for every `r < n!`; test exhaustively for n <= 8 and randomly for larger n.
    Note `permToInt` is not order preserving; `intToPerm` has to invert exactly that mapping (about 8 lines). Update the description.
 9. [ ] **Text: matrix-tree note** (Graph, where the old "Number of Spanning Trees" section was; the stress test `matrix-tree.cpp` still exists):

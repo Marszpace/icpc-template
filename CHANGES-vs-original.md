@@ -10,7 +10,7 @@ The book is now **24 PDF pages (cover + 23)**, two fewer than the original (26).
 
 | Chapter | File | Lines (whole file) | Note |
 |---|---|---:|---|
-| data-structures | `LazySegTreeBlock.h` + `LazySegTree.h` | 38 + 45 | one lazy segment tree: edit block (default: range chmin + add, sum/max/count, segment tree beats) + fixed body; replaces `LazySegmentTree` and the old generic `LazySegTree`; `HLD` uses it |
+| data-structures | `LazySegTreeBlock.h` + `LazySegTree.h` | 38 + 59 | one lazy segment tree: edit block (default: range chmin + add, sum/max/count, segment tree beats) + fixed body; replaces `LazySegmentTree` and the old generic `LazySegTree`; `HLD` uses it; `maxRight(l, f)` descends the tree in O(log N) |
 | data-structures | `PersistentSegmentTree.h` | 49 |  |
 | data-structures | `DynCon.h` | 45 |  |
 | data-structures | `LiChao.h` | 44 |  |
@@ -26,7 +26,7 @@ The book is now **24 PDF pages (cover + 23)**, two fewer than the original (26).
 | graph | `DsuOnTree.h` | 43 |  |
 | number-theory | `PrimitiveRoot.h` | 30 |  |
 | number-theory | `ExLucas.h` | 59 | binomial mod any m |
-| combinatorial | `RadixConversion.h` | 33 | bijective base conversion of digit vectors (for communication problems) |
+| combinatorial | `RadixConversion.h` | 67 | bijective base conversion of digit vectors (for communication problems), and the same with permutations as the target (`radixToPerm` / `permToRadix`, exact bijection between all digit sequences and all permutations, (length, lex) order to (size, lex) order); shared helper `mulAdd` |
 | numerical | `BostanMori.h` | 34 | n-th term of a linear recurrence in O(n log n log k), same interface as `linearRec` (NTT, mod 998244353) |
 | numerical | `LagrangeInterpolation.h` | 34 |  |
 | numerical | `SolveLinearMod.h` | 43 |  |
@@ -114,6 +114,8 @@ Still open (edit / merge / undecided): see `TODO.md`.
 
 | File | Change |
 |---|---|
+| `content/data-structures/Treap.h` | lazy range add and reverse with subtree sums (`go(t, l, r, f)`, `Node::app`, `push`); `val` is now `ll`; the old API (`split`, `merge`, `ins`, `each`, `move`) is unchanged and its test still passes |
+| `content/combinatorial/IntPerm.h` | `permToInt` is now the lexicographic rank (order preserving), widened to `ll` (the old `int` version overflowed from n = 13), exact for n <= 20, plus its exact inverse `intToPerm` |
 | `content/data-structures/UnionFindRollback.h` | optional parity argument `join(a, b, w)` and `par(x)`; old calls behave as before (`DirectedMST` test passes) |
 | `content/contest/template.cpp` -> `macros.cpp` | removed `cin.exceptions(cin.failbit);` (it makes `while (cin >> x)` throw at EOF); then renamed to `macros.cpp` and reduced to the macros and typedefs: no `#include <bits/stdc++.h>`, no `using namespace std`, no `main` (remembered by the team), plus the new macro `#define pb push_back` |
 | `stress-tests/utilities/template.h` | includes `<cassert>`, which GCC 16's `<bits/stdc++.h>` no longer does; now includes `macros.cpp` itself, and `-DLLINT` adds `#define int long long` |
@@ -136,7 +138,7 @@ Gotchas for your own code with the define: `max(x, 0)` / `min(x, 1)` need `0LL` 
 ## New stress tests (all pass; each was mutation-checked)
 
 `IntervalMap`, `DynCon`, `PersistentSegmentTree`, `CentroidDecomposition`, `DsuOnTree`, `SuffixAutomaton`,
-`HalfPlane`, `MinkowskiSum`, `LinearSieve`, `ExLucas`, `XorBasis`, `RadixConversion`, `BostanMori`, `LazySegTree` (4 tests: beats block, affine, clamp, min query), `RectangleUnion`, `PolyOps`,
+`HalfPlane`, `MinkowskiSum`, `LinearSieve`, `ExLucas`, `XorBasis`, `RadixConversion` (incl. `radixToPerm` / `permToRadix`), `IntPerm`, `TreapLazy`, `BostanMori`, `LazySegTree` (4 tests, incl. `maxRight`: beats block, affine, clamp, min query), `RectangleUnion`, `PolyOps`,
 `SolveLinearMod`, `Binomial`, `LagrangeInterpolation`, `PrimitiveRoot`, `LiChao`, `BlockCutTree`, `PalindromicTree`
 (in `stress-tests/<chapter>/`). The whole suite (`make test`) passed 101/101 before `ExLucas` (added by a teammate, with its own test) and the removals below; not re-run since.
 
