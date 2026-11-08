@@ -1,11 +1,11 @@
 # TODO (from the team review, `entries - nx_entries.csv`, and the coverage audit)
 
-State (2026-11-09): the book is 26 PDF pages (cover + 25), the Danang limit is 26 (25 + cover). `troubleshoot.txt` was cut on 2026-11-09 (the pages just reflowed:
-still 26, still full). **The team temporarily allows the book to grow to 27 pages** while the code items (Lucy/Du, `polyPow`, ModInt) are added; the overflow
-is then removed again, mainly by the techniques page rework (370 candidate lines vs 159 now) and small trims. The final book must be at most 26 pages.
+State (2026-11-09): the book is 26 PDF pages (cover + 25), the Danang limit is 26 (25 + cover). `troubleshoot.txt`, the *C++ pitfalls* section and `Int128.h` were cut on 2026-11-09
+(team review: known by heart); with items 16, 17, 19 added the book is back at 26 with about 0.6 of a column free on the techniques page. The techniques rework
+(370 candidate lines vs 159 now) is still the main lever for room; the final book must be at most 26 pages.
 
 ## Standing rules (so every item below can be done without asking)
-- **Page cap:** the final book must be at most 26 PDF pages; until the techniques rework it may temporarily be 27 (team decision 2026-11-09); aim for 26 or fewer with a few lines to spare. Rebuild with `make kactl` after every item and check
+- **Page cap:** the final book must be at most 26 PDF pages; aim for 26 or fewer with a few lines to spare. Rebuild with `make kactl` after every item and check
   the count (`Output written on build//kactl.pdf (N pages ...)`). If something does not fit, pay for it in this order: cleanup items,
   then the lowest-value new item (move it to "Deferred" here and say so in the report). Never drop an entry the team marked Keep without telling them.
 - **Code:** every new or changed code file gets a stress test in `stress-tests/<chapter>/` that is mutation-checked, passes `make test` and
@@ -52,7 +52,7 @@ Cleanup first (frees about 65 lines), then additions, cheapest and most useful f
     one or two worked counting examples. About 12-15 lines.
 13. [x] **Text: suffix array / suffix automaton identities** (done: Strings, new section; checked by `check_strings.cpp`, which also confirmed that the generalized automaton only needs `last = 0` per string) (Strings): `lcp(i, j)` as a range minimum over the lcp array, distinct substrings
     `n(n+1)/2 - sum lcp`, k-th substring, occurrence counts along suffix links, generalized SAM (reset `last` per string). About 5 lines.
-14. [x] **Contest / Various: C++ pitfalls list and `__int128` print** (done: Various, new section "C++ pitfalls" with 12 bullets, each reproduced by `doc/note-checks/check_pitfalls.py`; `Int128.h` is a hashed, stress-tested code file; one correction found by the check: `1 << 31` is well defined since C++14, the undefined behaviour starts at `k >= 32`) (about 12 lines): `1 << 31` (use `1LL <<`), `abs(INT_MIN)`, `size() - 1` underflow,
+14. [x] **Contest / Various: C++ pitfalls list and `__int128` print** (done, then cut from the book by the team on 2026-11-09: import commented out, `Int128.h` and `check_pitfalls.py` stay; was: Various, new section "C++ pitfalls" with 12 bullets, each reproduced by `doc/note-checks/check_pitfalls.py`; `Int128.h` is a hashed, stress-tested code file; one correction found by the check: `1 << 31` is well defined since C++14, the undefined behaviour starts at `k >= 32`) (about 12 lines): `1 << 31` (use `1LL <<`), `abs(INT_MIN)`, `size() - 1` underflow,
     comparators that are not strict weak orders (`<=` crashes `sort`), negative `%`, printing `-0.0`, `vector<bool>` quirks, `endl` / flush on interactive
     problems, stack limit on deep recursion, uninitialized locals and globals not cleared between tests, `max(int, ll)` mixing, anti-hash tests for
     `unordered_map`; plus a 3-line `__int128` output function (tested).

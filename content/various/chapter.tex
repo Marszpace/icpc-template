@@ -38,23 +38,24 @@
 		\item \verb@feenableexcept(29);@ kills the program on NaNs (\texttt 1), 0-divs (\texttt 4), infinities (\texttt 8) and denormals (\texttt{16}).
 	\end{itemize}
 
-\section{C++ pitfalls}
-	% Every claim is checked by doc/note-checks/check_pitfalls.py (interactive flush: doc/scripts/test-contest-scripts.sh)
-	\begin{itemize}
-		\item \verb@1 << k@ is an \texttt{int}: negative for $k = 31$, undefined for $k \ge 32$. Write \verb@1LL << k@ (also with \verb@#define int long long@ the literal \texttt{1} stays 32 bits).
-		\item \verb@abs(INT_MIN)@ is still negative and \verb@INT_MAX + 1@ is undefined (\verb@-fsanitize=undefined@ finds it).
-		\item \verb@v.size() - 1@ is $2^{64}-1$ for an empty vector: use \verb@sz(v)@.
-		\item \verb@%@ and \verb@/@ truncate towards 0: \verb@-7 % 3 == -1@, \verb@-7 / 2 == -3@. Use \verb@((a % m) + m) % m@.
-		\item A \texttt{sort} comparator must be a strict weak order: \verb@<=@ is undefined (it may crash or loop; \verb@-D_GLIBCXX_DEBUG@ catches it).
-		\item \verb@(int)(0.29 * 100)@ is 28 and \verb@0.1 + 0.2 != 0.3@: use \verb@llround@ and an epsilon. \verb@printf("%.2f", -0.001)@ prints \verb@-0.00@: print \verb@round(x * 100) / 100 + 0.0@.
-		\item \verb@vector<bool>@ stores bits: \verb@auto& x = v[i]@ does not compile and elements have no address. Use \verb@vector<char>@.
-		\item \verb@__builtin_popcount@, \texttt{clz}, \texttt{ctz} take 32 bits: with a \texttt{long long} they truncate silently (\verb@popcount(1LL << 40) == 0@). Use the \verb@ll@ versions.
-		\item \verb@cin >> n; getline(cin, s)@ reads the rest of the line (empty). Mixing \texttt{scanf} and \texttt{cin} after \verb@sync_with_stdio(0)@ breaks.
-		\item Interactive: flush every line. \verb@"\n"@ does not flush with \verb@cin.tie(0)->sync_with_stdio(0)@, use \verb@endl@.
-		\item Recursion: the default stack is often 8 MB and depth $10^5$ crashes with ordinary frames. Use an explicit stack.
-		\item \texttt{unordered\_map} can be driven to $O(n^2)$ by adversarial keys: use \texttt{HashMap.h} or a custom hash.
-	\end{itemize}
-	\kactlimport{Int128.h}
+% C++ pitfalls and Int128.h cut by the team (2026-11-09): known by heart. check_pitfalls.py and the Int128 test stay.
+%\section{C++ pitfalls}
+%	% Every claim is checked by doc/note-checks/check_pitfalls.py (interactive flush: doc/scripts/test-contest-scripts.sh)
+%	\begin{itemize}
+%		\item \verb@1 << k@ is an \texttt{int}: negative for $k = 31$, undefined for $k \ge 32$. Write \verb@1LL << k@ (also with \verb@#define int long long@ the literal \texttt{1} stays 32 bits).
+%		\item \verb@abs(INT_MIN)@ is still negative and \verb@INT_MAX + 1@ is undefined (\verb@-fsanitize=undefined@ finds it).
+%		\item \verb@v.size() - 1@ is $2^{64}-1$ for an empty vector: use \verb@sz(v)@.
+%		\item \verb@%@ and \verb@/@ truncate towards 0: \verb@-7 % 3 == -1@, \verb@-7 / 2 == -3@. Use \verb@((a % m) + m) % m@.
+%		\item A \texttt{sort} comparator must be a strict weak order: \verb@<=@ is undefined (it may crash or loop; \verb@-D_GLIBCXX_DEBUG@ catches it).
+%		\item \verb@(int)(0.29 * 100)@ is 28 and \verb@0.1 + 0.2 != 0.3@: use \verb@llround@ and an epsilon. \verb@printf("%.2f", -0.001)@ prints \verb@-0.00@: print \verb@round(x * 100) / 100 + 0.0@.
+%		\item \verb@vector<bool>@ stores bits: \verb@auto& x = v[i]@ does not compile and elements have no address. Use \verb@vector<char>@.
+%		\item \verb@__builtin_popcount@, \texttt{clz}, \texttt{ctz} take 32 bits: with a \texttt{long long} they truncate silently (\verb@popcount(1LL << 40) == 0@). Use the \verb@ll@ versions.
+%		\item \verb@cin >> n; getline(cin, s)@ reads the rest of the line (empty). Mixing \texttt{scanf} and \texttt{cin} after \verb@sync_with_stdio(0)@ breaks.
+%		\item Interactive: flush every line. \verb@"\n"@ does not flush with \verb@cin.tie(0)->sync_with_stdio(0)@, use \verb@endl@.
+%		\item Recursion: the default stack is often 8 MB and depth $10^5$ crashes with ordinary frames. Use an explicit stack.
+%		\item \texttt{unordered\_map} can be driven to $O(n^2)$ by adversarial keys: use \texttt{HashMap.h} or a custom hash.
+%	\end{itemize}
+%	\kactlimport{Int128.h}
 
 \section{Optimization tricks}
 	\verb@__builtin_ia32_ldmxcsr(40896);@ disables denormals (which make floats 20x slower near their minimum value).
