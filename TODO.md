@@ -1,15 +1,17 @@
 # TODO (from the team review, `entries - nx_entries.csv`, and the coverage audit)
 
-State (2026-11-08): the book is 26 PDF pages (cover + 25) = **the Danang limit of 26 (25 + cover), confirmed by the team**, so it is
-at the cap; page 25 is only partly used (about 1.8 columns, roughly 100 lines, still free) and the techniques page is the last one.
+State (2026-11-09): the book is 26 PDF pages (cover + 25) = **the Danang limit of 26 (25 + cover), confirmed by the team**, and it is now **full**:
+pages 2-25 are full, the techniques page (26) has about 0.6 of a column free, and the end of the Strings chapter leaves a third of a column unused.
+New code or text needs space from somewhere: **the techniques page rework is the main lever** (370 candidate lines vs 159 now), then small trims.
 
 ## Standing rules (so every item below can be done without asking)
-- **Page cap:** never go over 26 PDF pages; aim for 26 or fewer with a few lines to spare. Rebuild with `make kactl` after every item and check
+- **Page cap:** never go over 26 PDF pages (the book is full now, so every addition needs a matching trim); aim for 26 or fewer with a few lines to spare. Rebuild with `make kactl` after every item and check
   the count (`Output written on build//kactl.pdf (N pages ...)`). If something does not fit, pay for it in this order: cleanup items,
   then the lowest-value new item (move it to "Deferred" here and say so in the report). Never drop an entry the team marked Keep without telling them.
 - **Code:** every new or changed code file gets a stress test in `stress-tests/<chapter>/` that is mutation-checked, passes `make test` and
   `LLINT=1 make test` (with `#define int long long`), and `make test-compiles` in both modes. Library rules for both modes: `(int)(x)` not `int(x)`,
   `max<int>(x, 0)` not `max(x, 0)`, wrap `#include <bits/extc++.h>` in `push_macro("int")` / `#undef int` / `pop_macro("int")`, tests use `signed main`.
+- **Judge facts:** the judge is Ubuntu 24.04; its Python is CPython 3.12.3 and PyPy 7.3.15 (Python 3.9.18). Both are installed in the working container (`/usr/bin/python3.12`, `/usr/bin/pypy3`), so Python claims are tested on the real interpreters. Python code and notes must work on both (PyPy: no 3.10+ syntax or `math.cbrt`; deep recursion needs a big-stack thread).
 - **Text notes:** every formula is checked before it goes in: add a small script to `doc/note-checks/` (python3 or C++, run all with `doc/note-checks/run-all.sh`, not part of `make test`). Build the book with `make kactl < /dev/null` (a LaTeX error otherwise hangs on a prompt) and write `\&` for `&` in `Usage:` lines.
 - **Style:** lines at most 63 characters (tab = 2), header with Author / Date / License CC0 / Description / Time / Status; text notes in the
   matching `chapter.tex`, short, formulas over prose. New code uses the macros of `content/contest/macros.cpp` (`rep all sz pb ll pii vi`).
@@ -50,11 +52,11 @@ Cleanup first (frees about 65 lines), then additions, cheapest and most useful f
     one or two worked counting examples. About 12-15 lines.
 13. [x] **Text: suffix array / suffix automaton identities** (done: Strings, new section; checked by `check_strings.cpp`, which also confirmed that the generalized automaton only needs `last = 0` per string) (Strings): `lcp(i, j)` as a range minimum over the lcp array, distinct substrings
     `n(n+1)/2 - sum lcp`, k-th substring, occurrence counts along suffix links, generalized SAM (reset `last` per string). About 5 lines.
-14. [ ] **Contest / Various: C++ pitfalls list and `__int128` print** (about 12 lines): `1 << 31` (use `1LL <<`), `abs(INT_MIN)`, `size() - 1` underflow,
+14. [x] **Contest / Various: C++ pitfalls list and `__int128` print** (done: Various, new section "C++ pitfalls" with 12 bullets, each reproduced by `doc/note-checks/check_pitfalls.py`; `Int128.h` is a hashed, stress-tested code file; one correction found by the check: `1 << 31` is well defined since C++14, the undefined behaviour starts at `k >= 32`) (about 12 lines): `1 << 31` (use `1LL <<`), `abs(INT_MIN)`, `size() - 1` underflow,
     comparators that are not strict weak orders (`<=` crashes `sort`), negative `%`, printing `-0.0`, `vector<bool>` quirks, `endl` / flush on interactive
     problems, stack limit on deep recursion, uninitialized locals and globals not cleared between tests, `max(int, ll)` mixing, anti-hash tests for
     `unordered_map`; plus a 3-line `__int128` output function (tested).
-15. [ ] **Python tricks (big integers)** (Various, text, about 12 lines; the team uses Python mostly for big integers). Include only what is verified
+15. [x] **Python tricks (big integers)** (done: Various, new last section "Python", checked on both judge interpreters, CPython 3.12.3 and PyPy 7.3.15 = Python 3.9.18, by `doc/note-checks/check_python.py`) (Various, text, about 12 lines; the team uses Python mostly for big integers). Include only what is verified
     on the installed Python (3.13); the wiki's `lang/python.md` is a beginner tutorial and is not a source for this: `math.isqrt`, `gcd`, `lcm`, `comb`, `perm`, `factorial`, `prod`, `pow(a, b, m)` and `pow(a, -1, m)`, `divmod`,
     `int.bit_length`, `sys.set_int_max_str_digits(0)` (int <-> str conversion is limited to 4300 digits since 3.11), `decimal` (`getcontext().prec`,
     `sqrt`, `ln`, `exp`, `quantize`, rounding modes), `fractions.Fraction`, fast input via `sys.stdin`, `sys.setrecursionlimit` with a thread for stack.

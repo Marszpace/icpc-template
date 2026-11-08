@@ -4,7 +4,7 @@
 **printed in `kactl.pdf`**; cut files stay in the repository (only their `\kactlimport` line is commented out),
 so they can be turned back on in the `chapter.tex` of their directory.
 
-The book is now **26 PDF pages (cover + 25)**, the same as the original and exactly the Danang limit (26). Page 25 is only partly used (about 100 lines free).
+The book is now **26 PDF pages (cover + 25)**, the same as the original and exactly the Danang limit (26). The book is now full (about 0.6 of a column free on the techniques page).
 
 ## Added to the book
 
@@ -26,6 +26,7 @@ The book is now **26 PDF pages (cover + 25)**, the same as the original and exac
 | graph | `DsuOnTree.h` | 43 |  |
 | number-theory | `PrimitiveRoot.h` | 30 |  |
 | number-theory | `ExLucas.h` | 59 | binomial mod any m |
+| various | `Int128.h` | 21 | printing for `__int128` (`to_string`, `operator<<`), correct for the smallest value |
 | combinatorial | `RadixConversion.h` | 67 | bijective base conversion of digit vectors (for communication problems), and the same with permutations as the target (`radixToPerm` / `permToRadix`, exact bijection between all digit sequences and all permutations, (length, lex) order to (size, lex) order); shared helper `mulAdd` |
 | numerical | `BostanMori.h` | 34 | n-th term of a linear recurrence in O(n log n log k), same interface as `linearRec` (NTT, mod 998244353) |
 | numerical | `LagrangeInterpolation.h` | 34 |  |
@@ -47,6 +48,7 @@ Also new in the book, as text notes (no code):
 - Number theory: *Garner's algorithm*, *Exponents* (generalized Euler, lifting the exponent), and the linear Diophantine part added to the Bezout text (also fixes its "a != " typo)
 - Strings: *Suffix array and automaton facts* (lcp by range minimum, distinct / k-th substring, longest common substring, generalized automaton)
 - Combinatorial: *Generating functions* (about one column: dictionary, common series, counting structures, computing)
+- Various: *C++ pitfalls* (12 bullets) and *Python* (big integers, `math`, `decimal`, recursion; checked on the judge's CPython 3.12.3 and PyPy 7.3.15)
 - All formulas of these notes are checked by the scripts in `doc/note-checks/` (`run-all.sh`, not part of `make test`)
 - Contest: `stress.sh` (stress loop with optional brute force / checker) and `interactive.sh` (interactor wired with fifos; one test or stress mode with a generator; commented-out `tee` transcript), 38 lines
 - Various / dynamic programming: *Slope trick*
@@ -143,7 +145,7 @@ Gotchas for your own code with the define: `max(x, 0)` / `min(x, 1)` need `0LL` 
 ## New stress tests (all pass; each was mutation-checked)
 
 `IntervalMap`, `DynCon`, `PersistentSegmentTree`, `CentroidDecomposition`, `DsuOnTree`, `SuffixAutomaton`,
-`HalfPlane`, `MinkowskiSum`, `LinearSieve`, `ExLucas`, `XorBasis`, `RadixConversion` (incl. `radixToPerm` / `permToRadix`), `IntPerm`, `TreapLazy`, `BostanMori`, `LazySegTree` (4 tests, incl. `maxRight`: beats block, affine, clamp, min query), `RectangleUnion`, `PolyOps`,
+`HalfPlane`, `MinkowskiSum`, `LinearSieve`, `ExLucas`, `XorBasis`, `RadixConversion` (incl. `radixToPerm` / `permToRadix`), `Int128`, `IntPerm`, `TreapLazy`, `BostanMori`, `LazySegTree` (4 tests, incl. `maxRight`: beats block, affine, clamp, min query), `RectangleUnion`, `PolyOps`,
 `SolveLinearMod`, `Binomial`, `LagrangeInterpolation`, `PrimitiveRoot`, `LiChao`, `BlockCutTree`, `PalindromicTree`
 (in `stress-tests/<chapter>/`). The whole suite (`make test`) passed 101/101 before `ExLucas` (added by a teammate, with its own test) and the removals below; not re-run since.
 
