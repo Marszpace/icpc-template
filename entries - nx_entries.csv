@@ -3,7 +3,7 @@ contest,Code: macros.cpp (was template.cpp),7,Edit,done 2026-11-08: only macros 
 contest,Code: .bashrc,3,Cut,team uses VS Code (does not use it),"change compile, remove xkeymodmap",
 contest,Code: .vimrc,6,Delete,,no vim user,
 contest,Code: hash.sh,7,Edit,done 2026-11-08: ./hash.sh [file.cpp] prints the hash (stdin still works),improve usability,
-contest,Code: troubleshoot.txt,52,Keep,,,
+contest,Code: troubleshoot.txt,52,Cut,team decision 2026-11-09 (frees a column; the book may temporarily overflow to 27 pages),,
 math,Text: Equations,7,Delete,,elementary,
 math,Text: Recurrences,3,Delete,,"can be derived, and not too necessary (matrix powers)",
 math,Text: Trigonometry,10,Keep,,,

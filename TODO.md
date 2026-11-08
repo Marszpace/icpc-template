@@ -1,11 +1,11 @@
 # TODO (from the team review, `entries - nx_entries.csv`, and the coverage audit)
 
-State (2026-11-09): the book is 26 PDF pages (cover + 25) = **the Danang limit of 26 (25 + cover), confirmed by the team**, and it is now **full**:
-pages 2-25 are full, the techniques page (26) has about 0.6 of a column free, and the end of the Strings chapter leaves a third of a column unused.
-New code or text needs space from somewhere: **the techniques page rework is the main lever** (370 candidate lines vs 159 now), then small trims.
+State (2026-11-09): the book is 26 PDF pages (cover + 25), the Danang limit is 26 (25 + cover). `troubleshoot.txt` was cut on 2026-11-09 (the pages just reflowed:
+still 26, still full). **The team temporarily allows the book to grow to 27 pages** while the code items (Lucy/Du, `polyPow`, ModInt) are added; the overflow
+is then removed again, mainly by the techniques page rework (370 candidate lines vs 159 now) and small trims. The final book must be at most 26 pages.
 
 ## Standing rules (so every item below can be done without asking)
-- **Page cap:** never go over 26 PDF pages (the book is full now, so every addition needs a matching trim); aim for 26 or fewer with a few lines to spare. Rebuild with `make kactl` after every item and check
+- **Page cap:** the final book must be at most 26 PDF pages; until the techniques rework it may temporarily be 27 (team decision 2026-11-09); aim for 26 or fewer with a few lines to spare. Rebuild with `make kactl` after every item and check
   the count (`Output written on build//kactl.pdf (N pages ...)`). If something does not fit, pay for it in this order: cleanup items,
   then the lowest-value new item (move it to "Deferred" here and say so in the report). Never drop an entry the team marked Keep without telling them.
 - **Code:** every new or changed code file gets a stress test in `stress-tests/<chapter>/` that is mutation-checked, passes `make test` and
@@ -105,6 +105,7 @@ Stable marriage, min mean cycle (Karp), Steiner tree DP, tree isomorphism hashin
 Mo with updates, circle union area, minimum-area bounding rectangle, 3D formulas as text, Fibonacci / Josephus identities.
 
 ## Done
+- [x] `troubleshoot.txt` cut from the book (2026-11-09); the file stays, the import is commented out.
 - [x] Danang page limit: 26 (25 + cover), confirmed by the team on 2026-11-08.
 - [x] Every kept code file matches the new `macros.cpp` and also works with `#define int long long` (`LLINT=1 make test` / `LLINT=1 make test-compiles`).
 - [x] `template.cpp` -> `macros.cpp` (macros and typedefs only, new macro `pb`; the define is not in the file).
