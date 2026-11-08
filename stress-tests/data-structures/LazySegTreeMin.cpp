@@ -32,11 +32,16 @@ signed main() {
 		rep(i,0,n) b[i] = rand() % 100, v[i] = {b[i], -INF, 1, b[i], b[i]};
 		LazySeg t(v);
 		rep(q,0,80) {
-			int l = rand() % n, r = l + 1 + rand() % (n - l), ty = rand() % 3;
+			int l = rand() % n, r = l + 1 + rand() % (n - l), ty = rand() % 4;
 			ll x = rand() % 100;
 			if (ty == 0) { t.upd(l, r, {x, 0}); rep(i,l,r) b[i] = min(b[i], x); }
 			else if (ty == 1) { x -= 50; t.upd(l, r, {INF, x}); rep(i,l,r) b[i] += x; }
-			else {
+			else if (ty == 3) { // descent with a min predicate: first index >= L with value < X
+				int L = rand() % (n + 1), w = L;
+				ll X = rand() % 130 - 10;
+				while (w < n && b[w] >= X) w++;
+				assert(t.maxRight(L, [&](S s) { return s.mn >= X; }) == w);
+			} else {
 				ll m = INF, M = -INF;
 				rep(i,l,r) m = min(m, b[i]), M = max(M, b[i]);
 				S g = t.query(l, r);

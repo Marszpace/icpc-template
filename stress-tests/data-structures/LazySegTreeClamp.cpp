@@ -23,12 +23,19 @@ signed main() {
 		rep(i,0,n) b[i] = rand() % 100;
 		LazySeg t(b);
 		rep(q,0,60) {
-			int l = rand() % n, r = l + 1 + rand() % (n - l), ty = rand() % 5;
+			int l = rand() % n, r = l + 1 + rand() % (n - l), ty = rand() % 6;
 			ll v = rand() % 100;
 			if (ty == 4) {
 				ll s = -INF;
 				rep(i,l,r) s = max(s, b[i]);
 				assert(s == t.query(l, r));
+				continue;
+			}
+			if (ty == 5) { // descent: first index >= L with value >= X
+				int L = rand() % (n + 1), w = L;
+				ll X = rand() % 140 - 20;
+				while (w < n && b[w] < X) w++;
+				assert(t.maxRight(L, [&](S s) { return s < X; }) == w);
 				continue;
 			}
 			L x = ty == 0 ? L{v - 50, -INF, INF} : ty == 1 ? L{0, v, v}

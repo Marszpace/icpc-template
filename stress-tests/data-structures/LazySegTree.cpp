@@ -26,6 +26,35 @@ void testBrute() {
 	}
 }
 
+// descent: largest r with f(query(l, r)), for a max predicate (any values) and a sum predicate (values >= 0)
+void testMaxRight() {
+	rep(it,0,5000) {
+		int n = 1 + rand() % 20;
+		bool nonneg = it % 2;
+		vector<ll> b(n); vector<S> v(n);
+		rep(i,0,n) b[i] = rand() % 50, v[i] = {b[i], -INF, 1, b[i]};
+		LazySeg t(v);
+		rep(q,0,60) {
+			int l = rand() % n, r = l + 1 + rand() % (n - l), ty = rand() % 4;
+			ll x = rand() % 50;
+			if (ty == 0) { t.upd(l, r, {x, 0}); rep(i,l,r) b[i] = min(b[i], x); }
+			else if (ty == 1) { if (!nonneg) x -= 25; t.upd(l, r, {INF, x}); rep(i,l,r) b[i] += x; }
+			else {
+				int L = rand() % (n + 1);
+				ll X = rand() % 130 - 10;
+				int w1 = L;
+				while (w1 < n && b[w1] < X) w1++;
+				assert(t.maxRight(L, [&](S s) { return s.mx < X; }) == w1);
+				if (nonneg) {
+					int w2 = L; ll s = 0;
+					while (w2 < n && s + b[w2] <= 3 * X) s += b[w2++];
+					assert(t.maxRight(L, [&](S s) { return s.sum <= 3 * X; }) == w2);
+				}
+			}
+		}
+	}
+}
+
 // chmax instead of chmin: store negated values
 void testNegated() {
 	rep(it,0,2000) {
@@ -69,6 +98,7 @@ void testSpeed() {
 signed main() {
 	srand(4);
 	testBrute();
+	testMaxRight();
 	testNegated();
 	testSpeed();
 	cout<<"Tests passed!"<<endl;

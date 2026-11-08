@@ -7,7 +7,9 @@
  * (\texttt{LazySegTreeBlock.h}), which defines \texttt{S}, \texttt{L}, \texttt{e}, \texttt{id}, \texttt{op}, \texttt{ok}, \texttt{app}, \texttt{comp}.
  * \texttt{app(s, x, len)} applies tag $x$ to the value $s$ of a segment of length \texttt{len},
  * \texttt{comp(x, y)} is the tag "$y$ first, then $x$". Ranges are $[l, r)$. Beats with add is $O(\log^2 N)$ amortized.
+ * \texttt{maxRight(l, f)} is the largest $r$ with \texttt{f(query(l, r))} true, for monotone $f$ with \texttt{f(e())} true (descent in $O(\log N)$).
  * Usage: vector<S> v(n); LazySeg t(v); t.upd(l, r, {5, 0}); t.query(l, r).sum;
+ * t.maxRight(l, [&](S s) { return s.mx < x; }); // first index >= l with value >= x
  * Time: O(\log N)
  * Status: stress-tested
  */
@@ -41,5 +43,17 @@ struct LazySeg {
 		if (l <= lo && hi <= r) return t[o];
 		push(o, lo, hi); int m = (lo + hi) / 2;
 		return op(query(l, r, 2*o, lo, m), query(l, r, 2*o+1, m, hi));
+	}
+	template<class F> int maxRight(int l, F f) {
+		S a = e();
+		auto go = [&](auto&& go, int o, int lo, int hi) -> int {
+			if (hi <= l) return hi;
+			if (l <= lo && f(op(a, t[o]))) return a = op(a, t[o]), hi;
+			if (hi - lo == 1) return lo;
+			push(o, lo, hi); int m = (lo + hi) / 2;
+			int r = go(go, 2*o, lo, m);
+			return r < m ? r : go(go, 2*o+1, m, hi);
+		};
+		return go(go, 1, 0, n);
 	}
 };
