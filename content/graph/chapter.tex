@@ -47,6 +47,20 @@
 	\kactlimport{DirectedMST.h}
 
 \section{Math}
+	\subsection{Spanning trees, Euler circuits, disjoint paths}
+		% Matrix-tree (Kirchhoff), BEST and Lindstr\"om--Gessel--Viennot (LGV).
+		% Checked by doc/note-checks/check_graph.py; test: stress-tests/graph/matrix-tree.cpp
+		Laplacian $L = D - A$, where $A_{ij}$ is the number of edges $i \to j$ (or $i - j$), $D$ the degrees (loops ignored); weights multiply.
+		Delete row and column $r$ and take the determinant: undirected, this is the number of spanning trees (any $r$);
+		for a digraph $D = D_{out}$ (edge $a \to b$: \texttt{L[a][a]++, L[a][b]--}) counts spanning trees with all edges directed \emph{towards} $r$,
+		and $D = D_{in}$ (\texttt{L[b][b]++, L[a][b]--}) those directed \emph{away} from $r$.
+
+		BEST theorem: if every vertex has in-degree $=$ out-degree and the graph is connected, the number of Euler circuits (cyclic sequences of edges) is
+		$t_r \prod_v (\deg v - 1)!$, where $t_r$ is the number of trees towards $r$ (the same for every $r$); written as sequences starting at a given vertex $s$: times $\deg s$.
+
+		LGV lemma: in a DAG with sources $a_1, \dots, a_k$, sinks $b_1, \dots, b_k$ and $M_{ij}$ the number (or weighted sum) of paths $a_i \to b_j$,
+		$\det M = \sum \mathrm{sgn}(\sigma) \prod w$ over the systems of vertex-disjoint paths $a_i \to b_{\sigma(i)}$; if only $\sigma = \mathrm{id}$ can occur it counts them.
+
 	\subsection{Flows with lower bounds}
 		% Used in ICPC 2026 Central, problem K (min flow on a DAG with edge and node bounds).
 		Edge $u \to v$ with bounds $[l, c]$: give it capacity $c - l$ and set $\mathrm{ex}[v] \mathrel{+}= l$, $\mathrm{ex}[u] \mathrel{-}= l$.
