@@ -16,7 +16,7 @@ measured experiment, packaged as a patch in `diffs/` that applies to the current
   - `11-combined-25-pages-roomier.diff`: 25 pages, 336pt (0.6 column) spare. Patch 10 plus 17 shorter descriptions.
   - With every patch except removing blank lines in code: 25 pages, 1.2 columns spare. With that too: 2.4 columns spare.
 - **62 code lines are wider than 63 characters** and wrap onto 2 lines in the PDF. All of them come from this season's
-  edits. `12-unwrap-code-lines.diff` shortens 27 of them to fit (stress tests pass); the list is in `wrapped-code-lines.txt`.
+  edits. `12-unwrap-code-lines.diff` shortens 27 of them to fit (all tests pass); the list is in `wrapped-code-lines.txt`.
 
 One column is about 556pt (about 72 code lines). "Saved" below is measured, not estimated (method at the end).
 
@@ -147,7 +147,7 @@ By length: 14 lines are 64–66 characters, 22 are 67–70, and 26 are over 70. 
 **Patch 12** shortens 27 of them to 63 characters or less by dropping a few spaces or a word in a comment. Examples:
 `int o = 1, int lo = 0` becomes `int o=1, int lo=0`, and `query(l, r, 2*o, lo, m)` becomes `query(l,r,2*o,lo,m)`. It
 saves 240pt (0.4 column) and touches 15 files, so their hashes change. On the patched code `make test` passes 133/133
-in both modes (`make test-compiles` was still running when this was written). The other 35 lines need a real rewrite; splitting them by hand gives the same number of
+and `make test-compiles` 155/155, both also with `LLINT=1`. The other 35 lines need a real rewrite; splitting them by hand gives the same number of
 lines as the automatic wrap, but with proper indentation.
 
 ### 2.7 Clean
@@ -175,7 +175,7 @@ book the saving happens. Baseline: patch 01 applied, `U = 39094`pt for pages 2�
 | 07 | Techniques in the same flow as the rest (no forced new page) | 0 by itself | | Lets the leftover space of the last body page and the techniques page pool together. This is what makes 25 pages reachable |
 | 08 | No blank lines inside code (`emptylines=*0`) | 751 | 1.35 | Biggest single item, but blank lines between functions help reading. Hashes are unchanged (whitespace is ignored) |
 | 09 | Shorter wording for 17 long descriptions (same facts; script `shorter-descriptions.py`) | 262 | 0.5 | About 2 lines per file. Needs team review. Doing this for more files would give more |
-| 12 | Shorten 27 code lines that wrap (section 2.6) | 240 | 0.4 | Code change; stress tests pass in both modes |
+| 12 | Shorten 27 code lines that wrap (section 2.6) | 240 | 0.4 | Code change; all tests pass in both modes |
 | | Margins 0.5→0.4cm left/right | 27 | 0.05 | Not worth the printing risk |
 | | Top margin 1.0→0.8cm | about +400 capacity | 0.7 | Header would be 3.5mm from the paper edge; printer risk |
 | | File titles `\large`→`\normalsize` | 13 | 0 | Not worth it |
