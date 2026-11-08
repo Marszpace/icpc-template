@@ -11,23 +11,57 @@
  * \texttt{radixconv(radixconv(x, a, b), b, a) == x} always, with no length
  * or leading zeros to remember, and the result has about
  * $|x| \log_b a$ digits (e.g. to send $n$ numbers below $a$ in messages below $b$).
- * Time: O(|x| \cdot |y|), where $y$ is the result
+ * \texttt{radixToPerm(x, a)} is the same with permutations of $0, \ldots, n-1$
+ * as the target: a bijection between all digit sequences and all permutations
+ * (the size comes out of the data, e.g. 2000 binary digits give 296 elements),
+ * (length, lexicographic) order going to (size, lexicographic) order;
+ * \texttt{permToRadix(p, a)} is the inverse ($y$ is the result; it also takes $O(|y|^2)$). For a fixed size use \texttt{intToPerm}.
+ * Time: O(|x| \cdot |y|)
  * Status: stress-tested
  */
 #pragma once
 
-vi radixconv(const vi& x, int a, int b) {
-	vector<ll> y; // bijective base b (digits 1..b), least significant first
-	for (int d : x) {
-		ll c = d + 1; // y = y * a + (d + 1)
-		for (ll& v : y) {
-			ll t = v * a + c;
-			v = (t - 1) % b + 1, c = (t - 1) / b;
-		}
-		for (; c; c = (c - 1) / b)
-			y.push_back((c - 1) % b + 1);
+// y = y * m + c in bijective mixed radix: digit i (least
+// significant first) is in [1, r(i)]
+template<class F> void mulAdd(vector<ll>& y, ll m, ll c, F r) {
+	rep(i,0,sz(y)) {
+		ll t = y[i] * m + c, R = r(i);
+		y[i] = (t - 1) % R + 1, c = (t - 1) / R;
 	}
+	while (c) {
+		ll R = r(sz(y));
+		y.push_back((c - 1) % R + 1), c = (c - 1) / R;
+	}
+}
+vi radixconv(const vi& x, int a, int b) {
+	vector<ll> y; // bijective base b, least significant first
+	for (int d : x) mulAdd(y, a, d + 1, [&](int) { return b; });
 	vi r;
 	for (int i = sz(y); i--;) r.push_back((int)(y[i] - 1));
 	return r;
+}
+vi radixToPerm(const vi& x, int a) {
+	vector<ll> y; // bijective factorial base
+	for (int d : x)
+		mulAdd(y, a, d + 1, [](int i) { return i + 1; });
+	int n = sz(y);
+	vi s(n), p(n);
+	iota(all(s), 0);
+	rep(i,0,n) {
+		int c = (int)y[n - 1 - i] - 1;
+		p[i] = s[c], s.erase(s.begin() + c);
+	}
+	return p;
+}
+vi permToRadix(const vi& p, int a) {
+	int n = sz(p);
+	vector<ll> z; // bijective base a
+	rep(k,0,n) {
+		int c = 0;
+		rep(j,k+1,n) c += p[j] < p[k];
+		mulAdd(z, n - k, c + 1, [&](int) { return a; });
+	}
+	vi x;
+	for (int i = sz(z); i--;) x.push_back((int)z[i] - 1);
+	return x;
 }
