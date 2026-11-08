@@ -74,15 +74,11 @@ Also new in the book, as text notes (no code):
 | various | `SmallPtr.h` | 22 |  |
 | various | `BumpAllocatorSTL.h` | 25 |  |
 | various | `SIMD.h` | 57 |  |
-| data-structures | `UnionFind.h` | 24 | `UnionFindRollback` is printed (no reason recorded) |
-| geometry | `PolygonUnion.h` | 49 | no reason recorded |
-| geometry | `DelaunayTriangulation.h` | 25 | no reason recorded (`FastDelaunay` is cut too) |
-| number-theory | `Eratosthenes.h` | 22 | `FastEratosthenes` is printed instead |
-| number-theory | `Euclid.java` | 20 | Java version; no reason recorded |
-| numerical | `MatrixInverse-mod.h` | 52 | no reason recorded (the double-precision `MatrixInverse` is printed) |
-| strings | `Hashing-codeforces.h` | 64 | no reason recorded |
-| various | `Unrolling.h` | 14 | no reason recorded |
-| | **31 files** | **1243** | |
+| | **23 files** | **973** | |
+
+Also in the repository but **not printed in the original KACTL either** (so they are not cuts): `UnionFind.h`, `PolygonUnion.h`,
+`DelaunayTriangulation.h`, `Euclid.java`, `MatrixInverse-mod.h`, `Unrolling.h` (their imports are commented out in the original `chapter.tex`),
+and `Eratosthenes.h`, `Hashing-codeforces.h` (no import at all).
 
 Kept on purpose although they were candidates: `GomoryHu`, `GlobalMinCut`, `HillClimbing`, `CircleTangents`,
 `LinkCutTree`, `DirectedMST`, `GeneralMatching`.

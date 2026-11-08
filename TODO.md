@@ -27,7 +27,7 @@ Cleanup first (frees about 65 lines), then additions, cheapest and most useful f
 3. [x] **Remove the empty headings** (done: the four headings are commented out, the commented imports stay under them) that print with nothing under them: graph "Fundamentals" and "Coloring", number theory "Fractions",
    geometry "3D" (check in the built PDF that nothing is left under them first).
 4. [x] **`lineDistance.h`** (done): remove the mentions of `Point3D` (the 3D files are cut).
-5. [x] **`CHANGES-vs-original.md` cut table** (done: 8 rows added, totals now 31 files / 1243 lines): add the missing unprinted files: `UnionFind`, `PolygonUnion`, `DelaunayTriangulation`,
+5. [x] **`CHANGES-vs-original.md` cut table** (done, corrected: the 8 files turned out to be unprinted in the original KACTL too, so they are noted in a separate sentence, not listed as cuts; totals stay 23 files / 973 lines).
    `Hashing-codeforces`, `MatrixInverse-mod`, `Eratosthenes.h`, `Euclid.java`, `Unrolling`.
 6. [ ] **Segment tree descent** (`LazySegTree.h` body, about 10 lines): `template<class F> int maxRight(int l, F f)` returning the largest `r`
    such that `f(query(l, r))` holds (`f(e())` must hold), O(log N), AtCoder style; mention it in the description with a usage line.
