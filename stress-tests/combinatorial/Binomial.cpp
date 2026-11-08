@@ -2,7 +2,7 @@
 
 #include "../../content/combinatorial/Binomial.h"
 
-int main() {
+signed main() {
 	const int N = 1500;
 	initFact(N);
 	vector<vector<ll>> pas(N + 1, vector<ll>(N + 1));

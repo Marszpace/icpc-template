@@ -3,7 +3,7 @@
 #include "../../content/graph/LinkCutTree.h"
 #include "../../content/data-structures/UnionFind.h"
 
-int main() {
+signed main() {
 	srand(2);
 	LinkCut lczero(0);
 	rep(it,0,10000) {

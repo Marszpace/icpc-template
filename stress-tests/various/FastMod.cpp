@@ -107,7 +107,7 @@ ull rand_u64() {
 #define main1 main
 
 // Correctness
-int main1() {
+signed main1() {
 	const int bflim = 3000;
 	rep(a,0,bflim) rep(b,2,bflim) {
 		FastMod bar(b);
@@ -135,7 +135,7 @@ int main1() {
 int mod = MOD;
 
 // Performance
-int main2(int argc, char** argv) {
+signed main2(int argc, char** argv) {
 	int which = atoi(argv[1]);
 	if (which == 0) perf_plain(mod); // 7.529 for 8, 1.714 for 1
 	if (which == 1) perf_const<MOD>(); // 0.971 for 8, 0.499 for 1

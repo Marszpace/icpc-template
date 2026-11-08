@@ -59,7 +59,7 @@ void testSq(ull lim, bool expectSuccess, bool useDoubles) {
 	}
 }
 
-int main() {
+signed main() {
 	// The modmul code only makes sense for 80-bit x87 long longs, as seen on
 	// x86/x86_64 Linux. On other platforms like Windows (which uses 64-bit
 	// long longs) and Linux on ARM (which uses 128-bit ones) it is either

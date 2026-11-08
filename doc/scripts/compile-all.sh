@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 DIR=${1:-.}
 
-# use a precompiled header for the template to improve perf
-g++ -Wall -Wextra -Wfatal-errors -Wconversion -std=c++17 -x c++-header $DIR/content/contest/template.cpp
-trap "rm -f $DIR/content/contest/template.cpp.gch" EXIT
+# use a precompiled header for the prelude + macros to improve perf
+# (LLINT=1 compiles everything with #define int long long)
+FLAGS="-Wall -Wextra -Wfatal-errors -Wconversion -std=c++17 ${LLINT:+-DLLINT}"
+g++ $FLAGS -x c++-header $DIR/doc/scripts/prelude.h
+trap "rm -f $DIR/doc/scripts/prelude.h.gch" EXIT
 
 SCRIPT_DIR=$DIR/doc/scripts
 tests="$(find $DIR/content -name '*.h' | grep -vFf $SCRIPT_DIR/skip_headers)"

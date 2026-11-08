@@ -4,7 +4,7 @@
 #include "../../content/geometry/lineDistance.h"
 
 typedef Point<double> P;
-int main() {
+signed main() {
 	cin.sync_with_stdio(0);
 	cin.tie(0);
 	const int lim = 5;

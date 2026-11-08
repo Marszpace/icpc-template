@@ -209,7 +209,7 @@ void testRandom(int n, int numPts = 10, int lim = 5, bool brute = false) {
 	}
 }
 
-int main() {
+signed main() {
 	// int s = (int)time(0);
 	int s = 1;
 	// cout << "seed " << s << endl;

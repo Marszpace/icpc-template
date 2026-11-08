@@ -52,7 +52,7 @@ int main2() {
 }
 
 // Test at_most_one
-int main() {
+signed main() {
 	main1();
 	main2();
 	const int N = 100, M = 400;

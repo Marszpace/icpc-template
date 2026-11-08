@@ -101,7 +101,7 @@ int Directed_MST(int root, int NV, int NE) {
 }
 
 int adj[105][105];
-int main() {
+signed main() {
 	rep(it,0,50000) {
 		bumpalloc.reset();
 		int n = (rand()%20)+1;

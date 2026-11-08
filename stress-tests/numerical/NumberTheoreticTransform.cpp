@@ -31,7 +31,7 @@ int ra() {
 	return (X >> 1);
 }
 
-int main() {
+signed main() {
 	ll res = 0, res2 = 0;
 	int ind = 0, ind2 = 0;
 	vl a, b;

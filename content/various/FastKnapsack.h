@@ -19,7 +19,7 @@ int knapsack(vi w, int t) {
 	rep(i,b,sz(w)) {
 		u = v;
 		rep(x,0,m) v[x+w[i]] = max(v[x+w[i]], u[x]);
-		for (x = 2*m; --x > m;) rep(j, max(0,u[x]), v[x])
+		for (x = 2*m; --x > m;) rep(j, max<int>(0,u[x]), v[x])
 			v[x-w[j]] = max(v[x-w[j]], j);
 	}
 	for (a = t; v[a+m-t] < 0; a--) ;

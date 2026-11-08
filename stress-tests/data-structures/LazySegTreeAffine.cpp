@@ -12,7 +12,7 @@ L comp(L x, L y) { return {x.a * y.a % P, (x.a * y.b + x.b) % P}; }
 
 #include "../../content/data-structures/LazySegTree.h"
 
-int main() {
+signed main() {
 	srand(1);
 	rep(it,0,3000) {
 		int n = 1 + rand() % 17;

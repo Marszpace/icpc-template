@@ -35,7 +35,7 @@ template<class G> vi scc(G &g) {
 }
 }
 
-int main() {
+signed main() {
 	unsigned r = 1;
 	for (int N = 0; N <= 4; N++) {
 		// cout << "N = " << N << endl;

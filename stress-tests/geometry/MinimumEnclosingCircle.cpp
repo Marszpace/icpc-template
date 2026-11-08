@@ -2,7 +2,7 @@
 
 #include "../../content/geometry/MinimumEnclosingCircle.h"
 
-int main() {
+signed main() {
 	srand(2);
 	rep(it,0,1000000) {
 		int N = rand() % 20 + 1;

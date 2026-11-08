@@ -15,7 +15,7 @@ L comp(L x, L y) {
 
 #include "../../content/data-structures/LazySegTree.h"
 
-int main() {
+signed main() {
 	srand(2);
 	rep(it,0,3000) {
 		int n = 1 + rand() % 17;

@@ -6,8 +6,8 @@
 vector<vi> randTree(int n, int mode) {
 	vector<vi> g(n);
 	rep(i,1,n) {
-		int p = mode == 0 ? rand() % i : mode == 1 ? max(0, i - 1 - rand() % 2)
-		                                            : rand() % min(i, 3);
+		int p = mode == 0 ? rand() % i : mode == 1 ? max<int>(0, i - 1 - rand() % 2)
+		                                            : rand() % min<int>(i, 3);
 		g[p].push_back(i), g[i].push_back(p);
 	}
 	return g;
@@ -65,7 +65,7 @@ void check(vector<vi>& g) {
 	assert(roots == 1);
 }
 
-int main() {
+signed main() {
 	srand(2024);
 	rep(it,0,4000) {
 		int n = 1 + rand() % (it < 3000 ? 12 : 70);

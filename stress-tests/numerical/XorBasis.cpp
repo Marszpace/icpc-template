@@ -2,7 +2,7 @@
 
 #include "../../content/numerical/XorBasis.h"
 
-int main() {
+signed main() {
 	srand(4);
 	// small universe: compare against the explicitly enumerated span
 	rep(it,0,20000) {

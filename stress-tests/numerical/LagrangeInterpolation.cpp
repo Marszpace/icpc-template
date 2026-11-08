@@ -2,7 +2,7 @@
 
 #include "../../content/numerical/LagrangeInterpolation.h"
 
-int main() {
+signed main() {
 	srand(15);
 	rep(it,0,20000) {
 		int n = 1 + rand() % 20, d = rand() % n;

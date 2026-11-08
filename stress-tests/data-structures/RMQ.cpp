@@ -3,7 +3,7 @@
 
 #include "../../content/data-structures/RMQ.h"
 
-int main() {
+signed main() {
 	srand(2);
 	rep(N,0,100) {
 		vi v(N);

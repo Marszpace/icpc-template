@@ -8,7 +8,7 @@
 #undef main
 
 #include <sys/time.h>
-int main() {
+signed main() {
 	timeval tp;
 	gettimeofday(&tp, 0);
 	C = (int)tp.tv_usec;

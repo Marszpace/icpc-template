@@ -13,7 +13,7 @@ vector<P> randConvex(int range, int maxPts) {
 	}
 }
 
-int main() {
+signed main() {
 	srand(123);
 	rep(it,0,100000) {
 		int range = it % 3 == 0 ? 3 : it % 3 == 1 ? 8 : 100000000;

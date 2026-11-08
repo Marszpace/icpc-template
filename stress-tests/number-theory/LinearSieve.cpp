@@ -2,7 +2,7 @@
 
 #include "../../content/number-theory/LinearSieve.h"
 
-int main() {
+signed main() {
 	const int N = 3000;
 	linearSieve(N);
 	rep(n,1,N+1) {

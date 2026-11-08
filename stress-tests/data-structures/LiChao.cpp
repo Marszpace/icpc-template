@@ -4,7 +4,7 @@
 
 struct Line { ll k, m; int a, b; }; // active on x in [a, b)
 
-int main() {
+signed main() {
 	srand(17);
 	rep(it,0,6000) {
 		int n = 1 + rand() % 40;

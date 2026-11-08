@@ -22,3 +22,7 @@ jobs:
       run: make test-compiles
     - name: Run stress tests
       run: make test
+    - name: Run compiles with #define int long long
+      run: LLINT=1 make test-compiles
+    - name: Run stress tests with #define int long long
+      run: LLINT=1 make test

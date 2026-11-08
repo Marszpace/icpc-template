@@ -22,7 +22,7 @@ ll slow(ll n, ll k, ll m) {
 	return r;
 }
 
-int main() {
+signed main() {
 	vector<bool> comp(N + 1);
 	rep(i,2,N+1) if (!comp[i]) {
 		primes.push_back(i);

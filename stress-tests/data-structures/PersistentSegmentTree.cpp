@@ -2,7 +2,7 @@
 
 #include "../../content/data-structures/PersistentSegmentTree.h"
 
-int main() {
+signed main() {
 	srand(99);
 	// arbitrary versions with arbitrary (also negative) updates
 	rep(it,0,2000) {

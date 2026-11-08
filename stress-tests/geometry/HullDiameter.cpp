@@ -3,7 +3,7 @@
 #include "../../content/geometry/ConvexHull.h"
 #include "../../content/geometry/HullDiameter.h"
 
-int main() {
+signed main() {
 	srand(2);
 	rep(it,0,1000000) {
 		int N = (rand() % 10) + 1;

@@ -14,7 +14,7 @@
  */
 #pragma once
 
-/// Headers and macros from contest/template.h are automatically included.
+/// Headers (bits/stdc++.h, using namespace std) and the macros of contest/macros.cpp are automatically included.
 
 #include "Example.h" /// Header name will be kept in final list.
 

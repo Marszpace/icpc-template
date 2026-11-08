@@ -13,7 +13,10 @@
 #pragma once
 
 #pragma GCC target ("avx2") // or sse4.1
+#pragma push_macro("int")
+#undef int
 #include "immintrin.h" /** keep-include */
+#pragma pop_macro("int")
 
 typedef __m256i mi;
 #define L(x) _mm256_loadu_si256((mi*)&(x))

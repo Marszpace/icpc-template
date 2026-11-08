@@ -66,7 +66,7 @@ void testSpeed() {
 	assert(sec < 10 && sink != 42);
 }
 
-int main() {
+signed main() {
 	srand(4);
 	testBrute();
 	testNegated();

@@ -36,9 +36,9 @@ ll rectUnion(vector<Rect> r) {
 	ll ans = 0, px = 0;
 	for (auto& e : ev) {
 		ans += cov[1] * (e[0] - px); px = e[0];
-		int l = int(lower_bound(all(ys), e[2]) - ys.begin());
-		int h = int(lower_bound(all(ys), e[3]) - ys.begin());
-		upd(upd, 1, 0, m, l, h, int(-e[1]));
+		int l = (int)(lower_bound(all(ys), e[2]) - ys.begin());
+		int h = (int)(lower_bound(all(ys), e[3]) - ys.begin());
+		upd(upd, 1, 0, m, l, h, (int)(-e[1]));
 	}
 	return ans;
 }

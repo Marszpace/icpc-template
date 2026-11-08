@@ -58,7 +58,7 @@ void test(const string& s) {
 	}
 }
 
-int main() {
+signed main() {
 	// test ~4^10 strings
 	rep(n,0,11) {
 		string s(n, 'x');

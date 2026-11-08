@@ -4,7 +4,7 @@
 **printed in `kactl.pdf`**; cut files stay in the repository (only their `\kactlimport` line is commented out),
 so they can be turned back on in the `chapter.tex` of their directory.
 
-The book is now **25 PDF pages (cover + 24)**, one fewer than the original (26). It was 24 after the team review; the contest scripts pushed `BumpAllocator.h` alone onto the last code page (the 24th page is almost empty, so there is about a page of free room; deleting `BumpAllocator.h` brings it back to 24).
+The book is now **24 PDF pages (cover + 23)**, two fewer than the original (26). (Adding the contest scripts briefly made it 25, with `BumpAllocator.h` alone on the last code page; the smaller `macros.cpp` brought it back to 24, but the last code page is nearly full, so the next addition may tip it over again.)
 
 ## Added to the book
 
@@ -106,8 +106,22 @@ Still open (edit / merge / undecided): see `TODO.md`.
 | File | Change |
 |---|---|
 | `content/data-structures/UnionFindRollback.h` | optional parity argument `join(a, b, w)` and `par(x)`; old calls behave as before (`DirectedMST` test passes) |
-| `content/contest/template.cpp` | removed `cin.exceptions(cin.failbit);` (it makes `while (cin >> x)` throw at EOF) |
-| `stress-tests/utilities/template.h` | includes `<cassert>`, which GCC 16's `<bits/stdc++.h>` no longer does |
+| `content/contest/template.cpp` -> `macros.cpp` | removed `cin.exceptions(cin.failbit);` (it makes `while (cin >> x)` throw at EOF); then renamed to `macros.cpp` and reduced to the macros and typedefs: no `#include <bits/stdc++.h>`, no `using namespace std`, no `main` (remembered by the team), plus the new macro `#define pb push_back` |
+| `stress-tests/utilities/template.h` | includes `<cassert>`, which GCC 16's `<bits/stdc++.h>` no longer does; now includes `macros.cpp` itself, and `-DLLINT` adds `#define int long long` |
+| `doc/scripts/prelude.h` | new: what `macros.cpp` assumes before it (includes, `using namespace std`, optional `#define int long long`), used by `make test-compiles` |
+| 8 printed headers + 3 unprinted | work with `#define int long long` as well as without it (see below) |
+
+### Compatibility with `#define int long long`
+
+The team usually adds `#define int long long` (with `signed main`) after the includes. It is **not** in `macros.cpp`, but the whole library compiles and passes its tests both ways (`make test`, `make test-compiles`, and the same with `LLINT=1`). What had to change:
+
+| Problem under the define | Files | Fix (works in both modes) |
+|---|---|---|
+| `int(x)` becomes `long long(x)` | `RectangleUnion`, `FastEratosthenes`, `FastFourierTransformMod` | `(int)(x)` |
+| `max(int_var, 0)`: the literal stays 32-bit | `MaximumClique`, `MinRotation`, `SuffixArray`, `FastKnapsack` | `max<int>(...)` |
+| `#include <bits/extc++.h>` after the define breaks the std headers | `HashMap`, `OrderStatisticTree`, `MinCostMaxFlow` (include line), `SIMD` | wrap the include in `#pragma push_macro("int")`, `#undef int`, `#pragma pop_macro("int")` |
+
+Gotchas for your own code with the define: `max(x, 0)` / `min(x, 1)` need `0LL` or `<int>`, `int(x)` casts need `(int)(x)`, `__builtin_popcount` / `clz` take 32 bits (use the `ll` versions for wide masks), `1 << k` is still a 32-bit shift, and an `#include` of an extra std/ext header must come before the define.
 
 ## New stress tests (all pass; each was mutation-checked)
 

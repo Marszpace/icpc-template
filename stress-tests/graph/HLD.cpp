@@ -130,7 +130,7 @@ void testAgainstBrute(int n, int iters, int queries) {
 	}
 
 }
-int main() {
+signed main() {
 	srand(2);
 	testAgainstBrute(5, 1000, 10000);
 	testAgainstBrute(1000, 100, 100);

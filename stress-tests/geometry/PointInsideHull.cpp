@@ -7,7 +7,7 @@ namespace ignore {
 #include "../../content/geometry/PointInsideHull.h"
 #include "../../content/geometry/InsidePolygon.h"
 
-int main() {
+signed main() {
 	rep(it,0,100000) {
 		int N = rand() % 15;
 		vector<P> ps;

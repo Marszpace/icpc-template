@@ -43,7 +43,8 @@ Sprague-Grundy, Pick's theorem. Every new header has a stress test in
   (`IntervalMap<bool>` does the same job and also holds values).
 - `Dinic.h` replaces `EdmondsKarp.h`; `PushRelabel` is kept.
 - `contest/template.cpp`: dropped `cin.exceptions(cin.failbit)`, which makes
-  `while (cin >> x)` throw at EOF.
+  `while (cin >> x)` throw at EOF. It was later renamed to `contest/macros.cpp`
+  and now holds only the macros and typedefs (see `CHANGES-vs-original.md`).
 
 ## Removed from the book (files stay in the repo)
 

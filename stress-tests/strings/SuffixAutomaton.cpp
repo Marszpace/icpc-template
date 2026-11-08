@@ -17,7 +17,7 @@ int occurrences(const string& s, const string& w) {
 	return c;
 }
 
-int main() {
+signed main() {
 	srand(5);
 	rep(it,0,4000) {
 		int n = 1 + rand() % 25, k = 1 + rand() % 3;

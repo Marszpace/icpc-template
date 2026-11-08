@@ -64,7 +64,7 @@ void rec2(int i, bs& A, int m, F f) {
 	}
 }
 
-int main() {
+signed main() {
 	int ct = 0;
 	rep(n,0,nmax+1) rep(m,0,mmax+1) {
 		int nm = n*m;

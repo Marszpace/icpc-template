@@ -81,4 +81,4 @@ int main2() {
 #ifndef target
 #define target main1
 #endif
-int main() { target(); }
+signed main() { target(); }

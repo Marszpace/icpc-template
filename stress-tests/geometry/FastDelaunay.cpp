@@ -155,7 +155,7 @@ int main2() {
 }
 
 #ifdef TEST_PERF
-int main() { return main2(); }
+signed main() { return main2(); }
 #else
-int main() { return main1(); }
+signed main() { return main1(); }
 #endif

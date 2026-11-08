@@ -4,7 +4,10 @@
 // #include "mcmf4.h"
 // #include "mcmfold.h"
 // #include "mcmfnew.h"
+#pragma push_macro("int")
+#undef int
 #include <bits/extc++.h>
+#pragma pop_macro("int")
 #define setpi dummy(){} bool setpi
 #undef assert
 #define assert(x) return x
@@ -201,7 +204,7 @@ void testNeg() {
 	cout<<"Tests passed!"<<endl;
 }
 
-int main() {
+signed main() {
 	testMatching();
 	testNeg();
 }

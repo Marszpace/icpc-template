@@ -8,7 +8,7 @@
 #include "../../content/geometry/circumcircle.h"
 
 typedef Point<double> P;
-int main() {
+signed main() {
 	feenableexcept(29);
 	rep(it,0,100000) {{
 		vector<P> ps;

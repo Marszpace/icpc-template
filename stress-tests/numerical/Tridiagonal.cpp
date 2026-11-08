@@ -99,7 +99,7 @@ void rec(T& b, int& a, F f) {
 	rep(i,0,mod) a = i, b = T(i), f();
 }
 
-int main() {
+signed main() {
 #ifdef BRUTEFORCE
 	const int n = 3;
 	vector<vi> mat(n, vi(n)), mat2;
@@ -299,7 +299,7 @@ void rec(T& a, T& b, F f) {
 	}
 }
 
-int main() {
+signed main() {
 	ll count = 0;
 #ifdef BRUTEFORCE
 	const int n = 3;
@@ -387,7 +387,7 @@ int main() {
 
 }
 
-int main() {
+signed main() {
 	// finite_field::main();
 	real::main();
 }

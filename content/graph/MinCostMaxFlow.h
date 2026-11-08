@@ -10,7 +10,10 @@
  */
 #pragma once
 
+// #pragma push_macro("int") /// include-line
+// #undef int /// include-line
 // #include <bits/extc++.h> /// include-line, keep-include
+// #pragma pop_macro("int") /// include-line
 
 const ll INF = numeric_limits<ll>::max() / 4;
 

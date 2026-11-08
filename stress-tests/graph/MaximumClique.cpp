@@ -17,7 +17,7 @@ struct timeit {
 };
 
 
-int main() {
+signed main() {
 	rep(it, 0, 100000) {
 		int n =(rand()%32)+1;
 		vb ed(n);
@@ -31,7 +31,7 @@ int main() {
 		}
 		Maxclique clique2(ed);
 		int mx = 0;
-		maximal::cliques(ed2, [&](auto x){mx = max(mx, int(x.count()));});
+		maximal::cliques(ed2, [&](auto x){mx = max(mx, (int)x.count());});
 		assert(mx == sz(clique2.maxClique()));
 	}
 	cout<<"Tests passed!"<<endl;

@@ -24,7 +24,7 @@ L comp(L x, L y) { return {min(y.c, x.c - y.a), x.a + y.a}; }
 
 #include "../../content/data-structures/LazySegTree.h"
 
-int main() {
+signed main() {
 	srand(3);
 	rep(it,0,3000) {
 		int n = 1 + rand() % 17;

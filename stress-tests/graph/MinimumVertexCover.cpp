@@ -24,7 +24,7 @@ vi coverHK(vector<vi>& g, int n, int m) {
 	return cover;
 }
 
-int main() {
+signed main() {
 	const int MAXN = 20;
 	mt19937 rng(17);
 	rep(it,0,300'000) {

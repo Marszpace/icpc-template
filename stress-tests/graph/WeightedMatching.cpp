@@ -3,7 +3,10 @@
 #include "../utilities/random.h"
 
 #include "../../content/graph/WeightedMatching.h"
+#pragma push_macro("int")
+#undef int
 #include <bits/extc++.h> /// include-line, keep-include
+#pragma pop_macro("int")
 #include "../../content/graph/MinCostMaxFlow.h"
 
 void test(int N, int mxCost, int iters) {

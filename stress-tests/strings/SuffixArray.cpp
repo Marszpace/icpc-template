@@ -239,7 +239,7 @@ void perf2() {
 	cout << res << endl;
 }
 
-int main() {
+signed main() {
 	// compare();
 	stress(0);
 	cout<<"Tests passed!"<<endl;

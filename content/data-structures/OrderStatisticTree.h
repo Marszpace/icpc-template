@@ -10,7 +10,10 @@
  */
 #pragma once
 
+#pragma push_macro("int")
+#undef int
 #include <bits/extc++.h> /** keep-include */
+#pragma pop_macro("int")
 using namespace __gnu_pbds;
 
 template<class T>

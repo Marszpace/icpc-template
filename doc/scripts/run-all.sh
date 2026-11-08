@@ -2,7 +2,9 @@
 DIR=${1:-.}
 
 # use a precompiled header for the template to improve perf
-g++ -Wall -Wfatal-errors -Wconversion -std=c++17 -O2 $DIR/stress-tests/utilities/template.h
+# (LLINT=1 runs everything with #define int long long)
+FLAGS="-Wall -Wfatal-errors -Wconversion -std=c++17 -O2 ${LLINT:+-DLLINT}"
+g++ $FLAGS $DIR/stress-tests/utilities/template.h
 trap "rm -f $DIR/stress-tests/utilities/template.h.gch" EXIT
 
 tests="$(find $DIR/stress-tests -name '*.cpp')"
@@ -13,7 +15,7 @@ ulimit -s 524288 # For 2-sat test
 for test in $tests; do
     echo "$(basename $test): "
     start=`date +%s.%N`
-    g++ -Wall -Wfatal-errors -Wconversion -std=c++17 -O2 $test && ./a.out
+    g++ $FLAGS $test && ./a.out
     retCode=$?
     if (($retCode != 0)); then
         echo "Failed with $retCode"

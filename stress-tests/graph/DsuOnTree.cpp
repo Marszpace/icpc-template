@@ -5,8 +5,8 @@
 vector<vi> randTree(int n, int mode) {
 	vector<vi> g(n);
 	rep(i,1,n) {
-		int p = mode == 0 ? rand() % i : mode == 1 ? max(0, i - 1 - rand() % 2)
-		                                            : rand() % min(i, 3);
+		int p = mode == 0 ? rand() % i : mode == 1 ? max<int>(0, i - 1 - rand() % 2)
+		                                            : rand() % min<int>(i, 3);
 		g[p].push_back(i), g[i].push_back(p);
 	}
 	return g;
@@ -76,7 +76,7 @@ void check(int n, int mode, int K) {
 	assert(sizeNow == n);
 }
 
-int main() {
+signed main() {
 	srand(77);
 	rep(it,0,6000) check(1 + rand() % (it < 4000 ? 10 : 60), rand() % 3, 1 + rand() % 5);
 	// deep paths, many light children

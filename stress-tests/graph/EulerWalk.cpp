@@ -67,7 +67,7 @@ vi eulerCycle(vector<vector<pii>>& gr, int nedges, int src=0) {
 	return {ret.rbegin(), ret.rend()};
 }
 
-int main() {
+signed main() {
 	rep(cycle,0,2) rep(undir,0,2) {
 		rep(it,0,10000) {
 			int n = rand() % 10 + 1;

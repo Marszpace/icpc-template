@@ -82,7 +82,7 @@ void rec2(int i, vector<ll>& A, F f) {
 	}
 }
 
-int main() {
+signed main() {
 	rep(n,0,4) {
 		vvll mat(n, vector<ll>(n, 0)), mat2;
 		vector<vector<double>> mat3(n, vector<double>(n, 0));

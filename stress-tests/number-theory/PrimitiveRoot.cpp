@@ -8,7 +8,7 @@ bool isPrime(ull p) {
 	return true;
 }
 
-int main() {
+signed main() {
 	// all primes below 3000: compare with the definition (order exactly p-1)
 	for (ull p = 2; p < 3000; p++) if (isPrime(p)) {
 		ull want = 0;

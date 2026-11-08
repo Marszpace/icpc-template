@@ -20,7 +20,7 @@ template<class I> vi lisWeak(const vector<I>& S) {
 	return ans;
 }
 
-int main() {
+signed main() {
 	rep(weak,0,2) {
 		auto lt = [weak](int a, int b) { return weak ? a <= b : a < b; };
 		rep(it,0,1000000) {

@@ -17,7 +17,7 @@ void check(IntervalMap<int>& im, const vi& a, int lo, int hi, bool merged) {
 	rep(i,lo,hi) assert(im.get(i) == a[i-lo]);
 }
 
-int main() {
+signed main() {
 	srand(12345);
 	rep(test,0,3) {
 		const int V = test == 0 ? 2 : 4;

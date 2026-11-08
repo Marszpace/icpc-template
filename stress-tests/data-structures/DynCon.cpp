@@ -26,7 +26,7 @@ void brute(int n, vector<pii>& edges, vi& comp, bool& bip) {
 	}
 }
 
-int main() {
+signed main() {
 	srand(31337);
 	rep(it,0,6000) {
 		int n = 1 + rand() % 7, T = 1 + rand() % 9, m = rand() % 14;

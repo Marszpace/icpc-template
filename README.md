@@ -43,7 +43,7 @@ hashing ignores whitespace and comments.
 ## Coding style
 
 KACTL uses a relatively terse coding style, with a handful of macros/typedefs defined in the
-[template](./content/contest/template.cpp) that help shorten the code.
+[macros](./content/contest/macros.cpp) that help shorten the code.
 Line width is 63 chars, with tabs for indentation (tab = 2 spaces in the pdf).
 
 Each algorithm contains a header with the author of the code, the date it

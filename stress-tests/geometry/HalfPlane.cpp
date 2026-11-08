@@ -25,7 +25,7 @@ double signedArea(const vector<P>& p) {
 	return s / 2;
 }
 
-int main() {
+signed main() {
 	srand(8);
 	const double R = 100;
 	vector<HP> box;

@@ -78,7 +78,7 @@ void rec2(int i, vd& A, F f) {
 	}
 }
 
-int main() {
+signed main() {
 	rep(n,0,nmax+1) rep(m,0,mmax+1) {
 		int nm = n*m;
 		if (nm > nmmax) continue;

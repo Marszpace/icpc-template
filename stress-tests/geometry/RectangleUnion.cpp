@@ -18,7 +18,7 @@ ll brute(vector<Rect>& r) {
 	return area;
 }
 
-int main() {
+signed main() {
 	srand(21);
 	assert(rectUnion({}) == 0);
 	rep(it,0,30000) {

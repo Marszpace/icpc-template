@@ -12,7 +12,7 @@ bool isPrime(int x) {
 	}
 	return true;
 }
-int main() {
+signed main() {
 	rep(it,1,1000) {
 		int mod = it, LIM=1000;
 		if (!isPrime(mod)) continue;

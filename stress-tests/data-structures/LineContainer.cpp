@@ -74,7 +74,7 @@ int ra() {
 	return blah >> 1;
 }
 
-int main() {
+signed main() {
 	LineContainer mh;
 	other::HullDynamic mh2;
 	rep(it,0,10000000) {

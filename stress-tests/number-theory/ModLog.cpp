@@ -2,13 +2,13 @@
 
 #include "../../content/number-theory/ModLog.h"
 
-int main() {
+signed main() {
 	const int lim = 100;
 	rep(m,1,lim) {
 		rep(a,0,lim) {
 			vector<ll> ans(m, -1);
 			ll b = a % m;
-			rep(x,1,max(m,2)) {
+			rep(x,1,max<int>(m,2)) {
 				if (ans[b] == -1) ans[b] = x;
 				b = b * a % m;
 			}

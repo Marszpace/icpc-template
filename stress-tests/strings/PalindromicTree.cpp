@@ -4,7 +4,7 @@
 
 bool isPal(const string& s) { return equal(s.begin(), s.end(), s.rbegin()); }
 
-int main() {
+signed main() {
 	srand(9);
 	rep(it,0,6000) {
 		int n = 1 + rand() % 25, k = 1 + rand() % 3;

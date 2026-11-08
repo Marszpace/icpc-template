@@ -9,7 +9,10 @@
  */
 #pragma once
 
+#pragma push_macro("int")
+#undef int
 #include <bits/extc++.h> /** keep-include */
+#pragma pop_macro("int")
 // To use most bits rather than just the lowest ones:
 struct chash { // large odd number for C
 	const uint64_t C = ll(4e18 * acos(0)) | 71;

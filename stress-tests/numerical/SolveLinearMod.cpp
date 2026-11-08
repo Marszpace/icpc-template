@@ -23,7 +23,7 @@ int rankQ(vector<vector<ll>> a) {
 	return r;
 }
 
-int main() {
+signed main() {
 	srand(6);
 	int solvable = 0, unsolvable = 0;
 	rep(it,0,40000) {

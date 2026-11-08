@@ -14,7 +14,7 @@ vi comps(vector<vi>& g, int skip) {
 	return lab;
 }
 
-int main() {
+signed main() {
 	srand(40);
 	rep(it,0,20000) {
 		int n = 1 + rand() % 9, m = rand() % 14;

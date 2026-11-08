@@ -50,7 +50,7 @@ vl randPoly(int len, ll a0, bool fixA0) {
 	return a;
 }
 
-int main() {
+signed main() {
 	srand(3);
 	rep(it,0,1500) {
 		int n = 1 + rand() % 70, len = 1 + rand() % 80;

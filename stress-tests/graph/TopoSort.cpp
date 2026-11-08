@@ -3,7 +3,7 @@
 
 #include "../../content/graph/TopoSort.h"
 
-int main() {
+signed main() {
 	rep(it,0,50000) {
 		int n = rand() % 20;
 		int m = n ? rand() % 30 : 0;

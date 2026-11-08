@@ -15,7 +15,7 @@ int main2() {
 	return 0;
 }
 
-int main() {
+signed main() {
 	// return main2();
 	const int N = 10;
 	const int iters = 10000000;

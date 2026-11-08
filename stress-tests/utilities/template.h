@@ -1,10 +1,7 @@
 #include <bits/stdc++.h>
 #include <cassert> // not included by bits/stdc++.h since GCC 16
 using namespace std;
-
-#define rep(i, from, to) for (int i = from; i < (to); ++i)
-#define all(x) x.begin(), x.end()
-#define sz(x) (int)(x).size()
-typedef long long ll;
-typedef pair<int, int> pii;
-typedef vector<int> vi;
+#ifdef LLINT // run the whole suite with #define int long long
+#define int long long
+#endif
+#include "../../content/contest/macros.cpp"

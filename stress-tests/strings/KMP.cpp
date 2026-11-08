@@ -28,7 +28,7 @@ fail:;
 	}
 }
 
-int main() {
+signed main() {
 	// string str; cin >> str; for(auto &x: pi(str)) cout << x; cout << endl;
 	// test ~3^12 strings
 	rep(n,0,13) {
