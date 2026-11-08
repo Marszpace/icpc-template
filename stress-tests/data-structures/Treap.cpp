@@ -66,7 +66,7 @@ signed main() {
 		exp.insert(exp.begin() + nk, all(iv));
 
 		int ind = 0;
-		each(n, [&](int x) {
+		each(n, [&](ll x) {
 			// cerr << x << ' ';
 			assert(x == exp[ind++]);
 		});
