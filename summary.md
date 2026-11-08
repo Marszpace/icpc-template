@@ -20,7 +20,7 @@ The user is Marszpace; use they/them for people whose pronouns are unknown.
 - Page budget: the original KACTL is 26 pages (cover + 25). The page limit of the Danang contest is unconfirmed.
 
 ## Current state (as of 2026-10-30)
-- Book is **24 pages** (cover + 23); the last code page is nearly full (the contest scripts made it 25 for a while, with `BumpAllocator.h` alone on a page, until `macros.cpp` got smaller). `ExLucas.h` (number-theory) was added by a teammate.
+- Book is **25 pages** (cover + 24); the last code page holds only `BumpAllocator.h`, so deleting it gives 24. `ExLucas.h` (number-theory) was added by a teammate, `RadixConversion.h` (combinatorial) by us.
 - `CHANGES-vs-original.md`: everything added, cut and removed compared to stock KACTL, with reasons. Keep it up to date.
 - `entries - nx_entries.csv`: the team's per-entry decision (Keep / Delete / Edit / Merge / ?). Columns: Category, Topic, Lines,
   Status, Reason, "What to edit & reason". It is the source of truth for decisions. Its bottom block lists cut files.

@@ -4,7 +4,7 @@
 **printed in `kactl.pdf`**; cut files stay in the repository (only their `\kactlimport` line is commented out),
 so they can be turned back on in the `chapter.tex` of their directory.
 
-The book is now **24 PDF pages (cover + 23)**, two fewer than the original (26). (Adding the contest scripts briefly made it 25, with `BumpAllocator.h` alone on the last code page; the smaller `macros.cpp` brought it back to 24, but the last code page is nearly full, so the next addition may tip it over again.)
+The book is now **25 PDF pages (cover + 24)**, one fewer than the original (26). The last code page holds only `BumpAllocator.h` (8 lines); deleting it (nothing printed uses it) brings the book back to 24 pages.
 
 ## Added to the book
 
@@ -26,6 +26,7 @@ The book is now **24 PDF pages (cover + 23)**, two fewer than the original (26).
 | graph | `DsuOnTree.h` | 43 |  |
 | number-theory | `PrimitiveRoot.h` | 30 |  |
 | number-theory | `ExLucas.h` | 59 | binomial mod any m |
+| combinatorial | `RadixConversion.h` | 33 | bijective base conversion of digit vectors (for communication problems) |
 | numerical | `LagrangeInterpolation.h` | 34 |  |
 | numerical | `SolveLinearMod.h` | 43 |  |
 | numerical | `XorBasis.h` | 44 |  |
@@ -33,7 +34,7 @@ The book is now **24 PDF pages (cover + 23)**, two fewer than the original (26).
 | strings | `PalindromicTree.h` | 39 |  |
 | strings | `SuffixAutomaton.h` | 47 | new; replaces `SuffixTree` |
 | various | `IntervalMap.h` | 39 | new; replaces `IntervalContainer` (with `bool` values it does the same job) |
-| | **24 files** | **963** | |
+| | **25 files** | **996** | |
 
 Also new in the book, as text notes (no code):
 
@@ -128,7 +129,7 @@ Gotchas for your own code with the define: `max(x, 0)` / `min(x, 1)` need `0LL` 
 ## New stress tests (all pass; each was mutation-checked)
 
 `IntervalMap`, `DynCon`, `PersistentSegmentTree`, `CentroidDecomposition`, `DsuOnTree`, `SuffixAutomaton`,
-`HalfPlane`, `MinkowskiSum`, `LinearSieve`, `ExLucas`, `XorBasis`, `LazySegTree` (4 tests: beats block, affine, clamp, min query), `RectangleUnion`, `PolyOps`,
+`HalfPlane`, `MinkowskiSum`, `LinearSieve`, `ExLucas`, `XorBasis`, `RadixConversion`, `LazySegTree` (4 tests: beats block, affine, clamp, min query), `RectangleUnion`, `PolyOps`,
 `SolveLinearMod`, `Binomial`, `LagrangeInterpolation`, `PrimitiveRoot`, `LiChao`, `BlockCutTree`, `PalindromicTree`
 (in `stress-tests/<chapter>/`). The whole suite (`make test`) passed 101/101 before `ExLucas` (added by a teammate, with its own test) and the removals below; not re-run since.
 
