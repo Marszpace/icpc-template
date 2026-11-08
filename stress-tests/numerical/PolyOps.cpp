@@ -50,6 +50,24 @@ vl randPoly(int len, ll a0, bool fixA0) {
 	return a;
 }
 
+vl mulTrunc(const vl& a, const vl& b, int n) { // O(n^2) product mod x^n
+	vl c(n);
+	rep(i,0,min(n,sz(a))) rep(j,0,min(n-i,sz(b))) c[i + j] = (c[i + j] + a[i] * b[j]) % mod;
+	return c;
+}
+vl naivePow(const vl& a, ll k, int n) { // repeated squaring
+	vl r(n), base(a);
+	if (n) r[0] = 1;
+	base.resize(n);
+	for (; k; k >>= 1, base = mulTrunc(base, base, n)) if (k & 1) r = mulTrunc(r, base, n);
+	return r;
+}
+vl rnd(int len, int zeros) { // random polynomial with the first coefficients zero
+	vl a = randPoly(len, 0, false);
+	rep(i,0,min(zeros,len)) a[i] = 0;
+	return a;
+}
+
 signed main() {
 	srand(3);
 	rep(it,0,1500) {
@@ -77,6 +95,54 @@ signed main() {
 		assert(polyExp(l, n) == a);
 		vl z = a; z[0] = 0;
 		assert(polyLog(polyExp(z, n), n) == z);
+	}
+	// polyPow: against repeated squaring, with leading zeros, the zero and the empty polynomial
+	rep(it,0,3000) {
+		int n = 1 + rand() % 40, z = it % 3 ? 0 : rand() % 5;
+		vl a = rnd(rand() % 45, z);
+		if (it % 17 == 0) fill(all(a), 0);
+		ll k = it % 4 ? rand() % 12 : rand() % 1000;
+		vl got = polyPow(a, k, n);
+		assert(sz(got) == n && got == naivePow(a, k, n));
+	}
+	// huge exponents: a^mod = a_0 (Frobenius), (a^k1)^k2 = a^(k1 k2), x^k for k < n and k >= n
+	rep(it,0,300) {
+		int n = 1 + rand() % 60;
+		vl a = rnd(1 + rand() % 50, 0);
+		if (!a[0]) a[0] = 5;
+		ll k1 = ((ll)rand() * rand()) % 1000000000000LL, k2 = rand() % 1000 + 1;
+		vl w(n);
+		w[0] = a[0];
+		assert(polyPow(a, mod, n) == w);
+		assert(polyPow(polyPow(a, k1, n), k2, n) == polyPow(a, k1 * k2, n));
+		vl x = {0, 1};
+		int e = rand() % (n + 3);
+		vl xe = polyPow(x, e, n);
+		rep(i,0,n) assert(xe[i] == (i == e));
+		assert(polyPow(x, 1000000000000000000LL, n) == vl(n));
+	}
+	// polySqrt: s^2 = a and s_0 = 1
+	rep(it,0,500) {
+		int n = 1 + rand() % 60;
+		vl a = rnd(1 + rand() % 70, 0);
+		a[0] = 1;
+		vl s = polySqrt(a, n), t = a;
+		t.resize(n);
+		assert(sz(s) == n && s[0] == 1 && mulTrunc(s, s, n) == t);
+	}
+	// polyDivMod: a = q b + r with deg r < deg b
+	rep(it,0,3000) {
+		int na = rand() % 60, nb = 1 + rand() % 35;
+		vl a = rnd(na, 0), b = rnd(nb, 0);
+		if (!b.back()) b.back() = 7;
+		auto [q, r] = polyDivMod(a, b);
+		if (na < nb) { assert(q.empty() && r == a); continue; }
+		assert(sz(q) == na - nb + 1 && sz(r) == nb - 1);
+		vl back = conv(b, q);
+		back.resize(max(sz(back), sz(r)));
+		rep(i,0,sz(r)) back[i] = (back[i] + r[i]) % mod;
+		back.resize(na);
+		assert(back == a);
 	}
 	cout << "Tests passed!" << endl;
 }

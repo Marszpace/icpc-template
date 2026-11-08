@@ -6,6 +6,9 @@
  * Description: Power series modulo $x^n$ (coefficients in $[0, mod)$, NTT prime).
  * \texttt{polyInv} needs $a_0 \ne 0$, \texttt{polyLog} needs $a_0 = 1$, \texttt{polyExp} needs $a_0 = 0$.
  * All results have exactly $n$ coefficients.
+ * \texttt{polyPow(a, k, n)} is $a^k \bmod x^n$ for any $a$ (also with leading zeros) and $k$ up to $10^{18}$;
+ * \texttt{polySqrt} needs $a_0 = 1$; \texttt{polyDivMod(a, b)} returns $(q, r)$ with $a = qb + r$,
+ * $\deg r < \deg b$, and needs \texttt{b.back() != 0}.
  * Usage: polyExp(polyLog(a, n), n) == a
  * Time: O(n \log n)
  * Status: stress-tested
@@ -50,4 +53,35 @@ vl polyExp(vl a, int n) {
 		b = conv(b, f); b.resize(2 * m);
 	}
 	b.resize(n); return b;
+}
+vl polyPow(vl a, ll k, int n) { // a^k mod x^n, k >= 0
+	int z = 0;
+	while (z < sz(a) && !a[z]) z++;
+	vl r(n);
+	if (!k) { r[0] = n > 0; return r; }
+	if (z == sz(a) || z > (n - 1) / k) return r; // z * k >= n
+	int m = n - (int)(z * k);
+	ll c = a[z], ci = modpow(c, mod - 2);
+	vl b(a.begin() + z, a.end());
+	for (ll& x : b) x = x * ci % mod;
+	b = polyLog(b, m); // a^k = c^k x^(zk) exp(k log b)
+	for (ll& x : b) x = x * (k % mod) % mod;
+	b = polyExp(b, m);
+	ll ck = modpow(c, k);
+	rep(i,0,m) r[z * k + i] = b[i] * ck % mod;
+	return r;
+}
+vl polySqrt(vl a, int n) { // a[0] = 1
+	return polyPow(a, (mod + 1) / 2, n);
+}
+pair<vl, vl> polyDivMod(vl a, vl b) {
+	int n = sz(a), m = sz(b);
+	if (n < m) return {{}, a};
+	vl ra(a.rbegin(), a.rend()), rb(b.rbegin(), b.rend());
+	vl q = conv(ra, polyInv(rb, n - m + 1)), r = b;
+	q.resize(n - m + 1), reverse(all(q));
+	r = conv(b, q);
+	rep(i,0,m-1) r[i] = (a[i] - r[i] + mod) % mod;
+	r.resize(m - 1);
+	return {q, r};
 }
