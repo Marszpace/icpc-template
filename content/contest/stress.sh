@@ -1,5 +1,5 @@
-# Stress test. Compile first, e.g.
-#   g++ -O2 -std=c++17 -fsanitize=address,undefined A.cpp -o A
+# Stress test. Compile like the judge, plus -Wall and
+# -D_GLIBCXX_ASSERTIONS (vector/string out-of-range aborts).
 # ./A solution, ./gen S prints a small random test (seed S),
 # ./A2 brute force (may be missing if ./checker exists),
 # ./checker in out ans: optional, exit 0 = OK (ans = A2 output)
