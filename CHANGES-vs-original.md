@@ -4,7 +4,7 @@
 **printed in `kactl.pdf`**; cut files stay in the repository (only their `\kactlimport` line is commented out),
 so they can be turned back on in the `chapter.tex` of their directory.
 
-The book is now **24 PDF pages (cover + 23)**, two fewer than the original (26).
+The book is now **26 PDF pages (cover + 25)**, the same as the original and exactly the Danang limit (26). Page 25 is only partly used (about 100 lines free).
 
 ## Added to the book
 
@@ -43,6 +43,11 @@ Also new in the book, as text notes (no code):
   (closure, vertex cover, independent set, path cover, Dilworth) and *Segment tree graph*
 - Number theory: *Floor blocks*
 - Math: *Lattice polygons* (Pick's theorem)
+- Graph: *Spanning trees, Euler circuits, disjoint paths* (matrix-tree theorem with the directed conventions, BEST theorem, Lindstrom-Gessel-Viennot lemma)
+- Number theory: *Garner's algorithm*, *Exponents* (generalized Euler, lifting the exponent), and the linear Diophantine part added to the Bezout text (also fixes its "a != " typo)
+- Strings: *Suffix array and automaton facts* (lcp by range minimum, distinct / k-th substring, longest common substring, generalized automaton)
+- Combinatorial: *Generating functions* (about one column: dictionary, common series, counting structures, computing)
+- All formulas of these notes are checked by the scripts in `doc/note-checks/` (`run-all.sh`, not part of `make test`)
 - Contest: `stress.sh` (stress loop with optional brute force / checker) and `interactive.sh` (interactor wired with fifos; one test or stress mode with a generator; commented-out `tee` transcript), 38 lines
 - Various / dynamic programming: *Slope trick*
 - Various / dynamic programming: *Sum over subsets (SOS DP)* (definition, recurrence, in-place loop, supersets, inverse); replaces the one-line "sums of subsets" bit hack

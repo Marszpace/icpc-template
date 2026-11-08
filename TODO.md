@@ -1,7 +1,7 @@
 # TODO (from the team review, `entries - nx_entries.csv`, and the coverage audit)
 
-State (2026-11-08): the book is 24 PDF pages (cover + 23) after items 1-5. **The Danang page limit is 26 (25 + cover), confirmed by the team**,
-so there are about two pages of room (about 320 lines).
+State (2026-11-08): the book is 26 PDF pages (cover + 25) = **the Danang limit of 26 (25 + cover), confirmed by the team**, so it is
+at the cap; page 25 is only partly used (about 1.8 columns, roughly 100 lines, still free) and the techniques page is the last one.
 
 ## Standing rules (so every item below can be done without asking)
 - **Page cap:** never go over 26 PDF pages; aim for 26 or fewer with a few lines to spare. Rebuild with `make kactl` after every item and check
@@ -10,6 +10,7 @@ so there are about two pages of room (about 320 lines).
 - **Code:** every new or changed code file gets a stress test in `stress-tests/<chapter>/` that is mutation-checked, passes `make test` and
   `LLINT=1 make test` (with `#define int long long`), and `make test-compiles` in both modes. Library rules for both modes: `(int)(x)` not `int(x)`,
   `max<int>(x, 0)` not `max(x, 0)`, wrap `#include <bits/extc++.h>` in `push_macro("int")` / `#undef int` / `pop_macro("int")`, tests use `signed main`.
+- **Text notes:** every formula is checked before it goes in: add a small script to `doc/note-checks/` (python3 or C++, run all with `doc/note-checks/run-all.sh`, not part of `make test`). Build the book with `make kactl < /dev/null` (a LaTeX error otherwise hangs on a prompt) and write `\&` for `&` in `Usage:` lines.
 - **Style:** lines at most 63 characters (tab = 2), header with Author / Date / License CC0 / Description / Time / Status; text notes in the
   matching `chapter.tex`, short, formulas over prose. New code uses the macros of `content/contest/macros.cpp` (`rep all sz pb ll pii vi`).
 - **After each item:** update this file, `CHANGES-vs-original.md`, `entries - nx_entries.csv`, `summary.md` if conventions change; rebuild
@@ -37,17 +38,17 @@ Cleanup first (frees about 65 lines), then additions, cheapest and most useful f
 8. [x] **`IntPerm.h`: add integer -> permutation** (done: `IntPerm.h` is now the lexicographic rank, widened to `ll`, with `intToPerm`; order preserving, exact for n <= 20; plus, by the team's choice C, `radixToPerm` / `permToRadix` in `RadixConversion.h`, a bijection between all digit sequences and all permutations; `mulAdd` is shared with `radixconv`) (decided). **It must be an exact bijection with `permToInt`:** `intToPerm(permToInt(p), n) == p`
    for every permutation and `permToInt(intToPerm(r, n)) == r` for every `r < n!`; test exhaustively for n <= 8 and randomly for larger n.
    Note `permToInt` is not order preserving; `intToPerm` has to invert exactly that mapping (about 8 lines). Update the description.
-9. [ ] **Text: matrix-tree note** (Graph, where the old "Number of Spanning Trees" section was; the stress test `matrix-tree.cpp` still exists):
+9. [x] **Text: matrix-tree note** (done: Graph / Math subsection, checked by `doc/note-checks/check_graph.py`) (Graph, where the old "Number of Spanning Trees" section was; the stress test `matrix-tree.cpp` still exists):
    Kirchhoff (minor of the Laplacian), directed version (rooted arborescences: in / out degree Laplacian), BEST theorem (number of Eulerian
    circuits), Lindstrom-Gessel-Viennot lemma. About 6 lines.
-10. [ ] **Text: Garner** (Number theory): CRT for many moduli as mixed radix, `x = x1 + x2 m1 + x3 m1 m2 + ...`, the formula for each `x_i` with the
+10. [x] **Text: Garner** (done: Number theory, checked by `check_numbertheory.py`) (Number theory): CRT for many moduli as mixed radix, `x = x1 + x2 m1 + x3 m1 m2 + ...`, the formula for each `x_i` with the
     inverse of `m1 ... m(i-1)` mod `m_i`, evaluate mod `M`; a few lines of code-like pseudocode. About 6-8 lines.
-11. [ ] **Text: generalized Euler, LTE, linear Diophantine** (Number theory): `a^b mod m` for huge `b` (`b >= log2 m`), lifting-the-exponent lemma
+11. [x] **Text: generalized Euler, LTE, linear Diophantine** (done: "Exponents" subsection, and the Diophantine part extends the Bezout text; checked by `check_numbertheory.py`) (Number theory): `a^b mod m` for huge `b` (`b >= log2 m`), lifting-the-exponent lemma
     (odd and `p = 2`), solutions of `ax + by = c` in a range (`x0 + (b/g) t`, counting with floor / ceil). About 6 lines.
-12. [ ] **Text: ordinary and exponential generating functions** (Combinatorial, the old `???` category): definitions, operations (sum, product /
+12. [x] **Text: ordinary and exponential generating functions** (done: Combinatorial, about 1.1 columns: dictionary table, common series, counting structures, computing; checked by `check_gf.py`) (Combinatorial, the old `???` category): definitions, operations (sum, product /
     binomial convolution, derivative, shift, composition with exp / log), standard series, recipes (sequences `1/(1-A)`, sets `exp(A)`, cycles `log`),
     one or two worked counting examples. About 12-15 lines.
-13. [ ] **Text: suffix array / suffix automaton identities** (Strings): `lcp(i, j)` as a range minimum over the lcp array, distinct substrings
+13. [x] **Text: suffix array / suffix automaton identities** (done: Strings, new section; checked by `check_strings.cpp`, which also confirmed that the generalized automaton only needs `last = 0` per string) (Strings): `lcp(i, j)` as a range minimum over the lcp array, distinct substrings
     `n(n+1)/2 - sum lcp`, k-th substring, occurrence counts along suffix links, generalized SAM (reset `last` per string). About 5 lines.
 14. [ ] **Contest / Various: C++ pitfalls list and `__int128` print** (about 12 lines): `1 << 31` (use `1LL <<`), `abs(INT_MIN)`, `size() - 1` underflow,
     comparators that are not strict weak orders (`<=` crashes `sort`), negative `%`, printing `-0.0`, `vector<bool>` quirks, `endl` / flush on interactive
