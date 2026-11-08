@@ -6,6 +6,11 @@
 run() {
 	timeout 5 ./interactor $1 > to < from 2> verdict & p=$!
 	timeout 5 ./A < to > from; ar=$?  # keep this open order
+# Transcript in "log": use these lines, not the 2 above
+#	: > log
+#	timeout 5 ./interactor $1 > >(tee -a log > to) < from \
+#		2> verdict & p=$!
+#	timeout 5 ./A < to > >(tee -a log > from); ar=$?
 	wait $p; ir=$?
 	[ $ar -eq 0 -a $ir -eq 0 ] && return
 	echo "A exit $ar (124 = timeout: flush?)," \

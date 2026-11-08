@@ -106,7 +106,8 @@ mki I_wrong ' << endl' 0 1 '(lo + hi) / 2'
 mki I_toomany ' << endl' 0 0 'lo'
 mki I_crash ' << endl' 3 0 '(lo + hi) / 2'
 I=$ROOT/content/contest/interactive.sh
-run_inter() { cp $1 A; shift; bash $I "$@"; }
+run_inter() { cp $1 A; shift; bash ${SC:-$I} "$@"; }
+run_inter_t() { SC=$W/transcript.sh run_inter "$@"; }
 echo 7 > in
 expect 0 'OK x=7' "interactive test: good solution" run_inter I_good in
 expect 1 'WA: said 8' "interactive test: wrong answer" run_inter I_wrong in
@@ -119,6 +120,15 @@ expect 1 'A exit 3' "interactive test: crash after answering" run_inter I_crash 
 expect 0 '^OK$' "interactive stress: good solution" run_inter I_good gen 60
 expect 1 'seed [0-9]+' "interactive stress: wrong answer" run_inter I_wrong gen 60
 expect 1 'WA: too many' "interactive stress: too many queries" run_inter I_toomany gen 60
+# commented-out transcript: swap the active lines for the "#<tab>" ones
+grep -v -e '^	timeout 5 ./interactor' -e '^	timeout 5 ./A <' $I | sed 's/^#	/	/' > $W/transcript.sh
+echo 7 > in
+expect 0 'OK x=7' "interactive transcript variant: still works" run_inter_t I_good in
+cp I_good A; bash $W/transcript.sh in > /dev/null 2>&1; sleep 0.3
+if [ "$(grep -c '^? ' log)" -ge 3 ] && grep -q '^=$' log && grep -q '^! 7$' log; then echo "ok: transcript log has the conversation"
+else echo "FAIL: transcript log"; cat log 2>&1 | head; fails=$((fails+1)); fi
+expect 1 'exit 124.*flush' "interactive transcript variant: missing flush" run_inter_t I_noflush in
+cp I_good A; bash $W/transcript.sh gen 40 > /dev/null 2>&1 && echo "ok: transcript variant, stress mode" || { echo "FAIL: transcript stress"; fails=$((fails+1)); }
 [ ! -e to ] && [ ! -e from ] || { echo "FAIL: fifos not cleaned up"; fails=$((fails+1)); }
 
 [ $fails -eq 0 ] && echo "all contest script tests passed" || { echo "$fails failed"; exit 1; }
