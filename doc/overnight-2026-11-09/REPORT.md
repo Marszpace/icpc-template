@@ -230,9 +230,13 @@ is now (01 applied) and replaces 02 + 04 + 07 of patch 10; 03, 05, 06 are includ
 |---|---|
 | Name sunk into the rule (hash.sh and other files with no description) | The title now has 2pt above and 1.5pt below before the rule |
 | 07 out | Techniques keep their own page |
-| Include list under the file name; hash and line count strictly right | Name left and hash and lines flush right on one line, include list on a second line under the name |
+| Include list beside the file name; hash and line count strictly right | One line: name, include list right after it, hash and lines flush right (a long include list wraps, e.g. HLD.h). The hash was 30pt short of the edge because `parskip` leaves 30pt at the end of every paragraph; fixed |
 | Usage at the bottom, `Time:` always behind the description | Order is Description + `Time:`, then Memory, then Usage |
 | Thin rule between name/include/hash and the description | 0.3pt rule; files with no description (contest files) keep just the code rule |
+
+More room after the description / `Time:` / usage block before the rule (2.5pt), so `Time:` no longer touches the rule. The
+figures in 4 geometry files were pulled up by 6 to 10mm and now overlapped the new header line; their upward shift is
+3mm. Page count unchanged.
 
 Result: **26 pages, 0 overfull boxes, no overlaps, no orphan titles**; about 684pt (1.2 columns) free on the last
 body page plus 360pt (0.6 column) on the techniques page. Two bugs found on the way: (1) with no paragraph skip, the

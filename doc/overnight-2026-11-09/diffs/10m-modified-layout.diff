@@ -1,5 +1,57 @@
+diff --git a/content/geometry/ConvexHull.h b/content/geometry/ConvexHull.h
+index b38a37a..3b931eb 100644
+--- a/content/geometry/ConvexHull.h
++++ b/content/geometry/ConvexHull.h
+@@ -9,7 +9,7 @@ Returns a vector of the points of the convex hull in counter-clockwise order.
+ Points on the edge of the hull between two other points are not considered part of the hull.
+ \end{minipage}
+ \begin{minipage}{15mm}
+-\vspace{-6mm}
++\vspace{-3mm}
+ \includegraphics[width=\textwidth]{content/geometry/ConvexHull}
+ \vspace{-6mm}
+ \end{minipage}
+diff --git a/content/geometry/PolygonCut.h b/content/geometry/PolygonCut.h
+index b4118c1..c7e151b 100644
+--- a/content/geometry/PolygonCut.h
++++ b/content/geometry/PolygonCut.h
+@@ -8,7 +8,7 @@
+  Returns a vector with the vertices of a polygon with everything to the left of the line going from s to e cut away.
+ \end{minipage}
+ \begin{minipage}{15mm}
+-\vspace{-6mm}
++\vspace{-3mm}
+ \includegraphics[width=\textwidth]{content/geometry/PolygonCut}
+ \vspace{-6mm}
+ \end{minipage}
+diff --git a/content/geometry/SegmentDistance.h b/content/geometry/SegmentDistance.h
+index c966365..1b6294e 100644
+--- a/content/geometry/SegmentDistance.h
++++ b/content/geometry/SegmentDistance.h
+@@ -8,7 +8,7 @@
+ Returns the shortest distance between point p and the line segment from point s to e.
+ \end{minipage}
+ \begin{minipage}{15mm}
+-\vspace{-10mm}
++\vspace{-3mm}
+ \includegraphics[width=\textwidth]{content/geometry/SegmentDistance}
+ \end{minipage}
+  * Usage: 
+diff --git a/content/geometry/linearTransformation.h b/content/geometry/linearTransformation.h
+index 20aaada..e0d1555 100644
+--- a/content/geometry/linearTransformation.h
++++ b/content/geometry/linearTransformation.h
+@@ -8,7 +8,7 @@
+  Apply the linear transformation (translation, rotation and scaling) which takes line p0-p1 to line q0-q1 to point r.
+ \end{minipage}
+ \begin{minipage}{15mm}
+-\vspace{-8mm}
++\vspace{-3mm}
+ \includegraphics[width=\textwidth]{content/geometry/linearTransformation}
+ \vspace{-2mm}
+ \end{minipage}
 diff --git a/content/tex/kactlpkg.sty b/content/tex/kactlpkg.sty
-index 1ea5bd6..817d671 100644
+index 1ea5bd6..f7abb4c 100644
 --- a/content/tex/kactlpkg.sty
 +++ b/content/tex/kactlpkg.sty
 @@ -137,9 +137,9 @@
@@ -68,7 +120,7 @@ index 1ea5bd6..817d671 100644
  \setcounter{tocdepth}{1} % Table of contents depth
  
  \pdfsuppresswarningpagegroup=1
-@@ -282,12 +283,22 @@
+@@ -282,12 +283,25 @@
  	\setboolean{hasleftcaption}{false}
  	\myneedspace{3\baselineskip}
  	\penalty-100
@@ -79,11 +131,14 @@ index 1ea5bd6..817d671 100644
  }
  
 +% Header of a file: name on the left and hash + line count flush right on the
-+% same line, the include list under the name, then a thin rule.
++% same line, the include list right after the name, then a thin rule.
 +\newcommand{\kactltitle}[1]{%
 +	\vspace{2pt}\nobreak
-+	\par\noindent{\large #1}\hfill{\tiny\@rightcaption}%
-+	\ifthenelse{\equal{\@leftcaption}{}}{}{\break{\tiny\texttt{\@leftcaption}}}\par\nobreak
++	\begingroup\parfillskip\z@skip % parskip's parfill would leave 30pt at the right
++	\par\noindent{\large #1}%
++	\ifthenelse{\equal{\@leftcaption}{}}{}{\hspace{1.2em}{\tiny\texttt{\@leftcaption}}}%
++	\hspace*{\fill}{\tiny\@rightcaption}\par\nobreak
++	\endgroup
 +	\ifthenelse{\boolean{hasdescription}\or\boolean{hasusage}\or\boolean{hastime}\or\boolean{hasmemory}}%
 +		{\vspace{1pt}\nointerlineskip\hrule height 0.3pt\nobreak\vspace{1.5pt}\nobreak}%
 +		{\vspace{1.5pt}\nobreak}%
@@ -92,7 +147,7 @@ index 1ea5bd6..817d671 100644
  \newcommand{\import}[1]{
  	\input{"\@kactldir/#1"}
  }
-@@ -362,15 +373,15 @@
+@@ -362,15 +376,17 @@
  	{\par\noindent\footnotesize{\textbf{#1:} #2\par}}
  }
  
@@ -114,6 +169,8 @@ index 1ea5bd6..817d671 100644
 +		{\ifthenelse{\boolean{hastime}}{\codeheader{Time}{\@deftime}}{}}%
 +	\ifthenelse{\boolean{hasmemory}}{\codeheader{Memory}{\@defmemory}}{}%
 +	\ifthenelse{\boolean{hasusage}}{\codeheader{Usage}{\@defusage}}{}%
++	\ifthenelse{\boolean{hasdescription}\or\boolean{hasusage}\or\boolean{hastime}\or\boolean{hasmemory}}%
++		{\nobreak\vspace{2.5pt}\nobreak}{}%
  }
  
  \newcommand{\bigo}[1] {\ensuremath{\mathcal{O} \left( #1 \right)}}
