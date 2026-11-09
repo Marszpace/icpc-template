@@ -220,10 +220,37 @@ Patch 01 applies to the branch as it is now. Patches 02–09 and 12 are written 
 that they apply in any order and in any combination (every pair was checked). 10 and 11 already contain 01. Applying
 01, 02, 03, 04, 05, 06, 07 in order gives exactly 10, and adding 09 gives exactly 11 (both checked).
 
+## 5. Follow-up (2026-11-09): patch 10m and equation spacing
+
+After looking at `preview-patch10.pdf` the team asked for changes. `diffs/10m-modified-layout.diff` (preview:
+`preview-patch10-modified.pdf`; the original patch 10 and its preview are unchanged). It applies to the branch as it
+is now (01 applied) and replaces 02 + 04 + 07 of patch 10; 03, 05, 06 are included as before.
+
+| Wish | Done |
+|---|---|
+| Name sunk into the rule (hash.sh and other files with no description) | The title now has 2pt above and 1.5pt below before the rule |
+| 07 out | Techniques keep their own page |
+| Include list under the file name; hash and line count strictly right | Name left and hash and lines flush right on one line, include list on a second line under the name |
+| Usage at the bottom, `Time:` always behind the description | Order is Description + `Time:`, then Memory, then Usage |
+| Thin rule between name/include/hash and the description | 0.3pt rule; files with no description (contest files) keep just the code rule |
+
+Result: **26 pages, 0 overfull boxes, no overlaps, no orphan titles**; about 684pt (1.2 columns) free on the last
+body page plus 360pt (0.6 column) on the techniques page. Two bugs found on the way: (1) with no paragraph skip, the
+title was typeset over the section heading, so the title block keeps the normal skip; (2) `listings` leaves an anchor
+(whatsit) before the description, which allowed a page break right after the title; a `\nobreak` at the start of the
+caption fixes it.
+
+**Equations** (`diffs/13-equation-spacing.diff`, independent of the others, applies to the branch as it is): display
+equations had about 10pt above and below. The patch sets 3pt (stretchable), and removes one stray `\\` at the end of
+the first trigonometry `align*`, which printed an empty row. Measured saving 260pt (0.5 column). With 1pt skips it
+would save 320pt, but the equations touch the text then (checked by eye), so 3pt is the setting used.
+Horizontal margins around display math cannot save lines unless two short formulas share one line.
+
 ## Files
 
 - `diffs/*.diff`: the patches. 01, 10 and 11 apply to the branch as is; 02–09 and 12 apply on top of 01.
 - `layout-check.py`: overlap / header / orphan / free-space checker for any build of `kactl.pdf`.
 - `wrapped-code-lines.txt`: the 62 wrapped code lines.
 - `shorter-descriptions.py`: the 17 proposed descriptions (the script patch 09 was made with).
+- `preview-patch10.pdf`, `preview-patch10-modified.pdf`: builds of patch 10 and of 10m (not applied to the book).
 - `img/`: the before/after pictures above.

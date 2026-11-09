@@ -1,0 +1,26 @@
+diff --git a/content/kactl.tex b/content/kactl.tex
+index 0830fb6..4ea9e32 100644
+--- a/content/kactl.tex
++++ b/content/kactl.tex
+@@ -9,6 +9,8 @@
+ % \enablecolors
+ 
+ \begin{document}
++	\setlength\abovedisplayskip{3pt plus 1pt minus 2pt}\setlength\belowdisplayskip{3pt plus 1pt minus 2pt}
++	\setlength\abovedisplayshortskip{0pt plus 1pt}\setlength\belowdisplayshortskip{2pt plus 1pt}
+ 	\maketeampage
+ 	% Small KACTL header on the first page:
+ 	% \maketitle{``One Last Time'' Edition}{\today}
+diff --git a/content/math/chapter.tex b/content/math/chapter.tex
+index 1fcbf64..4e51cc9 100644
+--- a/content/math/chapter.tex
++++ b/content/math/chapter.tex
+@@ -6,7 +6,7 @@
+ \section{Trigonometry}
+ \begin{align*}
+ \sin(v+w)&{}=\sin v\cos w+\cos v\sin w\\
+-\cos(v+w)&{}=\cos v\cos w-\sin v\sin w\\
++\cos(v+w)&{}=\cos v\cos w-\sin v\sin w
+ \end{align*}
+ \begin{align*}
+ \tan(v+w)&{}=\dfrac{\tan v+\tan w}{1-\tan v\tan w}\\
