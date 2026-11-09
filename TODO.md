@@ -95,7 +95,7 @@ Cleanup first (frees about 65 lines), then additions, cheapest and most useful f
     descriptions can shrink more). Candidates: files whose description repeats what the code or the usage line already shows (geometry
     helpers, matching, flow, string structures); keep what is easy to get wrong (preconditions, return conventions, complexity, overflow). Do it in
     one pass over all 126 files with a proposed new text per file for the team to approve (like `doc/overnight-2026-11-09/wording-09.md`).
-    Check `layout-check.py` and the page count after, and remove the `Status:`-style leftovers while there.
+    Check `layout-check.py` and the page count after.
 
 ## Blocked: needs the team or you (do not start these)
 - [ ] **Edit Fenwick Trees** (your template). Not decided: the team first has to answer (a) is `FenwickTree.h` 0- or 1-indexed (it is 0-indexed:
