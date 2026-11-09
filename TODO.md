@@ -84,11 +84,9 @@ Cleanup first (frees about 65 lines), then additions, cheapest and most useful f
     stress test against plain `%` arithmetic (all operators, negative inputs, `mod - 1`, division, `fpow` with large exponents, `>>`/`<<`) in both modes;
     (4) update the description and usage line (`using mi = mint<998244353>` etc.), and check whether other headers can use it. Fixed `mod` for the
     shared-`mod` item below stays a separate decision (template parameter does not clash with the global `const ll mod` of other headers).
-20. [ ] **Techniques worksheet** (proposal ready 2026-11-10, waiting for the team: `doc/overnight-2026-11-10/techniques/techniques-worksheet.md`).
-    Rule (team): keep techniques that are hard to see but click once named; drop what the template has and what is trivial. 117 entries
-    (73 core, 44 maybe, 48 essential), each with a one-line hint; every line of the current page and of the OI-wiki list has a verdict.
-    Six ready files `techniques-{essential,core,all}-{names,hints}.txt` (0.9 / 1.3 / 1.9 columns; now 2.35). Team: pick a size, mark changes,
-    then copy the chosen file to `content/appendix/techniques.txt`.
+20. [ ] **Techniques page** (team decision 2026-11-10: go wild, include maybe and niche). Ready: `doc/overnight-2026-11-10/techniques/techniques-wild-hints.txt`,
+    180 entries with one-line hints, fills exactly one page (2.87 columns). Worksheet with a verdict for every source line:
+    `techniques/techniques-worksheet.md`. To apply: copy the file to `content/appendix/techniques.txt` (after the team has looked).
 
 - [x] **Layout report (2026-11-09)** (done: patches 01, 02, 03, 05, 06, the modified 02/04 header, equation spacing (13), 09 (shorter descriptions) and 12 (unwrapped code lines) are applied; 07 (techniques in the same flow) and 08 (no blank lines in code) were not taken; see `doc/overnight-2026-11-09/REPORT.md`. The book is 26 pages with about 1.9 columns free on the last body page and 0.6 column on the techniques page.)
 

@@ -58,6 +58,16 @@ the body 24 pages and the book 25. That is still well under 26.
 
 ## Item 20: techniques
 
+**Update (team decision, 2026-11-10):** the techniques page is the place to go wild; the team is willing to lose a page for
+it. So the maybe items (B) and the niche-but-advanced items (new level **C**, 63 entries, each with a hint) go in:
+`techniques-wild-hints.txt`, 180 entries in 15 groups, 195 lines. It fills one page (2.87 of 3 columns), so no page is
+lost after all: 26 pages with today's descriptions, 24 with L (`preview-21L-with-techniques-wild.pdf`). Left out on
+purpose, as they are not algorithms: endianness, theory of computation, Shell sort, Timsort, tournament sort, and the
+bare headings groups / rings / fields (Schreier-Sims is in). Two KACTL entries kept without a hint because their meaning
+is unclear: "Lovasz toggle" and "Finding interesting points in N log N".
+
+The original proposal follows.
+
 Read **`techniques/techniques-worksheet.md`**. It contains:
 - **The proposed list:** 117 entries in 13 groups, marked A (keep), B (maybe) and A* (essential), each with a hint.
 - **Every line of the current page and the OI-wiki list:** each with a verdict (kept, maybe, in the template,
@@ -85,8 +95,7 @@ Three sizes, each with or without hints (`techniques/techniques-*.txt`):
 | current page | | 159 | 2.35 |
 
 A hinted line looks like `Residue Dijkstra: reachable sums: dist[r mod a_min]`, always one line. I recommend the hinted
-version: the hint is what makes the name click. `preview-21L-with-techniques-core.pdf` is the L book with
-`core-hints` (24 pages).
+version: the hint is what makes the name click.
 
 To use a list:
 
@@ -126,7 +135,7 @@ python3 doc/overnight-2026-11-09/layout-check.py kactl.pdf
 - `descriptions-21.md`: all 126 descriptions, current against G / L / M.
 - `diffs/21-{G,L,M}-descriptions.diff`
 - `preview-21-{G,L,M}.pdf`: the three description levels with the current techniques page.
-- `preview-21L-with-techniques-core.pdf`: L plus `techniques-core-hints.txt`.
+- `preview-21L-with-techniques-wild.pdf`: L plus `techniques-wild-hints.txt` (24 pages).
 - `techniques/`: the worksheet and the six techniques variants.
 - `tools/`: `desc21.py` (the proposals as data), `apply21.py` (applies a level), `gen21doc.py` (regenerates
   `descriptions-21.md`).
