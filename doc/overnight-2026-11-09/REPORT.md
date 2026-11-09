@@ -234,9 +234,14 @@ is now (01 applied) and replaces 02 + 04 + 07 of patch 10; 03, 05, 06 are includ
 | Usage at the bottom, `Time:` always behind the description | Order is Description + `Time:`, then Memory, then Usage |
 | Thin rule between name/include/hash and the description | 0.3pt rule; files with no description (contest files) keep just the code rule |
 
-10m now also contains the equation spacing (13). The hash and line count is one unbreakable piece at the right end of
-the last header line: on the name line when everything fits, on the include-list line (right justified) when the
-include list has to wrap, e.g. `NumberTheoreticTransform.h` and `HLD.h`.
+10m now also contains the equation spacing (13). Header: name, then the include list right after it, and the hash and
+line count right justified at the end of the same line. When the three do not fit on one line, the hash and line count
+go on a line of their own, flush right, e.g.
+
+```
+NumberTheoreticTransform.h   "../number-theory/ModPow.h"
+                                                    d54056, 35 lines
+```
 
 More room after the description / `Time:` / usage block before the rule (2.5pt), so `Time:` no longer touches the rule. The
 figures in 4 geometry files were pulled up by 6 to 10mm and now overlapped the new header line; their upward shift is
