@@ -15,6 +15,10 @@
 	\DeclareUnicodeCharacter{27C6}{)}
 }
 \usepackage{listings}                   % Source code listings
+\usepackage{etoolbox}
+% Keep a file's title with its description: no break between them.
+\patchcmd{\lst@Init}{\par\penalty-50\relax}{\par\nobreak}{}{\PackageWarning{kactlpkg}{lst@Init patch failed}}
+\patchcmd{\lst@MakeCaption}{\allowbreak}{}{}{\PackageWarning{kactlpkg}{lst@MakeCaption patch failed}}
 \usepackage{framed}                     % Source code listings
 \usepackage[a4paper,landscape,hmargin={0.5cm,0.5cm},vmargin={1.0cm,0.4cm}]{geometry}
 \usepackage{multicol}                   % Split page in multiple columns
@@ -146,12 +150,12 @@
                                    {\normalfont\LARGE\bfseries}}
 
 \renewcommand\subsection{\@startsection{subsection}{2}{\z@}
-	{1ex\@plus -1ex \@minus -.3ex}
+	{-1ex\@plus -1ex \@minus -.3ex}
 	{.2ex}
 	{\normalfont\large\bfseries}}
 
 \renewcommand\subsubsection{\@startsection{subsubsection}{3}{\z@}
-	{1ex\@plus -1ex \@minus -.3ex}
+	{-1ex\@plus -1ex \@minus -.3ex}
 	{1ex \@plus .2ex}
 	{\normalfont\large\bfseries}}
 
@@ -278,7 +282,7 @@
 	\setboolean{hasleftcaption}{false}
 	\myneedspace{3\baselineskip}
 	\penalty-100
-	{\large #2}
+	{\large #2}\par\nobreak
 	\immediate\write18{rm -f \@builddir/kactl.tmp} % Don't include old kactl.tmp on failure.
 	\immediate\write18{python3 content/tex/preprocessor.py -i "\@kactldir/#2" -o \@builddir/kactl.tmp #1}
 	\immediate\input{\@builddir/kactl.tmp}

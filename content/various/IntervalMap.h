@@ -11,7 +11,7 @@
  * \texttt{T = bool}, \texttt{m.assign(l, r, 1)} adds, \texttt{0} removes.
  * Usage: IntervalMap<int> m(0, n, 0); m.assign(l, r, v);
  *  m.each(l, r, [\&](int a, int b, int\& x){ ... }); m.get(i);
- * Time: amortized $O(\log N)$ per assign, plus pieces visited by each
+ * Time: amortized $O(\log N)$ per assign, plus the pieces visited
  * Status: stress-tested
  */
 #pragma once

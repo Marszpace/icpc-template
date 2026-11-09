@@ -8,7 +8,7 @@
  * (so there are \texttt{sz(t) - 2} of them). \texttt{link} is the longest proper palindromic
  * suffix, \texttt{last} the node of the longest palindromic suffix of the current prefix.
  * After \texttt{count()}, \texttt{cnt[v]} is the number of occurrences of palindrome $v$.
- * Time: O(N) amortized for N characters over a fixed alphabet (26 letters)
+ * Time: O(N) amortized, for a fixed alphabet
  * Status: stress-tested
  */
 #pragma once
