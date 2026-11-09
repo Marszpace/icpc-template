@@ -16,8 +16,9 @@
 
 struct DsuOnTree {
 	vector<vi> g; vi sub, big, tin, tout, ord; int tim = 0, root;
-	DsuOnTree(vector<vi> g, int r = 0) : g(g), sub(sz(g)), big(sz(g), -1),
-		tin(sz(g)), tout(sz(g)), ord(sz(g)), root(r) { init(r, -1); }
+	DsuOnTree(vector<vi> g, int r = 0) : g(g), sub(sz(g)),
+		big(sz(g), -1), tin(sz(g)), tout(sz(g)), ord(sz(g)),
+		root(r) { init(r, -1); }
 	void init(int v, int p) {
 		sub[v] = 1; ord[tin[v] = tim++] = v;
 		for (int u : g[v]) if (u != p) {

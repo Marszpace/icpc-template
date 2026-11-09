@@ -19,7 +19,7 @@
 template<class T> struct IntervalMap {
 	map<int, T> m; int hi; // m[x] = value on [x, next key)
 	typedef typename map<int, T>::iterator It;
-	IntervalMap(int lo, int hi, T v) : hi(hi) { m[lo] = v; m[hi]; }
+	IntervalMap(int lo, int hi, T v) : hi(hi) {m[lo] = v; m[hi];}
 	It split(int x) { // makes x a key
 		It it = m.lower_bound(x);
 		return it->first == x ? it :

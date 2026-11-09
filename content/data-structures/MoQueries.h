@@ -3,9 +3,8 @@
  * Date: 2019-12-28
  * License: CC0
  * Source: https://github.com/hoke-t/tamu-kactl/blob/master/content/data-structures/MoQueries.h
- * Description: Answer interval or tree path queries by finding an approximate TSP through the queries,
- * and moving from one query to the next by adding/removing points at the ends.
- * If values are on tree edges, change \texttt{step} to add/remove the edge $(a, c)$ and remove the initial \texttt{add} call (but keep \texttt{in}).
+ * Description: Interval or tree path queries: visit the queries along an approximate TSP, adding/removing points at the ends.
+ * Values on tree edges: \texttt{step} adds/removes the edge $(a, c)$ and the initial \texttt{add} goes (keep \texttt{in}).
  * Time: O(N \sqrt Q)
  * Status: stress-tested
  */

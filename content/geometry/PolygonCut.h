@@ -8,7 +8,7 @@
  Returns a vector with the vertices of a polygon with everything to the left of the line going from s to e cut away.
 \end{minipage}
 \begin{minipage}{15mm}
-\vspace{-6mm}
+\vspace{-3mm}
 \includegraphics[width=\textwidth]{content/geometry/PolygonCut}
 \vspace{-6mm}
 \end{minipage}

@@ -20,7 +20,7 @@
 vl polyInv(vl a, int n) {
 	vl b = {modpow(a[0], mod - 2)};
 	for (int m = 1; m < n; m *= 2) {
-		vl f(a.begin(), a.begin() + min(sz(a), 2 * m)), c = conv(f, b);
+		vl f(a.begin(), a.begin()+min(sz(a), 2*m)), c = conv(f, b);
 		c.resize(2 * m);
 		for (ll& x : c) x = (mod - x) % mod;
 		c[0] = (c[0] + 2) % mod;
@@ -36,7 +36,7 @@ vl polyDer(vl a) {
 vl polyInt(vl a) {
 	a.insert(a.begin(), 0);
 	vl inv(sz(a), 1);
-	rep(i,2,sz(a)) inv[i] = (mod - (mod / i) * inv[mod % i] % mod) % mod;
+	rep(i,2,sz(a)) inv[i] = (mod - mod/i*inv[mod%i] % mod) % mod;
 	rep(i,1,sz(a)) a[i] = a[i] * inv[i] % mod;
 	return a;
 }
@@ -48,7 +48,7 @@ vl polyExp(vl a, int n) {
 	vl b = {1};
 	for (int m = 1; m < n; m *= 2) {
 		vl l = polyLog(b, 2 * m), f(2 * m);
-		rep(i,0,2*m) f[i] = ((i < sz(a) ? a[i] : 0) - l[i] + mod) % mod;
+		rep(i,0,2*m) f[i] = ((i<sz(a) ? a[i] : 0)-l[i]+mod) % mod;
 		f[0] = (f[0] + 1) % mod;
 		b = conv(b, f); b.resize(2 * m);
 	}

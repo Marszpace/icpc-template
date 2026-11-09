@@ -16,7 +16,7 @@
 struct PalTree {
 	struct Nd {
 		int len, link, cnt = 0; array<int, 26> nx;
-		Nd(int len, int link) : len(len), link(link) { nx.fill(0); }
+		Nd(int len, int link) : len(len), link(link) {nx.fill(0);}
 	};
 	vector<Nd> t{Nd(-1, 0), Nd(0, 0)};
 	string s; int last = 1;

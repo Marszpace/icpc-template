@@ -3,12 +3,8 @@
  * Date: 2026-07-09
  * License: CC0
  * Source: https://github.com/scipy/scipy/blob/main/scipy/optimize/rectangular_lsap/rectangular_lsap.cpp
- * Description: Given a weighted bipartite graph, matches every node on
- * the left with a node on the right such that no
- * nodes are in two matchings and the sum of the edge weights is minimal. Takes
- * cost[N][M], where cost[i][j] = cost for L[i] to be matched with R[j], and
- * returns (min cost, match), where L[i] is matched with
- * R[match[i]]. Negate costs for max cost. Requires $N \le M$.
+ * Description: Min-cost bipartite matching that matches every left node, $N \le M$. Takes cost[N][M] (cost[i][j]: L[i] with R[j]),
+ * returns (min cost, match) with L[i] matched to R[match[i]]. Negate costs for max cost.
  * Time: O(N^2M)
  * Status: Tested on kattis:cordonbleu, kattis:engaging, stress-tested
  */

@@ -3,15 +3,10 @@
  * Date: 2020-01-12
  * License: CC0
  * Source: https://codeforces.com/blog/entry/53170, https://github.com/bqi343/USACO/blob/master/Implementations/content/graphs%20(12)/Trees%20(10)/HLD%20(10.3).h
- * Description: Decomposes a tree into vertex disjoint heavy paths and light
- * edges such that the path from any leaf to the root contains at most log(n)
- * light edges. Code does additive modifications and max queries, but can
- * support commutative segtree modifications/queries on paths and subtrees.
- * Uses LazySeg (edit its block for other operations); modifications take
- * its tag \texttt{L}, queries return its value \texttt{S}.
- * Takes as input the full adjacency list. VALS\_EDGES being true means that
- * values are stored in the edges, as opposed to the nodes. All values
- * initialized to \texttt{S()}. Root must be 0.
+ * Description: Heavy-light decomposition: every path to the root has $O(\log n)$ light edges.
+ * Path and subtree updates and queries go to a \texttt{LazySeg} (edit its block for other operations):
+ * updates take its tag \texttt{L}, queries return its value \texttt{S}, all values start as \texttt{S()}.
+ * Takes the full adjacency list, root 0. \texttt{VALS\_EDGES}: values on the edges instead of the nodes.
  * Time: O((\log N)^2)
  * Status: stress-tested against old HLD
  */

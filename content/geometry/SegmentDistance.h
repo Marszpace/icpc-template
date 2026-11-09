@@ -8,7 +8,7 @@
 Returns the shortest distance between point p and the line segment from point s to e.
 \end{minipage}
 \begin{minipage}{15mm}
-\vspace{-10mm}
+\vspace{-3mm}
 \includegraphics[width=\textwidth]{content/geometry/SegmentDistance}
 \end{minipage}
  * Usage: 

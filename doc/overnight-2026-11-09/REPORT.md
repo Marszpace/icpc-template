@@ -1,5 +1,7 @@
 # Overnight report (2026-11-09)
 
+**Status (2026-11-09, evening): applied** — patches 01, 02/03/05/06 with the modified header (10m), the equation spacing (13), 09 and 12 are in the book. Not taken: 07, 08. Everything below is the record of how we got there.
+
 Three jobs: (1) item 18, tests for the gaps; (2) look for errors in `kactl.pdf`; (3) experiments to save space.
 The book itself is **unchanged** (only tests and the hidden `Status:` lines were committed). Everything else is a
 measured experiment, packaged as a patch in `diffs/` that applies to the current branch with `git apply`.

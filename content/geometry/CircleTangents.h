@@ -3,11 +3,9 @@
  * Date: 2019-10-31
  * License: CC0
  * Source: https://vlecomte.github.io/cp-geo.pdf
- * Description: Finds the external tangents of two circles, or internal if r2 is negated.
- * Can return 0, 1, or 2 tangents -- 0 if one circle contains the other (or overlaps it, in the internal case, or if the circles are the same);
- * 1 if the circles are tangent to each other (in which case .first = .second and the tangent line is perpendicular to the line between the centers).
- * .first and .second give the tangency points at circle 1 and 2 respectively.
- * To find the tangents of a circle with a point set r2 to 0.
+ * Description: External tangents of two circles (internal ones if r2 is negated). Returns 0 tangents if one circle contains the other
+ * (internal case: also if they overlap; also if equal), 1 if they touch (.first = .second, perpendicular to the center line), else 2.
+ * .first and .second are the tangency points on circle 1 and 2. Tangents from a point: r2 = 0.
  * Status: tested
  */
 #pragma once

@@ -25,7 +25,7 @@ struct DynCon {
 	void add(int l, int r, int a, int b, int o = 1, int lo = 0, int hi = -1) {
 		if (hi < 0) hi = T;
 		if (r <= lo || hi <= l) return;
-		if (l <= lo && hi <= r) { seg[o].push_back({a, b}); return; }
+		if (l<=lo && hi<=r) { seg[o].push_back({a, b}); return; }
 		int m = (lo + hi) / 2;
 		add(l, r, a, b, 2*o, lo, m); add(l, r, a, b, 2*o+1, m, hi);
 	}

@@ -3,13 +3,12 @@
  * Date: 2019-04-27
  * License: CC0
  * Source: https://vlecomte.github.io/cp-geo.pdf
- * Description:\\
+ * Description: \\
 \begin{minipage}{75mm}
-If a unique intersection point between the line segments going from s1 to e1 and from s2 to e2 exists then it is returned.
-If no intersection point exists an empty vector is returned.
-If infinitely many exist a vector with 2 elements is returned, containing the endpoints of the common line segment.
-The wrong position will be returned if P is Point<ll> and the intersection point does not have integer coordinates.
-Products of three coordinates are used in intermediate steps so watch out for overflow if using int or long long.
+ * Intersection of segments s1-e1 and s2-e2: one point, none (empty vector),
+ * or the two endpoints of the common segment if there are infinitely many.
+ * With Point<ll> the point is wrong if it is not integral.
+ * Uses products of three coordinates (overflow).
 \end{minipage}
 \begin{minipage}{15mm}
 \includegraphics[width=\textwidth]{content/geometry/SegmentIntersection}

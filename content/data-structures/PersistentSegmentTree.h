@@ -35,7 +35,7 @@ struct PST {
 		if (!v || r <= lo || hi <= l) return 0;
 		if (l <= lo && hi <= r) return t[v].s;
 		int m = (lo + hi) / 2;
-		return query(t[v].l, l, r, lo, m) + query(t[v].r, l, r, m, hi);
+		return query(t[v].l,l,r,lo,m) + query(t[v].r,l,r,m,hi);
 	}
 	int kth(int a, int b, ll k) {
 		int lo = 0, hi = n;

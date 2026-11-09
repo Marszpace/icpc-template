@@ -2,11 +2,8 @@
  * Author: Adam Soltan
  * Date: 2026-01-13
  * License: CC0
- * Description: Fast bipartite matching algorithm. Graph $g$ should be a list
- * of neighbors of the left partition, and $r$ should be a vector full of
- * $-1$'s of the same size as the right partition. Returns the size of
- * the matching. $r[i]$ will be the match for vertex $i$ on the right side,
- * or $-1$ if it's not matched.
+ * Description: Bipartite matching. $g$: neighbours of each left vertex; $r$: all $-1$, size of the right side.
+ * Returns the matching size; $r[i]$ is the match of right vertex $i$, or $-1$.
  * Time: O(E \sqrt{V})
  * Status: stress-tested by MinimumVertexCover and tested on Library Checker
  */

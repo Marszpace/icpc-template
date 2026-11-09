@@ -4,7 +4,7 @@
 **printed in `kactl.pdf`**; cut files stay in the repository (only their `\kactlimport` line is commented out),
 so they can be turned back on in the `chapter.tex` of their directory.
 
-The book is now **26 PDF pages (cover + 25)**, exactly the Danang limit (26), after the team cut *C++ pitfalls* and `Int128.h` (2026-11-09). About 0.6 of a column is free on the techniques page.
+The book is now **26 PDF pages (cover + 25)**, exactly the Danang limit (26), after the team cut *C++ pitfalls* and `Int128.h` (2026-11-09). About 1.9 columns are free on the last body page and 0.6 column on the techniques page (after the layout changes below).
 
 ## Added to the book
 
@@ -153,6 +153,18 @@ Gotchas for your own code with the define: `max(x, 0)` / `min(x, 1)` need `0LL` 
 `SolveLinearMod`, `Binomial`, `LagrangeInterpolation`, `PrimitiveRoot`, `LiChao`, `BlockCutTree`, `PalindromicTree`,
 and for original KACTL files that had no test of the real header: `MatrixInverse`, `MatrixInverse-mod`, `Determinant`, `IntDeterminant`, `SolveLinear` (real header added to the old test), `Polynomial`, `PolyInterpolate`, `Integrate`, `HillClimbing`, `TernarySearch`, `BiconnectedComponents`, `CompressTree`, `GeneralMatching`, `Manacher`, `DivideAndConquerDP`, `IntervalCover`, `HashMap`, `OrderStatisticTree`, `Matrix`, `phiFunction`, `multinomial`, `linearTransformation`, `kdTree`, `Angle`
 (in `stress-tests/<chapter>/`). The whole suite passes: `make test` 133/133 and `make test-compiles` 155/155, both also with `LLINT=1` (2026-11-09).
+
+## Layout changes (2026-11-09)
+
+Applied on top of the original KACTL layout (details, pictures and the rejected experiments: `doc/overnight-2026-11-09/REPORT.md`):
+
+- File header: name, include list beside it and hash + line count flush right, then a thin rule, then the description with `Time:` behind it
+  and `Usage:` at the bottom; 2.5pt of space before the code rule.
+- Tighter spacing above and below listings, smaller section and subsection headings, a compact table of contents, 6pt column gap, 3pt above and below
+  display equations (and a stray `\\` removed from the first trigonometry equations).
+- Bug fixes: overlapping lines in text sections (the `\subsection` skip had negative stretch), the page 20 header ran into "NTU", two `Time:` lines ran
+  into the hash, file titles stranded at the bottom of a column, figures in 4 geometry files overlapping the header.
+- Shorter descriptions for 17 files, 27 code lines shortened so they no longer wrap (the hashes of 15 files changed).
 
 ## Things to know
 

@@ -3,11 +3,8 @@
  * Date: 2017-04-17
  * License: CC0
  * Source: folklore
- * Description: Finds all biconnected components in an undirected graph, and
- *  runs a callback for the edges in each. In a biconnected component there
- *  are at least two internally disjoint paths between any two nodes (a cycle
- *  exists through them). Note that a node can be in several components. An
- *  edge which is not in a component is a bridge, i.e., not part of any cycle.
+ * Description: Runs the callback on the edges of each biconnected component (any two of its nodes lie on a common cycle).
+ * A node can be in several components; an edge in none is a bridge.
  * Usage:
  *  int eid = 0; ed.resize(N);
  *  for each edge (a,b) {

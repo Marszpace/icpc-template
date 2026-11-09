@@ -80,7 +80,7 @@ Node* ins(Node* t, Node* n, int pos) {
 
 // Run f on the subtree of positions [l, r), e.g.
 // go(t, l, r, [&](Node* n) { n->app(5, 0); }); // add 5
-// app(0, 1) reverses, n->sum is the sum (f is skipped if empty).
+// app(0, 1) reverses, n->sum is the sum (f skipped if empty).
 template<class F> void go(Node*& t, int l, int r, F f) {
 	Node *a, *b, *c;
 	tie(a,b) = split(t, l); tie(b,c) = split(b, r - l);

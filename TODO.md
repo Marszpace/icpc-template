@@ -89,10 +89,13 @@ Cleanup first (frees about 65 lines), then additions, cheapest and most useful f
     remembers; keep: named techniques that are error-prone or easy to forget), a short reason where it is not obvious, and a count of how many lines the
     `keep` entries add up to against the one-page budget (about 155 lines). The team edits the marks; then regenerate `content/appendix/techniques.txt`.
 
-- [ ] **Layout report (2026-11-09): pick the patches** (`doc/overnight-2026-11-09/REPORT.md`). Found and fixed in `diffs/01-layout-fixes.diff`
-    (not applied yet): overlapping lines on pages 19 and 25 (upstream `\subsection` skip has negative stretch), page 20 header overflow,
-    two `Time:` lines over the hash, 3 orphaned file titles. Space: `10-combined-...` gives 25 pages without content changes,
-    `11-combined-...` 25 pages with 0.6 column spare. 62 code lines wrap (`wrapped-code-lines.txt`); `12-unwrap-code-lines.diff` fixes 27 of them.
+- [x] **Layout report (2026-11-09)** (done: patches 01, 02, 03, 05, 06, the modified 02/04 header, equation spacing (13), 09 (shorter descriptions) and 12 (unwrapped code lines) are applied; 07 (techniques in the same flow) and 08 (no blank lines in code) were not taken; see `doc/overnight-2026-11-09/REPORT.md`. The book is 26 pages with about 1.9 columns free on the last body page and 0.6 column on the techniques page.)
+
+21. [ ] **Reduce the descriptions even further** (team decision 2026-11-09: patch 09 is where we stop for now, but the team knows the code, so many
+    descriptions can shrink more). Candidates: files whose description repeats what the code or the usage line already shows (geometry
+    helpers, matching, flow, string structures); keep what is easy to get wrong (preconditions, return conventions, complexity, overflow). Do it in
+    one pass over all 126 files with a proposed new text per file for the team to approve (like `doc/overnight-2026-11-09/wording-09.md`).
+    Check `layout-check.py` and the page count after, and remove the `Status:`-style leftovers while there.
 
 ## Blocked: needs the team or you (do not start these)
 - [ ] **Edit Fenwick Trees** (your template). Not decided: the team first has to answer (a) is `FenwickTree.h` 0- or 1-indexed (it is 0-indexed:

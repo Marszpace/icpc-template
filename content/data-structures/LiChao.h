@@ -14,22 +14,22 @@
 
 struct LiChao {
 	static const ll INF = 4e18;
-	struct Ln { ll k = 0, m = INF; ll at(ll x) { return k * x + m; } };
+	struct Ln { ll k=0, m=INF; ll at(ll x) { return k*x + m; } };
 	int n; vector<Ln> t;
 	LiChao(int n) : n(n), t(4*n) {}
 	void ins(Ln ln, int o, int lo, int hi) {
 		int mid = (lo + hi) / 2;
-		bool l = ln.at(lo) < t[o].at(lo), m = ln.at(mid) < t[o].at(mid);
+		bool l=ln.at(lo)<t[o].at(lo), m=ln.at(mid)<t[o].at(mid);
 		if (m) swap(t[o], ln);
 		if (hi - lo == 1) return;
-		if (l != m) ins(ln, 2*o, lo, mid); else ins(ln, 2*o+1, mid, hi);
+		if (l != m) ins(ln,2*o,lo,mid); else ins(ln,2*o+1,mid,hi);
 	}
 	void addSeg(ll k, ll m, int a, int b, int o = 1, int lo = 0, int hi = -1) {
 		if (hi < 0) hi = n;
 		if (b <= lo || hi <= a) return;
 		if (a <= lo && hi <= b) return ins({k, m}, o, lo, hi);
 		int mid = (lo + hi) / 2;
-		addSeg(k, m, a, b, 2*o, lo, mid); addSeg(k, m, a, b, 2*o+1, mid, hi);
+		addSeg(k,m,a,b,2*o,lo,mid); addSeg(k,m,a,b,2*o+1,mid,hi);
 	}
 	void add(ll k, ll m) { addSeg(k, m, 0, n); }
 	ll query(int x) {

@@ -24,7 +24,7 @@ ll lagrange(const vector<ll>& y, ll x) {
 	ll f = 1;
 	rep(i,1,n) f = f * i % mod;
 	ifact[n-1] = modpow(f, mod - 2);
-	for (int i = n - 1; i--;) ifact[i] = ifact[i+1] * (i + 1) % mod;
+	for (int i = n-1; i--;) ifact[i] = ifact[i+1] * (i+1) % mod;
 	ll ans = 0;
 	rep(i,0,n) {
 		ll t = y[i] * pre[i] % mod * suf[i+1] % mod * ifact[i] % mod * ifact[n-1-i] % mod;

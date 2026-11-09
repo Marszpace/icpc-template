@@ -27,12 +27,12 @@ struct LazySeg {
 	void ap(int o, int len, L x) { t[o] = app(t[o], x, len); z[o] = comp(x, z[o]); }
 	void push(int o, int lo, int hi) {
 		int m = (lo + hi) / 2;
-		ap(2*o, m - lo, z[o]); ap(2*o+1, hi - m, z[o]); z[o] = id();
+		ap(2*o, m-lo, z[o]); ap(2*o+1, hi-m, z[o]); z[o] = id();
 	}
-	void upd(int l, int r, L x, int o = 1, int lo = 0, int hi = -1) {
+	void upd(int l, int r, L x, int o=1, int lo=0, int hi=-1) {
 		if (hi < 0) hi = n;
 		if (r <= lo || hi <= l) return;
-		if (l <= lo && hi <= r && ok(t[o], x)) return ap(o, hi - lo, x);
+		if (l<=lo && hi<=r && ok(t[o], x)) return ap(o, hi-lo, x);
 		push(o, lo, hi); int m = (lo + hi) / 2;
 		upd(l, r, x, 2*o, lo, m); upd(l, r, x, 2*o+1, m, hi);
 		t[o] = op(t[2*o], t[2*o+1]);
@@ -42,13 +42,13 @@ struct LazySeg {
 		if (r <= lo || hi <= l) return e();
 		if (l <= lo && hi <= r) return t[o];
 		push(o, lo, hi); int m = (lo + hi) / 2;
-		return op(query(l, r, 2*o, lo, m), query(l, r, 2*o+1, m, hi));
+		return op(query(l,r,2*o,lo,m), query(l,r,2*o+1,m,hi));
 	}
 	template<class F> int maxRight(int l, F f) {
 		S a = e();
 		auto go = [&](auto&& go, int o, int lo, int hi) -> int {
 			if (hi <= l) return hi;
-			if (l <= lo && f(op(a, t[o]))) return a = op(a, t[o]), hi;
+			if (l<=lo && f(op(a, t[o]))) return a = op(a, t[o]), hi;
 			if (hi - lo == 1) return lo;
 			push(o, lo, hi); int m = (lo + hi) / 2;
 			int r = go(go, 2*o, lo, m);

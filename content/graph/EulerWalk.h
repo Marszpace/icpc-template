@@ -3,12 +3,8 @@
  * Date: 2019-12-31
  * License: CC0
  * Source: folklore
- * Description: Eulerian undirected/directed path/cycle algorithm.
- * Input should be a vector of (dest, global edge index), where
- * for undirected graphs, forward/backward edges have the same index.
- * Returns a list of nodes in the Eulerian path/cycle with src at both start and end, or
- * empty list if no cycle/path exists.
- * To get edge indices back, add .second to s and ret.
+ * Description: Euler path/cycle, undirected or directed. Input: lists of (dest, global edge index); both directions of an undirected edge share the index.
+ * Returns the nodes of the walk (src at both ends for a cycle), or empty if there is none. Edge indices: add .second to s and ret.
  * Time: O(V + E)
  * Status: stress-tested
  */

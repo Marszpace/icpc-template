@@ -3,12 +3,12 @@
  * Date: 2019-05-05
  * License: CC0
  * Source: https://vlecomte.github.io/cp-geo.pdf
- * Description:\\
+ * Description: \\
 \begin{minipage}{75mm}
-If a unique intersection point of the lines going through s1,e1 and s2,e2 exists \{1, point\} is returned.
-If no intersection point exists \{0, (0,0)\} is returned and if infinitely many exists \{-1, (0,0)\} is returned.
-The wrong position will be returned if P is Point<ll> and the intersection point does not have integer coordinates.
-Products of three coordinates are used in intermediate steps so watch out for overflow if using int or ll.
+ * Intersection of the lines through s1,e1 and s2,e2: \{1, point\} if unique,
+\{0, (0,0)\} if parallel, \{-1, (0,0)\} if they are the same line.
+ * With Point<ll> the point is wrong if it is not integral.
+ * Uses products of three coordinates (overflow).
 \end{minipage}
 \begin{minipage}{15mm}
 \includegraphics[width=\textwidth]{content/geometry/lineIntersection}

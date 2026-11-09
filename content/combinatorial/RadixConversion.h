@@ -3,20 +3,12 @@
  * Date: 2026-11-08
  * License: CC0
  * Source: bijective numeration
- * Description: Converts a sequence of digits in $[0, a)$ to a sequence
- * of digits in $[0, b)$, with $a, b \ge 2$ (below $2^{31}$), most significant
- * first. It is a bijection between all finite sequences: the empty one
- * maps to the empty one, and the $k$-th sequence in (length, lexicographic)
- * order in base $a$ goes to the $k$-th in base $b$. So
- * \texttt{radixconv(radixconv(x, a, b), b, a) == x} always, with no length
- * or leading zeros to remember, and the result has about
- * $|x| \log_b a$ digits (e.g. to send $n$ numbers below $a$ in messages below $b$).
- * \texttt{radixToPerm(x, a)} is the same with permutations of $0, \ldots, n-1$
- * as the target: a bijection between all digit sequences and all permutations
- * (the size comes out of the data, e.g. 2000 binary digits give 296 elements),
- * (length, lexicographic) order going to (size, lexicographic) order;
- * \texttt{permToRadix(p, a)} is the inverse ($y$ is the result; it also takes $O(|y|^2)$). For a fixed size use \texttt{intToPerm},
- * or \texttt{radixToPerm} on the digits of $r + 0! + 1! + \dots + (n-1)!$ in base $2^{31}-1$ (one digit for $n \le 12$, two up to 20).
+ * Description: Bijective base conversion: digits in $[0, a)$ to digits in $[0, b)$ ($2 \le a, b < 2^{31}$), most significant first.
+ * The $k$-th sequence in (length, lexicographic) order in base $a$ maps to the $k$-th in base $b$ (empty to empty),
+ * so \texttt{radixconv(radixconv(x, a, b), b, a) == x} with no length or leading zeros to store; the result has about $|x| \log_b a$ digits.
+\texttt{radixToPerm(x, a)} does the same onto all permutations of $0, \ldots, n-1$ ($n$ comes from the data: 2000 bits give 296 elements),
+ * in (size, lexicographic) order; \texttt{permToRadix(p, a)} is its inverse ($O(|y|^2)$, $y$ the result).
+ * Fixed size: \texttt{intToPerm}, or \texttt{radixToPerm} on the base $2^{31}-1$ digits of $r + 0! + \dots + (n-1)!$ (one digit for $n \le 12$, two up to 20).
  * Time: O(|x| \cdot |y|)
  * Status: stress-tested
  */

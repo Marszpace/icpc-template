@@ -33,7 +33,7 @@ template<class P> vector<P> halfPlanes(vector<pair<P, P>> h) {
 		for (; b - a > 1 && out(l, inter(q[a], q[a+1])); a++);
 		if (b > a && fabs(dir(l).cross(dir(q[b-1]))) < eps) {
 			if (dir(l).dot(dir(q[b-1])) < 0) return {};
-			if (out(l, q[b-1].first)) b--; // same direction, l tighter
+			if (out(l, q[b-1].first)) b--; // same dir, l tighter
 			else continue;
 		}
 		q[b++] = l;
@@ -41,7 +41,7 @@ template<class P> vector<P> halfPlanes(vector<pair<P, P>> h) {
 	for (; b - a > 2 && out(q[a], inter(q[b-1], q[b-2])); b--);
 	for (; b - a > 2 && out(q[b-1], inter(q[a], q[a+1])); a++);
 	if (b - a < 3) return {};
-	rep(i,a,b) // a bounded polygon turns left by < pi at each corner
+	rep(i,a,b) // bounded: turns left by < pi at each corner
 		if (dir(q[i]).cross(dir(q[i+1 == b ? a : i+1])) < eps) return {};
 	vector<P> r;
 	rep(i,a,b) r.push_back(inter(q[i], q[i+1 == b ? a : i+1]));
