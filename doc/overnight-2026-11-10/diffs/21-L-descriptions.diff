@@ -1,0 +1,2195 @@
+diff --git a/content/combinatorial/IntPerm.h b/content/combinatorial/IntPerm.h
+index 835ccb3..df2548b 100644
+--- a/content/combinatorial/IntPerm.h
++++ b/content/combinatorial/IntPerm.h
+@@ -2,10 +2,7 @@
+  * Author: Simon Lindholm, Claude
+  * Date: 2018-07-06
+  * License: CC0
+- * Description: Permutation of $0, \ldots, n-1$ $\leftrightarrow$ integer in $[0, n!)$:
+- * \texttt{permToInt} is the rank of the permutation in lexicographic order and
+- * \texttt{intToPerm(r, n)} is the \texttt{r}'th permutation (0-indexed), its exact
+- * inverse. Order preserving. Exact for $n \le 20$. For a permutation whose size is not fixed, see \texttt{radixToPerm}.
++ * Description: $n \le 20$. Unknown size: \texttt{radixToPerm}.
+  * Usage: intToPerm(0, 3) // {0, 1, 2}, intToPerm(5, 3) // {2, 1, 0}
+  * Time: O(n) and O(n^2)
+  * Status: stress-tested
+diff --git a/content/combinatorial/RadixConversion.h b/content/combinatorial/RadixConversion.h
+index eacf7d6..6033273 100644
+--- a/content/combinatorial/RadixConversion.h
++++ b/content/combinatorial/RadixConversion.h
+@@ -3,12 +3,8 @@
+  * Date: 2026-11-08
+  * License: CC0
+  * Source: bijective numeration
+- * Description: Bijective base conversion: digits in $[0, a)$ to digits in $[0, b)$ ($2 \le a, b < 2^{31}$), most significant first.
+- * The $k$-th sequence in (length, lexicographic) order in base $a$ maps to the $k$-th in base $b$ (empty to empty),
+- * so \texttt{radixconv(radixconv(x, a, b), b, a) == x} with no length or leading zeros to store; the result has about $|x| \log_b a$ digits.
+-\texttt{radixToPerm(x, a)} does the same onto all permutations of $0, \ldots, n-1$ ($n$ comes from the data: 2000 bits give 296 elements),
+- * in (size, lexicographic) order; \texttt{permToRadix(p, a)} is its inverse ($O(|y|^2)$, $y$ the result).
+- * Fixed size: \texttt{intToPerm}, or \texttt{radixToPerm} on the base $2^{31}-1$ digits of $r + 0! + \dots + (n-1)!$ (one digit for $n \le 12$, two up to 20).
++ * Description: $k$-th sequence (by length, then lex) over $[0, a)$ $\to$ $k$-th over $[0, b)$, most significant first.
++ * \texttt{radixToPerm} / \texttt{permToRadix}: the same with permutations (size from the data).
+  * Time: O(|x| \cdot |y|)
+  * Status: stress-tested
+  */
+diff --git a/content/combinatorial/multinomial.h b/content/combinatorial/multinomial.h
+index f3d2e35..5e13f4f 100644
+--- a/content/combinatorial/multinomial.h
++++ b/content/combinatorial/multinomial.h
+@@ -2,7 +2,7 @@
+  * Author: Mattias de Zalenski, Fredrik Niemelä, Per Austrin, Simon Lindholm
+  * Date: 2002-09-26
+  * Source: Max Bennedich
+- * Description: Computes $\displaystyle \binom{k_1 + \dots + k_n}{k_1, k_2, \dots, k_n} = \frac{(\sum k_i)!}{k_1!k_2!...k_n!}$.
++ * Description: $(\sum k_i)! / \prod k_i!$.
+  * Status: Tested on kattis:lexicography; stress-tested
+  */
+ #pragma once
+diff --git a/content/data-structures/DynCon.h b/content/data-structures/DynCon.h
+index 8fb053a..359a2f8 100644
+--- a/content/data-structures/DynCon.h
++++ b/content/data-structures/DynCon.h
+@@ -3,13 +3,7 @@
+  * Date: 2026-10-29
+  * License: CC0
+  * Source: folklore (segment tree on time + rollback DSU)
+- * Description: Offline dynamic connectivity. \texttt{add(l, r, a, b)} makes
+- * edge $a$--$b$ present during times $[l, r)$. \texttt{run(f)} calls
+- * \texttt{f(t)} for $t = 0, \dots, T-1$ in order; during the call
+- * \texttt{uf} describes the graph at time $t$ (components, sizes), and
+- * \texttt{bad} is the number of edges closing an odd cycle (the graph is
+- * bipartite iff \texttt{bad == 0}). For toggle queries, keep a
+- * \texttt{map<pii,int>} of start times and close open edges at $T$.
++ * Description: Offline. Edge $a$--$b$ alive in $[l, r)$; in \texttt{f(t)}, \texttt{uf} is the graph at time $t$, bipartite iff \texttt{bad == 0}.
+  * Usage: DynCon dc(n, T); dc.add(l, r, a, b);
+  *  dc.run([\&](int t){ ... dc.uf.find(x) ... });
+  * Time: O((N + E \log T) \log N)
+diff --git a/content/data-structures/FenwickTree.h b/content/data-structures/FenwickTree.h
+index 7caa5f5..4b0bcba 100644
+--- a/content/data-structures/FenwickTree.h
++++ b/content/data-structures/FenwickTree.h
+@@ -3,14 +3,13 @@
+  * Date: 2009-10-30
+  * License: CC0
+  * Source: folklore/TopCoder
+- * Description: Computes partial sums a[0] + a[1] + ... + a[pos - 1], and updates single elements a[i],
+- * taking the difference between the old and new value.
+- * Time: Both operations are $O(\log N)$.
++ * Description: \texttt{lower\_bound} needs non-negative values.
++ * Time: O(\log N)
+  * Status: Stress-tested
+  */
+ #pragma once
+ 
+-struct FT {
++struct FT { // 0-indexed
+ 	vector<ll> s;
+ 	FT(int n) : s(n) {}
+ 	void update(int pos, ll dif) { // a[pos] += dif
+diff --git a/content/data-structures/FenwickTree2d.h b/content/data-structures/FenwickTree2d.h
+index d05d904..78bc37d 100644
+--- a/content/data-structures/FenwickTree2d.h
++++ b/content/data-structures/FenwickTree2d.h
+@@ -3,16 +3,15 @@
+  * Date: 2017-05-11
+  * License: CC0
+  * Source: folklore
+- * Description: Computes sums a[i,j] for all i<I, j<J, and increases single elements a[i,j].
+- *  Requires that the elements to be updated are known in advance (call fakeUpdate() before init()).
+- * Time: $O(\log^2 N)$. (Use persistent segment trees for $O(\log N)$.)
++ * Description: Points to update must be known in advance.
++ * Time: O(\log^2 N)
+  * Status: stress-tested
+  */
+ #pragma once
+ 
+ #include "FenwickTree.h"
+ 
+-struct FT2 {
++struct FT2 { // 0-idx; fakeUpdate() all points, then init()
+ 	vector<vi> ys; vector<FT> ft;
+ 	FT2(int limx) : ys(limx) {}
+ 	void fakeUpdate(int x, int y) {
+@@ -27,7 +26,7 @@ struct FT2 {
+ 		for (; x < sz(ys); x |= x + 1)
+ 			ft[x].update(ind(x, y), dif);
+ 	}
+-	ll query(int x, int y) {
++	ll query(int x, int y) { // sum over [0, x) x [0, y)
+ 		ll sum = 0;
+ 		for (; x; x &= x - 1)
+ 			sum += ft[x-1].query(ind(x-1, y));
+diff --git a/content/data-structures/HashMap.h b/content/data-structures/HashMap.h
+index c017cc3..f4801f8 100644
+--- a/content/data-structures/HashMap.h
++++ b/content/data-structures/HashMap.h
+@@ -3,9 +3,7 @@
+  * Date: 2018-07-23
+  * License: CC0
+  * Source: http://codeforces.com/blog/entry/60737
+- * Description: Hash map with mostly the same API as unordered\_map, but \tilde
+- * 3x faster. Uses 1.5x memory.
+- * Initial capacity must be a power of 2 (if provided).
++ * Description: \texttt{unordered\_map} API, 3x faster. Capacity: a power of 2.
+  * Status: stress-tested
+  */
+ #pragma once
+diff --git a/content/data-structures/LazySegTree.h b/content/data-structures/LazySegTree.h
+index 6b4eaa6..6da05d8 100644
+--- a/content/data-structures/LazySegTree.h
++++ b/content/data-structures/LazySegTree.h
+@@ -3,14 +3,11 @@
+  * Date: 2026-10-30
+  * License: CC0
+  * Source: folklore
+- * Description: Lazy segment tree over any monoid with lazy tags. Never edit this part, only the block before it
+- * (\texttt{LazySegTreeBlock.h}), which defines \texttt{S}, \texttt{L}, \texttt{e}, \texttt{id}, \texttt{op}, \texttt{ok}, \texttt{app}, \texttt{comp}.
+- * \texttt{app(s, x, len)} applies tag $x$ to the value $s$ of a segment of length \texttt{len},
+- * \texttt{comp(x, y)} is the tag "$y$ first, then $x$". Ranges are $[l, r)$. Beats with add is $O(\log^2 N)$ amortized.
+- * \texttt{maxRight(l, f)} is the largest $r$ with \texttt{f(query(l, r))} true, for monotone $f$ with \texttt{f(e())} true (descent in $O(\log N)$).
++ * Description: Edit only the block. Ranges $[l, r)$; \texttt{comp(x, y)}: $y$ first, then $x$.
++ * \texttt{maxRight(l, f)}: largest $r$ with \texttt{f(query(l, r))} ($f$ monotone, \texttt{f(e())} true).
+  * Usage: vector<S> v(n); LazySeg t(v); t.upd(l, r, {5, 0}); t.query(l, r).sum;
+  * t.maxRight(l, [\&](S s) { return s.mx < x; }); // first index >= l with value >= x
+- * Time: O(\log N)
++ * Time: O(\log N), beats with add $O(\log^2 N)$ amortized
+  * Status: stress-tested
+  */
+ #pragma once
+diff --git a/content/data-structures/LazySegTreeBlock.h b/content/data-structures/LazySegTreeBlock.h
+index 71f05e6..7ef86db 100644
+--- a/content/data-structures/LazySegTreeBlock.h
++++ b/content/data-structures/LazySegTreeBlock.h
+@@ -3,17 +3,13 @@
+  * Date: 2026-10-30
+  * License: CC0
+  * Source: folklore (segment tree beats, Ji Driver)
+- * Description: The part of \texttt{LazySeg} you edit. Range chmin and range add, queries sum / max / count of max (segment tree beats).
+- * A tag is $x \mapsto \min(x, c) + a$: chmin $v$ is \texttt{\{v, 0\}}, add $v$ is \texttt{\{INF, v\}}. \texttt{S()} is a leaf with value 0.
+- * To change it, \texttt{L} must stay closed under \texttt{comp}, and \texttt{app} must act on the aggregate like the tag acts on every element.
+- * \texttt{ok(s, x)} says whether $x$ can be applied to the whole segment $s$ without looking inside (else it recurses).
+- * \textbf{Add only:} \texttt{ok} returns 1, drop \texttt{se, cnt}.
+- * \textbf{Min query:} add \texttt{mn}, \texttt{op} takes min, \texttt{app}: \texttt{mn = min(mn, x.c) + x.a}.
+- * \textbf{Chmax instead of chmin:} store $-a_i$ (chmax $v$ = chmin $-v$, add $v$ = add $-v$), negate the answers.
+- * \textbf{Set, add, mul:} \texttt{L} = $(a, b)$, $x \mapsto ax + b$, \texttt{id} = \texttt{\{1, 0\}}, set $v$ = \texttt{\{0, v\}}, add = \texttt{\{1, v\}}, mul = \texttt{\{v, 0\}},
+- * \texttt{app} = \texttt{a * s + b * len} (sum) or \texttt{a * s + b} (max, $a \ge 0$), \texttt{comp(x, y)} = \texttt{\{x.a * y.a, x.a * y.b + x.b\}}, \texttt{ok} returns 1.
+- * \textbf{Chmin, chmax, add, set with only max / min queries:} \texttt{L} = $(a, lo, hi)$, $x \mapsto \min(\max(x + a, lo), hi)$, set $v$ = \texttt{\{0, v, v\}},
+- * \texttt{comp(x, y)}: $a$ = \texttt{x.a + y.a}, and \texttt{lo, hi} = \texttt{y.lo, y.hi} each shifted by \texttt{x.a}, then clamped to \texttt{[x.lo, x.hi]}.
++ * Description: Default: chmin + add, sum / max / count of max (beats). Tag $x \mapsto \min(x, c) + a$: chmin \texttt{\{v, 0\}}, add \texttt{\{INF, v\}}.
++ * \texttt{app} acts on the aggregate as the tag on each element; \texttt{ok(s, x)}: apply without recursing?
++ * \textbf{Add only:} \texttt{ok} = 1, drop \texttt{se, cnt}. \textbf{Min query:} add \texttt{mn}, \texttt{app}: \texttt{mn = min(mn, x.c) + x.a}.
++ * \textbf{Chmax:} store $-a_i$. \textbf{Set, add, mul:} \texttt{L} = $(a, b)$: $ax + b$, \texttt{id \{1, 0\}}, set \texttt{\{0, v\}}, add \texttt{\{1, v\}}, mul \texttt{\{v, 0\}},
++ * \texttt{app}: \texttt{a*s + b*len} (sum), \texttt{a*s + b} (max, $a \ge 0$), \texttt{comp}: \texttt{\{x.a*y.a, x.a*y.b + x.b\}}, \texttt{ok} = 1.
++ * \textbf{Chmin, chmax, add, set (max / min only):} \texttt{L} = $(a, lo, hi)$: $\min(\max(x + a, lo), hi)$, set \texttt{\{0, v, v\}},
++ * \texttt{comp}: \texttt{x.a + y.a}, and \texttt{y.lo, y.hi} plus \texttt{x.a}, clamped to \texttt{[x.lo, x.hi]}.
+  * Status: stress-tested
+  */
+ #pragma once
+diff --git a/content/data-structures/LiChao.h b/content/data-structures/LiChao.h
+index cadc019..a511eb3 100644
+--- a/content/data-structures/LiChao.h
++++ b/content/data-structures/LiChao.h
+@@ -3,16 +3,13 @@
+  * Date: 2026-10-29
+  * License: CC0
+  * Source: https://cp-algorithms.com/geometry/convex_hull_trick.html
+- * Description: Li Chao tree: minimum of lines $kx + m$ at integer points $x \in [0, n)$.
+- * \texttt{add} inserts a line everywhere, \texttt{addSeg} only for $x \in [a, b)$,
+- * in any order. For maximum, negate $k$, $m$ and the answer.
+- * \texttt{query} returns \texttt{INF} if no line covers $x$.
++ * Description: Min at integer $x \in [0, n)$; \texttt{addSeg} on $[a, b)$. Max: negate. \texttt{INF} if no line.
+  * Time: O(\log N) per operation ($O(\log^2 N)$ for \texttt{addSeg})
+  * Status: stress-tested
+  */
+ #pragma once
+ 
+-struct LiChao {
++struct LiChao { // min at integer x in [0, n); max: negate
+ 	static const ll INF = 4e18;
+ 	struct Ln { ll k=0, m=INF; ll at(ll x) { return k*x + m; } };
+ 	int n; vector<Ln> t;
+@@ -32,7 +29,7 @@ struct LiChao {
+ 		addSeg(k,m,a,b,2*o,lo,mid); addSeg(k,m,a,b,2*o+1,mid,hi);
+ 	}
+ 	void add(ll k, ll m) { addSeg(k, m, 0, n); }
+-	ll query(int x) {
++	ll query(int x) { // INF if no line covers x
+ 		ll r = INF;
+ 		for (int o = 1, lo = 0, hi = n; ; ) {
+ 			r = min(r, t[o].at(x));
+diff --git a/content/data-structures/LineContainer.h b/content/data-structures/LineContainer.h
+index 75b3438..8aa3e1e 100644
+--- a/content/data-structures/LineContainer.h
++++ b/content/data-structures/LineContainer.h
+@@ -3,8 +3,7 @@
+  * Date: 2017-04-20
+  * License: CC0
+  * Source: own work
+- * Description: Container where you can add lines of the form kx+m, and query maximum values at points x.
+- *  Useful for dynamic programming (``convex hull trick'').
++ * Description: Lines $kx + m$, query the max at $x$.
+  * Time: O(\log N)
+  * Status: stress-tested
+  */
+@@ -34,7 +33,7 @@ struct LineContainer : multiset<Line, less<>> {
+ 		while ((y = x) != begin() && (--x)->p >= y->p)
+ 			isect(x, erase(y));
+ 	}
+-	ll query(ll x) {
++	ll query(ll x) { // max of kx + m
+ 		assert(!empty());
+ 		auto l = *lower_bound(x);
+ 		return l.k * x + l.m;
+diff --git a/content/data-structures/Matrix.h b/content/data-structures/Matrix.h
+index 4f587d6..f6eab1e 100644
+--- a/content/data-structures/Matrix.h
++++ b/content/data-structures/Matrix.h
+@@ -3,7 +3,7 @@
+  * Date: 2009-08-03
+  * License: CC0
+  * Source: My head
+- * Description: Basic operations on square matrices.
++ * Description:
+  * Usage: Matrix<int, 3> A;
+  *  A.d = {{{{1,2,3}}, {{4,5,6}}, {{7,8,9}}}};
+  *  array<int, 3> vec = {1,2,3};
+diff --git a/content/data-structures/MoQueries.h b/content/data-structures/MoQueries.h
+index c17aceb..4d9e0e5 100644
+--- a/content/data-structures/MoQueries.h
++++ b/content/data-structures/MoQueries.h
+@@ -3,8 +3,7 @@
+  * Date: 2019-12-28
+  * License: CC0
+  * Source: https://github.com/hoke-t/tamu-kactl/blob/master/content/data-structures/MoQueries.h
+- * Description: Interval or tree path queries: visit the queries along an approximate TSP, adding/removing points at the ends.
+- * Values on tree edges: \texttt{step} adds/removes the edge $(a, c)$ and the initial \texttt{add} goes (keep \texttt{in}).
++ * Description: Queries $[l, r)$. Values on tree edges: \texttt{step} toggles the edge $(a, c)$, no initial \texttt{add} (keep \texttt{in}).
+  * Time: O(N \sqrt Q)
+  * Status: stress-tested
+  */
+diff --git a/content/data-structures/OrderStatisticTree.h b/content/data-structures/OrderStatisticTree.h
+index 0a2deec..3db55fa 100644
+--- a/content/data-structures/OrderStatisticTree.h
++++ b/content/data-structures/OrderStatisticTree.h
+@@ -3,9 +3,7 @@
+  * Date: 2016-03-22
+  * License: CC0
+  * Source: hacKIT, NWERC 2015
+- * Description: A set (not multiset!) with support for finding the n'th
+- * element, and finding the index of an element.
+- * To get a map, change \texttt{null\_type}.
++ * Description: Not a multiset. Map: change \texttt{null\_type}.
+  * Time: O(\log N)
+  * Status: stress-tested
+  */
+diff --git a/content/data-structures/PersistentSegmentTree.h b/content/data-structures/PersistentSegmentTree.h
+index 803f624..bad15ec 100644
+--- a/content/data-structures/PersistentSegmentTree.h
++++ b/content/data-structures/PersistentSegmentTree.h
+@@ -3,20 +3,14 @@
+  * Date: 2026-10-29
+  * License: CC0
+  * Source: folklore
+- * Description: Persistent segment tree over positions $[0, n)$ holding
+- * sums. A version is identified by its root; version 0 is empty.
+- * \texttt{upd} adds $x$ at position $p$ and returns the new root.
+- * \texttt{query(v, l, r)} sums $[l, r)$ in version $v$.
+- * \texttt{kth(a, b, k)} is the $k$-th smallest (0-indexed) position in the
+- * multiset \texttt{b} $-$ \texttt{a} (all counts $\ge 0$), e.g. range
+- * $k$-th element with $a_i$ added at position rank($a_i$) per version.
++ * Description: \texttt{upd} returns the new root. \texttt{kth(a, b, k)}: $k$-th smallest (0-indexed) position in version \texttt{b} minus \texttt{a}.
+  * Usage: PST t(n); r[i+1] = t.upd(r[i], p, 1); t.kth(r[l], r[r], k);
+  * Time: O(\log N) per operation, O(\log N) memory per update
+  * Status: stress-tested
+  */
+ #pragma once
+ 
+-struct PST {
++struct PST { // version = root, 0 = empty; ranges [l, r)
+ 	struct Nd { int l = 0, r = 0; ll s = 0; };
+ 	vector<Nd> t{Nd()}; int n;
+ 	PST(int n) : n(n) {}
+@@ -37,7 +31,7 @@ struct PST {
+ 		int m = (lo + hi) / 2;
+ 		return query(t[v].l,l,r,lo,m) + query(t[v].r,l,r,m,hi);
+ 	}
+-	int kth(int a, int b, ll k) {
++	int kth(int a, int b, ll k) { // k-th (0-idx) pos of b - a
+ 		int lo = 0, hi = n;
+ 		while (hi - lo > 1) {
+ 			int m = (lo + hi) / 2; ll c = t[t[b].l].s - t[t[a].l].s;
+diff --git a/content/data-structures/RMQ.h b/content/data-structures/RMQ.h
+index aca72f7..e4e5920 100644
+--- a/content/data-structures/RMQ.h
++++ b/content/data-structures/RMQ.h
+@@ -3,8 +3,7 @@
+  * Date: 2015-02-06
+  * License: CC0
+  * Source: Folklore
+- * Description: Range Minimum Queries on an array. Returns
+- * min(V[a], V[a + 1], ... V[b - 1]) in constant time.
++ * Description:
+  * Usage:
+  *  RMQ rmq(values);
+  *  rmq.query(inclusive, exclusive);
+diff --git a/content/data-structures/SegmentTree.h b/content/data-structures/SegmentTree.h
+index d03106c..73b51a9 100644
+--- a/content/data-structures/SegmentTree.h
++++ b/content/data-structures/SegmentTree.h
+@@ -3,14 +3,13 @@
+  * Date: 2017-10-31
+  * License: CC0
+  * Source: folklore
+- * Description: Zero-indexed max-tree. Bounds are inclusive to the left and exclusive to the right.
+- * Can be changed by modifying T, f and unit.
++ * Description: Change \texttt{T}, \texttt{f}, \texttt{unit}.
+  * Time: O(\log N)
+  * Status: stress-tested
+  */
+ #pragma once
+ 
+-struct Tree {
++struct Tree { // 0-indexed
+ 	typedef int T;
+ 	static constexpr T unit = INT_MIN;
+ 	T f(T a, T b) { return max(a, b); } // (any associative fn)
+diff --git a/content/data-structures/Treap.h b/content/data-structures/Treap.h
+index ef612df..5ff101a 100644
+--- a/content/data-structures/Treap.h
++++ b/content/data-structures/Treap.h
+@@ -2,12 +2,7 @@
+  * Author: someone on Codeforces
+  * Date: 2017-03-14
+  * Source: folklore
+- * Description: A short self-balancing tree. It acts as a
+- *  sequential container with log-time splits/joins, and
+- *  is easy to augment with additional data. Here each node
+- *  keeps the sum of its subtree, with lazy range add and
+- *  range reverse: \texttt{go(t, l, r, f)} runs \texttt{f} on the
+- *  subtree holding positions $[l, r)$ (see the comment above it).
++ * Description: Implicit treap (by position) with sums, lazy add and reverse.
+  * Time: $O(\log N)$
+  * Status: stress-tested
+  */
+diff --git a/content/data-structures/UnionFindRollback.h b/content/data-structures/UnionFindRollback.h
+index d1e543b..fbda4af 100644
+--- a/content/data-structures/UnionFindRollback.h
++++ b/content/data-structures/UnionFindRollback.h
+@@ -3,11 +3,7 @@
+  * Date: 2019-12-26
+  * License: CC0
+  * Source: folklore
+- * Description: Disjoint-set data structure with undo.
+- * If undo is not needed, skip st, time() and rollback().
+- * Optional parity: \texttt{join(a, b, w)} also demands that the parity
+- * $\texttt{par(a)} \oplus \texttt{par(b)}$ (distance mod 2 to the root) is $w$.
+- * If \texttt{join} returns false and $\texttt{par(a)} \oplus \texttt{par(b)} \ne w$, the demand is contradictory.
++ * Description: Undo: \texttt{rollback(time())}. If \texttt{join} returns false (already joined), check $\texttt{par(a)} \oplus \texttt{par(b)} = w$ yourself.
+  * Usage: int t = uf.time(); ...; uf.rollback(t);
+  * Time: $O(\log(N))$
+  * Status: tested as part of DirectedMST.h and DynCon.h
+@@ -26,7 +22,7 @@ struct RollbackUF {
+ 			e[st[i].first] = st[i].second;
+ 		st.resize(t);
+ 	}
+-	bool join(int a, int b, int w = 0) {
++	bool join(int a, int b, int w = 0) { // par(a)^par(b) = w
+ 		int x = par(a) ^ par(b) ^ w;
+ 		a = find(a), b = find(b);
+ 		if (a == b) return false;
+diff --git a/content/geometry/Angle.h b/content/geometry/Angle.h
+index ecb35fd..9a10a8b 100644
+--- a/content/geometry/Angle.h
++++ b/content/geometry/Angle.h
+@@ -3,9 +3,7 @@
+  * Date: 2015-01-31
+  * License: CC0
+  * Source: me
+- * Description: A class for ordering angles (as represented by int points and
+- *  a number of rotations around the origin). Useful for rotational sweeping.
+- *  Sometimes also represents points or vectors.
++ * Description: Int point plus full turns \texttt{t}; totally ordered.
+  * Usage:
+  *  vector<Angle> v = {w[0], w[0].t360() ...}; // sorted
+  *  int j = 0; rep(i,0,n) { while (v[j] < v[i].t180()) ++j; }
+diff --git a/content/geometry/CircleIntersection.h b/content/geometry/CircleIntersection.h
+index f406cd3..eb1216b 100644
+--- a/content/geometry/CircleIntersection.h
++++ b/content/geometry/CircleIntersection.h
+@@ -2,8 +2,7 @@
+  * Author: Simon Lindholm
+  * Date: 2015-09-01
+  * License: CC0
+- * Description: Computes the pair of points at which two circles intersect.
+- * Returns false in case of no intersection.
++ * Description: False if none, else the two points in \texttt{out}.
+  * Status: stress-tested
+  */
+ #pragma once
+diff --git a/content/geometry/CircleLine.h b/content/geometry/CircleLine.h
+index 45bfee0..0570905 100644
+--- a/content/geometry/CircleLine.h
++++ b/content/geometry/CircleLine.h
+@@ -3,9 +3,7 @@
+  * Date: 2019-10-29
+  * License: CC0
+  * Source: https://vlecomte.github.io/cp-geo.pdf
+- * Description: Finds the intersection between a circle and a line.
+- * Returns a vector of either 0, 1, or 2 intersection points.
+- * P is intended to be Point<double>.
++ * Description:
+  * Status: unit tested
+  */
+ 
+diff --git a/content/geometry/CirclePolygonIntersection.h b/content/geometry/CirclePolygonIntersection.h
+index 2ef3d5e..ac0294c 100644
+--- a/content/geometry/CirclePolygonIntersection.h
++++ b/content/geometry/CirclePolygonIntersection.h
+@@ -3,8 +3,7 @@
+  * Date: 2019-10-31
+  * License: CC0
+  * Source: https://github.com/spaghetti-source/algorithm/blob/master/geometry/_geom.cc#L744
+- * Description: Returns the area of the intersection of a circle with a
+- * ccw polygon.
++ * Description: Area of circle $\cap$ ccw polygon.
+  * Time: O(n)
+  * Status: Tested on GNYR 2019 Gerrymandering, stress-tested
+  */
+diff --git a/content/geometry/CircleTangents.h b/content/geometry/CircleTangents.h
+index aeb218a..72f61a0 100644
+--- a/content/geometry/CircleTangents.h
++++ b/content/geometry/CircleTangents.h
+@@ -3,9 +3,7 @@
+  * Date: 2019-10-31
+  * License: CC0
+  * Source: https://vlecomte.github.io/cp-geo.pdf
+- * Description: External tangents of two circles (internal ones if r2 is negated). Returns 0 tangents if one circle contains the other
+- * (internal case: also if they overlap; also if equal), 1 if they touch (.first = .second, perpendicular to the center line), else 2.
+- * .first and .second are the tangency points on circle 1 and 2. Tangents from a point: r2 = 0.
++ * Description: Internal: negate r2; from a point: r2 = 0. Pairs (point on c1, point on c2); 1 if touching, 0 if nested.
+  * Status: tested
+  */
+ #pragma once
+diff --git a/content/geometry/ClosestPair.h b/content/geometry/ClosestPair.h
+index bd5adcb..86c0d4d 100644
+--- a/content/geometry/ClosestPair.h
++++ b/content/geometry/ClosestPair.h
+@@ -3,7 +3,7 @@
+  * Date: 2019-04-17
+  * License: CC0
+  * Source: https://codeforces.com/blog/entry/58747
+- * Description: Finds the closest pair of points.
++ * Description: At least 2 points.
+  * Time: O(n \log n)
+  * Status: stress-tested
+  */
+diff --git a/content/geometry/ConvexHull.h b/content/geometry/ConvexHull.h
+index 3b931eb..c919648 100644
+--- a/content/geometry/ConvexHull.h
++++ b/content/geometry/ConvexHull.h
+@@ -3,19 +3,18 @@
+  * Date: 2019-05-05
+  * License: Unlicense
+  * Source: https://github.com/stjepang/snippets/blob/master/convex_hull.cpp
+- * Description:
+-\\\begin{minipage}{75mm}
+-Returns a vector of the points of the convex hull in counter-clockwise order.
+-Points on the edge of the hull between two other points are not considered part of the hull.
+-\end{minipage}
+-\begin{minipage}{15mm}
+-\vspace{-3mm}
+-\includegraphics[width=\textwidth]{content/geometry/ConvexHull}
+-\vspace{-6mm}
+-\end{minipage}
++ * Description: \\
++ * \begin{minipage}{75mm}
++ * ccw, no collinear points.
++ * \end{minipage}
++ * \begin{minipage}{15mm}
++ * \vspace{-3mm}
++ * \includegraphics[width=\textwidth]{content/geometry/ConvexHull}
++ * \vspace{-6mm}
++ * \end{minipage}
+  * Time: O(n \log n)
+  * Status: stress-tested, tested with kattis:convexhull
+-*/
++ */
+ #pragma once
+ 
+ #include "Point.h"
+diff --git a/content/geometry/HalfPlane.h b/content/geometry/HalfPlane.h
+index c10e324..c934ece 100644
+--- a/content/geometry/HalfPlane.h
++++ b/content/geometry/HalfPlane.h
+@@ -3,13 +3,7 @@
+  * Date: 2026-10-29
+  * License: CC0
+  * Source: https://cp-algorithms.com/geometry/halfplane-intersection.html
+- * Description: Intersection of half-planes. Each half-plane is a pair
+- * $(s, e)$: the points on the left of the directed line $s \to e$.
+- * Returns the vertices of the intersection in ccw order, or an empty
+- * vector if it is empty. Use \texttt{Point<double>}, and add a large
+- * bounding box (4 half-planes) if the intersection may be unbounded.
+- * Touching or degenerate results may come back either empty or with
+- * (almost) zero area.
++ * Description: $(s, e)$ = left of $s \to e$; ccw result. Doubles; add a big box if unbounded.
+  * Usage: vector<pair<P,P>> h = {{s1, e1}, {s2, e2}, ...};
+  * Time: O(n \log n)
+  * Status: stress-tested
+diff --git a/content/geometry/HullDiameter.h b/content/geometry/HullDiameter.h
+index f55958c..2940176 100644
+--- a/content/geometry/HullDiameter.h
++++ b/content/geometry/HullDiameter.h
+@@ -3,8 +3,7 @@
+  * Date: 2019-05-05
+  * License: Boost Software License
+  * Source: https://codeforces.com/blog/entry/48868
+- * Description: Returns the two points with max distance on a convex hull (ccw,
+- * no duplicate/collinear points).
++ * Description: ccw hull, no collinear points.
+  * Status: stress-tested, tested on kattis:roberthood
+  * Time: O(n)
+  */
+diff --git a/content/geometry/InsidePolygon.h b/content/geometry/InsidePolygon.h
+index 5383ac3..f3220f7 100644
+--- a/content/geometry/InsidePolygon.h
++++ b/content/geometry/InsidePolygon.h
+@@ -3,9 +3,7 @@
+  * Date: 2019-04-26
+  * License: CC0
+  * Source: https://vlecomte.github.io/cp-geo.pdf
+- * Description: Returns true if p lies within the polygon. If strict is true,
+- * it returns false for points on the boundary. The algorithm uses
+- * products in intermediate steps so watch out for overflow.
++ * Description: \texttt{strict}: the boundary is outside. Products of coordinates (overflow).
+  * Time: O(n)
+  * Usage:
+  * vector<P> v = {P{4,4}, P{1,2}, P{2,1}};
+diff --git a/content/geometry/LineHullIntersection.h b/content/geometry/LineHullIntersection.h
+index 3dcf48c..7e751b0 100644
+--- a/content/geometry/LineHullIntersection.h
++++ b/content/geometry/LineHullIntersection.h
+@@ -3,10 +3,8 @@
+  * Date: 2019-05-07
+  * License: Boost Software License
+  * Source: https://github.com/AlCash07/ACTL/blob/master/include/actl/geometry/algorithm/intersect/line_convex_polygon.hpp
+- * Description: Line vs convex polygon (ccw, no collinear points). \texttt{lineHull(line, poly)} returns
+- * $(-1, -1)$ if no collision, $(i, -1)$ if touching corner $i$, $(i, i)$ if along side $(i, i+1)$,
+- * $(i, j)$ if crossing sides $(i, i+1)$ and $(j, j+1)$ (a crossed corner $i$ counts as side $(i, i+1)$), in the order the line hits them.
+-\texttt{extrVertex} returns the hull point with the max projection onto a line.
++ * Description: ccw, no collinear. $(-1,-1)$ none, $(i,-1)$ corner $i$, $(i,i)$ along side $i$, $(i,j)$ crosses sides $i$, $j$
++ * (side $i$ = $(i, i+1)$). \texttt{extrVertex}: max projection.
+  * Time: O(\log n)
+  * Status: stress-tested
+  */
+diff --git a/content/geometry/LineProjectionReflection.h b/content/geometry/LineProjectionReflection.h
+index bcbee71..71da086 100644
+--- a/content/geometry/LineProjectionReflection.h
++++ b/content/geometry/LineProjectionReflection.h
+@@ -3,11 +3,7 @@
+  * Date: 2019-10-29
+  * License: CC0
+  * Source: https://vlecomte.github.io/cp-geo.pdf
+- * Description: Projects point p onto line ab. Set refl=true to get reflection
+- * of point p across line ab instead. The wrong point will be returned if P is
+- * an integer point and the desired point doesn't have integer coordinates.
+- * Products of three coordinates are used in intermediate steps so watch out
+- * for overflow.
++ * Description: Reflection if \texttt{refl}. Point<ll>: only integral results.
+  * Status: stress-tested
+  */
+ #pragma once
+diff --git a/content/geometry/ManhattanMST.h b/content/geometry/ManhattanMST.h
+index 6c54d6d..cd9cc37 100644
+--- a/content/geometry/ManhattanMST.h
++++ b/content/geometry/ManhattanMST.h
+@@ -3,10 +3,7 @@
+  * Date: 2019-11-02
+  * License: CC0
+  * Source: https://github.com/spaghetti-source/algorithm/blob/master/geometry/rectilinear_mst.cc
+- * Description: Given N points, returns up to 4*N edges, which are guaranteed
+- * to contain a minimum spanning tree for the graph with edge weights w(p, q) =
+- * |p.x - q.x| + |p.y - q.y|. Edges are in the form (distance, src, dst). Use a
+- * standard MST algorithm on the result to find the final MST.
++ * Description: $\le 4N$ edges (dist, i, j) containing an MST; run Kruskal.
+  * Time: O(N \log N)
+  * Status: Stress-tested
+  */
+diff --git a/content/geometry/MinimumEnclosingCircle.h b/content/geometry/MinimumEnclosingCircle.h
+index 08eb79b..403abca 100644
+--- a/content/geometry/MinimumEnclosingCircle.h
++++ b/content/geometry/MinimumEnclosingCircle.h
+@@ -3,7 +3,7 @@
+  * Date: 2019-05-07
+  * License: CC0
+  * Source: folklore
+- * Description: Computes the minimum circle that encloses a set of points.
++ * Description: Returns (center, radius).
+  * Time: expected O(n)
+  * Status: stress-tested
+  */
+diff --git a/content/geometry/MinkowskiSum.h b/content/geometry/MinkowskiSum.h
+index ddb882f..34c82c6 100644
+--- a/content/geometry/MinkowskiSum.h
++++ b/content/geometry/MinkowskiSum.h
+@@ -3,11 +3,7 @@
+  * Date: 2026-10-29
+  * License: CC0
+  * Source: https://cp-algorithms.com/geometry/minkowski.html
+- * Description: Minkowski sum $\{p + q\}$ of two convex polygons given in
+- * ccw order (at least 3 vertices, no three collinear). Returns a convex
+- * polygon in ccw order. Two convex polygons $A, B$ intersect iff the
+- * origin is in $A + (-B)$, and their distance is the distance from the
+- * origin to it. With integer points, cross products must fit in 64 bits.
++ * Description: ccw, $\ge 3$ vertices, no 3 collinear. $A \cap B \ne \emptyset$ iff $0 \in A + (-B)$.
+  * Time: O(n + m)
+  * Status: stress-tested
+  */
+diff --git a/content/geometry/OnSegment.h b/content/geometry/OnSegment.h
+index 9e980b2..3828db5 100644
+--- a/content/geometry/OnSegment.h
++++ b/content/geometry/OnSegment.h
+@@ -3,8 +3,7 @@
+  * Date: 2019-04-26
+  * License: CC0
+  * Source: https://vlecomte.github.io/cp-geo.pdf
+- * Description: Returns true iff p lies on the line segment from s to e.
+- * Use \texttt{(segDist(s,e,p)<=epsilon)} instead when using Point<double>.
++ * Description: Doubles: use \texttt{segDist(s,e,p) <= eps} instead.
+  * Status:
+  */
+ #pragma once
+diff --git a/content/geometry/Point.h b/content/geometry/Point.h
+index 75f0d7c..87a10ea 100644
+--- a/content/geometry/Point.h
++++ b/content/geometry/Point.h
+@@ -3,8 +3,7 @@
+  * Date: 2009-02-26
+  * License: CC0
+  * Source: My head with inspiration from tinyKACTL
+- * Description: Class to handle points in the plane.
+- * 	T can be e.g. double or long long. (Avoid int.)
++ * Description: \texttt{T}: double or long long (avoid int).
+  * Status: Works fine, used a lot
+  */
+ #pragma once
+diff --git a/content/geometry/PointInsideHull.h b/content/geometry/PointInsideHull.h
+index ec7698d..fb9dedf 100644
+--- a/content/geometry/PointInsideHull.h
++++ b/content/geometry/PointInsideHull.h
+@@ -3,10 +3,7 @@
+  * Date: 2019-05-17
+  * License: CC0
+  * Source: https://github.com/ngthanhtrung23/ACM_Notebook_new
+- * Description: Determine whether a point t lies inside a convex hull (CCW
+- * order, with no collinear points). Returns true if point lies within
+- * the hull. If strict is true, points on the boundary aren't included.
+- * Usage:
++ * Description: ccw hull without collinear points; \texttt{strict}: the boundary is outside.
+  * Status: stress-tested
+  * Time: O(\log N)
+  */
+diff --git a/content/geometry/PolygonArea.h b/content/geometry/PolygonArea.h
+index 1d6b099..25fc2b2 100644
+--- a/content/geometry/PolygonArea.h
++++ b/content/geometry/PolygonArea.h
+@@ -3,8 +3,7 @@
+  * Date: 2009-03-21
+  * License: CC0
+  * Source: tinyKACTL
+- * Description: Returns twice the signed area of a polygon.
+- *  Clockwise enumeration gives negative area. Watch out for overflow if using int as T!
++ * Description: Twice the signed area (clockwise is negative).
+  * Status: Stress-tested and tested on kattis:polygonarea
+  */
+ #pragma once
+@@ -12,7 +11,7 @@
+ #include "Point.h"
+ 
+ template<class T>
+-T polygonArea2(vector<Point<T>>& v) {
++T polygonArea2(vector<Point<T>>& v) { // 2x, cw < 0
+ 	T a = v.back().cross(v[0]);
+ 	rep(i,0,sz(v)-1) a += v[i].cross(v[i+1]);
+ 	return a;
+diff --git a/content/geometry/PolygonCenter.h b/content/geometry/PolygonCenter.h
+index 31ec38a..7fffd1c 100644
+--- a/content/geometry/PolygonCenter.h
++++ b/content/geometry/PolygonCenter.h
+@@ -3,7 +3,7 @@
+  * Date: 2009-04-08
+  * License: CC0
+  * Source:
+- * Description: Returns the center of mass for a polygon.
++ * Description:
+  * Time: O(n)
+  * Status: Tested
+  */
+diff --git a/content/geometry/PolygonCut.h b/content/geometry/PolygonCut.h
+index c7e151b..ea43697 100644
+--- a/content/geometry/PolygonCut.h
++++ b/content/geometry/PolygonCut.h
+@@ -3,15 +3,15 @@
+  * Date: 2009-03-21
+  * License: CC0
+  * Source:
+- * Description:\\
+-\begin{minipage}{75mm}
+- Returns a vector with the vertices of a polygon with everything to the left of the line going from s to e cut away.
+-\end{minipage}
+-\begin{minipage}{15mm}
+-\vspace{-3mm}
+-\includegraphics[width=\textwidth]{content/geometry/PolygonCut}
+-\vspace{-6mm}
+-\end{minipage}
++ * Description: \\
++ * \begin{minipage}{75mm}
++ * Keeps the part to the right of $s \to e$.
++ * \end{minipage}
++ * \begin{minipage}{15mm}
++ * \vspace{-3mm}
++ * \includegraphics[width=\textwidth]{content/geometry/PolygonCut}
++ * \vspace{-6mm}
++ * \end{minipage}
+  * Usage:
+  * 	vector<P> p = ...;
+  * 	p = polygonCut(p, P(0,0), P(1,0));
+diff --git a/content/geometry/RectangleUnion.h b/content/geometry/RectangleUnion.h
+index 85cbb8a..625c36b 100644
+--- a/content/geometry/RectangleUnion.h
++++ b/content/geometry/RectangleUnion.h
+@@ -3,8 +3,7 @@
+  * Date: 2026-10-29
+  * License: CC0
+  * Source: folklore (sweep line + segment tree)
+- * Description: Area of the union of axis-aligned rectangles.
+- * A rectangle is $\{x_1, y_1, x_2, y_2\}$ and covers $[x_1, x_2) \times [y_1, y_2)$.
++ * Description: \{x1, y1, x2, y2\}, half-open.
+  * Time: O(N \log N)
+  * Status: stress-tested
+  */
+diff --git a/content/geometry/SegmentDistance.h b/content/geometry/SegmentDistance.h
+index 1b6294e..45fe5d5 100644
+--- a/content/geometry/SegmentDistance.h
++++ b/content/geometry/SegmentDistance.h
+@@ -3,15 +3,14 @@
+  * Date: 2009-03-21
+  * License: CC0
+  * Source:
+- * Description:\\
+-\begin{minipage}{75mm}
+-Returns the shortest distance between point p and the line segment from point s to e.
+-\end{minipage}
+-\begin{minipage}{15mm}
+-\vspace{-3mm}
+-\includegraphics[width=\textwidth]{content/geometry/SegmentDistance}
+-\end{minipage}
+- * Usage: 
++ * Description: \\
++ * \begin{minipage}{75mm}
++ * \end{minipage}
++ * \begin{minipage}{15mm}
++ * \vspace{-3mm}
++ * \includegraphics[width=\textwidth]{content/geometry/SegmentDistance}
++ * \end{minipage}
++ * Usage:
+  * 	Point<double> a, b(2,2), p(1,1);
+  * 	bool onSegment = segDist(a,b,p) < 1e-10;
+  * Status: tested
+diff --git a/content/geometry/SegmentIntersection.h b/content/geometry/SegmentIntersection.h
+index 0de6b2d..973b667 100644
+--- a/content/geometry/SegmentIntersection.h
++++ b/content/geometry/SegmentIntersection.h
+@@ -4,15 +4,12 @@
+  * License: CC0
+  * Source: https://vlecomte.github.io/cp-geo.pdf
+  * Description: \\
+-\begin{minipage}{75mm}
+- * Intersection of segments s1-e1 and s2-e2: one point, none (empty vector),
+- * or the two endpoints of the common segment if there are infinitely many.
+- * With Point<ll> the point is wrong if it is not integral.
+- * Uses products of three coordinates (overflow).
+-\end{minipage}
+-\begin{minipage}{15mm}
+-\includegraphics[width=\textwidth]{content/geometry/SegmentIntersection}
+-\end{minipage}
++ * \begin{minipage}{75mm}
++ * One point, none, or the ends of the overlap. Point<ll>: only integral points.
++ * \end{minipage}
++ * \begin{minipage}{15mm}
++ * \includegraphics[width=\textwidth]{content/geometry/SegmentIntersection}
++ * \end{minipage}
+  * Usage:
+  * vector<P> inter = segInter(s1,e1,s2,e2);
+  * if (sz(inter)==1)
+diff --git a/content/geometry/circumcircle.h b/content/geometry/circumcircle.h
+index bec03eb..4373241 100644
+--- a/content/geometry/circumcircle.h
++++ b/content/geometry/circumcircle.h
+@@ -3,14 +3,14 @@
+  * Date: 2009-04-11
+  * License: CC0
+  * Source: http://en.wikipedia.org/wiki/Circumcircle
+- * Description:\\
+-\begin{minipage}{75mm}
+-The circumcirle of a triangle is the circle intersecting all three vertices. ccRadius returns the radius of the circle going through points A, B and C and ccCenter returns the center of the same circle.
+-\end{minipage}
+-\begin{minipage}{15mm}
+-\vspace{-2mm}
+-\includegraphics[width=\textwidth]{content/geometry/circumcircle}
+-\end{minipage}
++ * Description: \\
++ * \begin{minipage}{75mm}
++ * Radius and center of the circle through A, B and C.
++ * \end{minipage}
++ * \begin{minipage}{15mm}
++ * \vspace{-2mm}
++ * \includegraphics[width=\textwidth]{content/geometry/circumcircle}
++ * \end{minipage}
+  * Status: tested
+  */
+ #pragma once
+diff --git a/content/geometry/kdTree.h b/content/geometry/kdTree.h
+index b520ea7..af92855 100644
+--- a/content/geometry/kdTree.h
++++ b/content/geometry/kdTree.h
+@@ -2,7 +2,7 @@
+  * Author: Stanford
+  * Date: Unknown
+  * Source: Stanford Notebook
+- * Description: KD-tree (2d, can be extended to 3d)
++ * Description: \texttt{nearest(p)}: (squared distance, point).
+  * Status: Tested on excellentengineers; stress-tested
+  */
+ #pragma once
+diff --git a/content/geometry/lineDistance.h b/content/geometry/lineDistance.h
+index 16f5518..c4b534b 100644
+--- a/content/geometry/lineDistance.h
++++ b/content/geometry/lineDistance.h
+@@ -4,14 +4,12 @@
+  * License: CC0
+  * Source: Basic math
+  * Description: \\
+-\begin{minipage}{75mm}
+- * Signed distance from p to the line through a and b, positive on the left
+- * as seen from a towards b; a==b gives nan. T is double or long long;
+- * uses products of two coordinates (overflow).
+-\end{minipage}
+-\begin{minipage}{15mm}
+-\includegraphics[width=\textwidth]{content/geometry/lineDistance}
+-\end{minipage}
++ * \begin{minipage}{75mm}
++ * Signed, positive left of $a \to b$.
++ * \end{minipage}
++ * \begin{minipage}{15mm}
++ * \includegraphics[width=\textwidth]{content/geometry/lineDistance}
++ * \end{minipage}
+  * Status: tested
+  */
+ #pragma once
+diff --git a/content/geometry/lineIntersection.h b/content/geometry/lineIntersection.h
+index d871db4..50f2eec 100644
+--- a/content/geometry/lineIntersection.h
++++ b/content/geometry/lineIntersection.h
+@@ -4,15 +4,12 @@
+  * License: CC0
+  * Source: https://vlecomte.github.io/cp-geo.pdf
+  * Description: \\
+-\begin{minipage}{75mm}
+- * Intersection of the lines through s1,e1 and s2,e2: \{1, point\} if unique,
+-\{0, (0,0)\} if parallel, \{-1, (0,0)\} if they are the same line.
+- * With Point<ll> the point is wrong if it is not integral.
+- * Uses products of three coordinates (overflow).
+-\end{minipage}
+-\begin{minipage}{15mm}
+-\includegraphics[width=\textwidth]{content/geometry/lineIntersection}
+-\end{minipage}
++ * \begin{minipage}{75mm}
++ * \{1, p\}; \{0, \_\} parallel; \{-1, \_\} same line. Point<ll>: only integral points.
++ * \end{minipage}
++ * \begin{minipage}{15mm}
++ * \includegraphics[width=\textwidth]{content/geometry/lineIntersection}
++ * \end{minipage}
+  * Usage:
+  * 	auto res = lineInter(s1,e1,s2,e2);
+  * 	if (res.first == 1)
+diff --git a/content/geometry/linearTransformation.h b/content/geometry/linearTransformation.h
+index e0d1555..cf69c9b 100644
+--- a/content/geometry/linearTransformation.h
++++ b/content/geometry/linearTransformation.h
+@@ -3,15 +3,15 @@
+  * Date: 2009-04-09
+  * License: CC0
+  * Source:
+- * Description:\\
+-\begin{minipage}{75mm}
+- Apply the linear transformation (translation, rotation and scaling) which takes line p0-p1 to line q0-q1 to point r.
+-\end{minipage}
+-\begin{minipage}{15mm}
+-\vspace{-3mm}
+-\includegraphics[width=\textwidth]{content/geometry/linearTransformation}
+-\vspace{-2mm}
+-\end{minipage}
++ * Description: \\
++ * \begin{minipage}{75mm}
++ * Maps $r$ by the similarity taking $p_0 \to q_0$, $p_1 \to q_1$.
++ * \end{minipage}
++ * \begin{minipage}{15mm}
++ * \vspace{-3mm}
++ * \includegraphics[width=\textwidth]{content/geometry/linearTransformation}
++ * \vspace{-2mm}
++ * \end{minipage}
+  * Status: stress-tested
+  */
+ #pragma once
+diff --git a/content/geometry/sideOf.h b/content/geometry/sideOf.h
+index 83c87ba..fd2b9c4 100644
+--- a/content/geometry/sideOf.h
++++ b/content/geometry/sideOf.h
+@@ -3,8 +3,7 @@
+  * Date: 2009-03-21
+  * License: CC0
+  * Source:
+- * Description: 1/0/-1 if $p$ is left of/on/right of the line from $s$ towards $e$.
+- * With $eps$, 0 if $p$ is within distance $eps$ of the line. Uses products of coordinates (overflow).
++ * Description: 1 / 0 / $-1$: left / on / right of $s \to e$ (on: within \texttt{eps}).
+  * Usage:
+  * 	bool left = sideOf(p1,p2,q)==1;
+  * Status: tested
+diff --git a/content/graph/2sat.h b/content/graph/2sat.h
+index 36f00d3..6ff532d 100644
+--- a/content/graph/2sat.h
++++ b/content/graph/2sat.h
+@@ -3,10 +3,7 @@
+  * Date: 2011-11-29
+  * License: CC0
+  * Source: folklore
+- * Description: Calculates a valid assignment to boolean variables a, b, c,... to a 2-SAT problem,
+- * so that an expression of the type $(a||b)\&\&(!a||c)\&\&(d||!b)\&\&...$
+- * becomes true, or reports that it is unsatisfiable.
+- * Negated variables are represented by bit-inversions (\texttt{\tilde{}x}).
++ * Description:
+  * Usage:
+  *  TwoSat ts(number of boolean variables);
+  *  ts.either(0, \tilde3); // Var 0 is true or var 3 is false
+@@ -14,7 +11,7 @@
+  *  ts.atMostOne({0,\tilde1,2}); // <= 1 of vars 0, \tilde1 and 2 are true
+  *  ts.solve(); // Returns true iff it is solvable
+  *  ts.values[0..N-1] holds the assigned values to the vars
+- * Time: O(N+E), where N is the number of boolean variables, and E is the number of clauses.
++ * Time: O(N + E)
+  * Status: stress-tested
+  */
+ #pragma once
+diff --git a/content/graph/BiconnectedComponents.h b/content/graph/BiconnectedComponents.h
+index d00438f..67e3561 100644
+--- a/content/graph/BiconnectedComponents.h
++++ b/content/graph/BiconnectedComponents.h
+@@ -3,8 +3,7 @@
+  * Date: 2017-04-17
+  * License: CC0
+  * Source: folklore
+- * Description: Runs the callback on the edges of each biconnected component (any two of its nodes lie on a common cycle).
+- * A node can be in several components; an edge in none is a bridge.
++ * Description: Edge ids per component; an edge in none is a bridge.
+  * Usage:
+  *  int eid = 0; ed.resize(N);
+  *  for each edge (a,b) {
+diff --git a/content/graph/BinaryLifting.h b/content/graph/BinaryLifting.h
+index b10b6c3..8e5cccf 100644
+--- a/content/graph/BinaryLifting.h
++++ b/content/graph/BinaryLifting.h
+@@ -3,9 +3,7 @@
+  * Date: 2015-02-06
+  * License: CC0
+  * Source: Folklore
+- * Description: Calculate power of two jumps in a tree,
+- * to support fast upward jumps and LCAs.
+- * Assumes the root node points to itself.
++ * Description: The root's parent must be itself.
+  * Time: construction $O(N \log N)$, queries $O(\log N)$
+  * Status: Tested at Petrozavodsk, also stress-tested via LCA.cpp
+  */
+diff --git a/content/graph/BlockCutTree.h b/content/graph/BlockCutTree.h
+index bee1785..bab8d67 100644
+--- a/content/graph/BlockCutTree.h
++++ b/content/graph/BlockCutTree.h
+@@ -3,11 +3,7 @@
+  * Date: 2026-10-29
+  * License: CC0
+  * Source: folklore
+- * Description: Block-cut tree of an undirected graph (a forest if it is not connected).
+- * Nodes $0..n-1$ are the vertices; every biconnected component (a bridge is a
+- * component with 2 vertices) gets one more node, adjacent to its vertices.
+- * A vertex is a cut vertex iff it has more than one neighbour in the tree.
+- * Vertex $w$ separates $u$ and $v$ iff it is a cut vertex on the tree path $u \dots v$.
++ * Description: Vertices $0..n-1$, then one node per block (bridges too). Cut vertex iff tree degree $> 1$.
+  * Time: O(N + M)
+  * Status: stress-tested
+  */
+diff --git a/content/graph/CentroidDecomposition.h b/content/graph/CentroidDecomposition.h
+index 332765a..c5f65f6 100644
+--- a/content/graph/CentroidDecomposition.h
++++ b/content/graph/CentroidDecomposition.h
+@@ -3,11 +3,7 @@
+  * Date: 2026-10-29
+  * License: CC0
+  * Source: folklore
+- * Description: Centroid decomposition. \texttt{run(f)} calls \texttt{f(c)}
+- * once per centroid $c$; at that moment a DFS from $c$ that skips
+- * \texttt{dead} vertices visits exactly the component of $c$
+- * (centroids of earlier calls are \texttt{dead}). \texttt{cpar} is the
+- * centroid tree (root has $-1$). Each vertex is in $O(\log N)$ components.
++ * Description: In \texttt{f(c)}, a DFS from $c$ skipping \texttt{dead} visits its component. \texttt{cpar}: centroid tree.
+  * Usage: Centroid C(g); C.run([\&](int c){ ... });
+  * Time: O(N \log N) plus the work done in \texttt{f}
+  * Status: stress-tested
+diff --git a/content/graph/CompressTree.h b/content/graph/CompressTree.h
+index 3c1659b..51ad151 100644
+--- a/content/graph/CompressTree.h
++++ b/content/graph/CompressTree.h
+@@ -2,11 +2,7 @@
+  * Author: Simon Lindholm
+  * Date: 2016-01-14
+  * License: CC0
+- * Description: Given a rooted tree and a subset S of nodes, compute the minimal
+- * subtree that contains all the nodes by adding all (at most $|S|-1$)
+- * pairwise LCA's and compressing edges.
+- * Returns a list of (par, orig\_index) representing a tree rooted at 0.
+- * The root points to itself.
++ * Description: Virtual tree; returns (parent index, original node), root first (own parent).
+  * Time: $O(|S| \log |S|)$
+  * Status: Tested at CodeForces; stress-tested
+  */
+diff --git a/content/graph/Dinic.h b/content/graph/Dinic.h
+index 0e25046..abd6c65 100644
+--- a/content/graph/Dinic.h
++++ b/content/graph/Dinic.h
+@@ -3,8 +3,8 @@
+  * Date: 2019-04-26
+  * License: CC0
+  * Source: https://cp-algorithms.com/graph/dinic.html
+- * Description: Flow algorithm with complexity $O(VE\log U)$ where $U = \max |\text{cap}|$.
+- * $O(\min(E^{1/2}, V^{2/3})E)$ if $U = 1$; $O(\sqrt{V}E)$ for bipartite matching.
++ * Description:
++ * Time: O(VE\log U) with $U = \max|cap|$; $O(\min(E^{1/2}, V^{2/3})E)$ if $U = 1$; $O(\sqrt V E)$ for matching
+  * Status: Tested on SPOJ FASTFLOW and SPOJ MATCHING, stress-tested
+  */
+ #pragma once
+diff --git a/content/graph/DirectedMST.h b/content/graph/DirectedMST.h
+index 20ada7f..66ab035 100644
+--- a/content/graph/DirectedMST.h
++++ b/content/graph/DirectedMST.h
+@@ -4,8 +4,7 @@
+  * License: CC0
+  * Source: https://github.com/spaghetti-source/algorithm/blob/master/graph/arborescence.cc
+  * and https://github.com/bqi343/USACO/blob/42d177dfb9d6ce350389583cfa71484eb8ae614c/Implementations/content/graphs%20(12)/Advanced/DirectedMST.h for the reconstruction
+- * Description: Finds a minimum spanning
+- * tree/arborescence of a directed graph, given a root node. If no MST exists, returns -1.
++ * Description: Root $r$; returns (cost, par), $-1$ if none.
+  * Time: O(E \log V)
+  * Status: Stress-tested, also tested on NWERC 2018 fastestspeedrun
+  */
+diff --git a/content/graph/DsuOnTree.h b/content/graph/DsuOnTree.h
+index 0b8d012..bf2ca52 100644
+--- a/content/graph/DsuOnTree.h
++++ b/content/graph/DsuOnTree.h
+@@ -3,10 +3,7 @@
+  * Date: 2026-10-29
+  * License: CC0
+  * Source: folklore (small-to-large / sack)
+- * Description: Answers a question about every subtree using one global
+- * structure. \texttt{add(v)} / \texttt{rem(v)} insert / remove vertex $v$
+- * (and only $v$) from it; \texttt{query(v)} is called when the structure
+- * holds exactly the vertices of the subtree of $v$.
++ * Description: \texttt{query(v)} runs when exactly the subtree of $v$ is \texttt{add}ed (\texttt{add}, \texttt{rem}: one vertex).
+  * Usage: DsuOnTree T(g, root);
+  *  T.run([\&](int v){...}, [\&](int v){...}, [\&](int v){...});
+  * Time: O(N \log N) calls to add/rem
+diff --git a/content/graph/EulerWalk.h b/content/graph/EulerWalk.h
+index 24f57a5..38317e8 100644
+--- a/content/graph/EulerWalk.h
++++ b/content/graph/EulerWalk.h
+@@ -3,8 +3,7 @@
+  * Date: 2019-12-31
+  * License: CC0
+  * Source: folklore
+- * Description: Euler path/cycle, undirected or directed. Input: lists of (dest, global edge index); both directions of an undirected edge share the index.
+- * Returns the nodes of the walk (src at both ends for a cycle), or empty if there is none. Edge indices: add .second to s and ret.
++ * Description: Lists of (dest, edge id), one id for both directions. Returns the node list, empty if impossible.
+  * Time: O(V + E)
+  * Status: stress-tested
+  */
+diff --git a/content/graph/GeneralMatching.h b/content/graph/GeneralMatching.h
+index ee5b001..9a85e88 100644
+--- a/content/graph/GeneralMatching.h
++++ b/content/graph/GeneralMatching.h
+@@ -3,8 +3,7 @@
+  * Date: 2016-12-09
+  * License: CC0
+  * Source: http://www.mimuw.edu.pl/~mucha/pub/mucha_sankowski_focs04.pdf
+- * Description: Matching for general graphs.
+- * Fails with probability $N / mod$.
++ * Description: Randomized, fails with probability $N/mod$.
+  * Time: O(N^3)
+  * Status: stress-tested against brute force
+  */
+diff --git a/content/graph/GlobalMinCut.h b/content/graph/GlobalMinCut.h
+index 1172bd0..bd49b7a 100644
+--- a/content/graph/GlobalMinCut.h
++++ b/content/graph/GlobalMinCut.h
+@@ -3,7 +3,7 @@
+  * Date: 2021-01-09
+  * License: CC0
+  * Source: https://en.wikipedia.org/wiki/Stoer%E2%80%93Wagner_algorithm
+- * Description: Find a global minimum cut in an undirected graph, as represented by an adjacency matrix.
++ * Description: Adjacency matrix; returns (weight, one side).
+  * Time: O(V^3)
+  * Status: Stress-tested together with GomoryHu
+  */
+diff --git a/content/graph/GomoryHu.h b/content/graph/GomoryHu.h
+index 2ca3c8b..0394210 100644
+--- a/content/graph/GomoryHu.h
++++ b/content/graph/GomoryHu.h
+@@ -3,12 +3,9 @@
+  * Date: 2020-04-03
+  * License: CC0
+  * Source: https://github.com/spaghetti-source/algorithm/blob/master/graph/gomory_hu_tree.cc#L102
+- * Description: Given a list of edges representing an undirected flow graph,
+- * returns edges of the Gomory-Hu tree. The max flow between any pair of
+- * vertices is given by minimum edge weight along the Gomory-Hu tree path.
++ * Description: Max flow $u$--$v$ = min edge on the tree path.
+  * Time: $O(V)$ Flow Computations
+  * Status: Tested on CERC 2015 J, stress-tested
+- *
+  * Details: The implementation used here is not actually the original
+  * Gomory-Hu, but Gusfield's simplified version: "Very simple methods for all
+  * pairs network flow analysis". PushRelabel is used here, but any flow
+diff --git a/content/graph/HLD.h b/content/graph/HLD.h
+index 92c9636..20e1d01 100644
+--- a/content/graph/HLD.h
++++ b/content/graph/HLD.h
+@@ -3,10 +3,7 @@
+  * Date: 2020-01-12
+  * License: CC0
+  * Source: https://codeforces.com/blog/entry/53170, https://github.com/bqi343/USACO/blob/master/Implementations/content/graphs%20(12)/Trees%20(10)/HLD%20(10.3).h
+- * Description: Heavy-light decomposition: every path to the root has $O(\log n)$ light edges.
+- * Path and subtree updates and queries go to a \texttt{LazySeg} (edit its block for other operations):
+- * updates take its tag \texttt{L}, queries return its value \texttt{S}, all values start as \texttt{S()}.
+- * Takes the full adjacency list, root 0. \texttt{VALS\_EDGES}: values on the edges instead of the nodes.
++ * Description: Performs HLD. Full adjacency list, root 0; ops use \texttt{LazySeg}'s \texttt{L} / \texttt{S}. \texttt{VALS\_EDGES}: values on edges.
+  * Time: O((\log N)^2)
+  * Status: stress-tested against old HLD
+  */
+diff --git a/content/graph/HopcroftKarp.h b/content/graph/HopcroftKarp.h
+index 2ab40ed..6606ddd 100644
+--- a/content/graph/HopcroftKarp.h
++++ b/content/graph/HopcroftKarp.h
+@@ -2,8 +2,7 @@
+  * Author: Adam Soltan
+  * Date: 2026-01-13
+  * License: CC0
+- * Description: Bipartite matching. $g$: neighbours of each left vertex; $r$: all $-1$, size of the right side.
+- * Returns the matching size; $r[i]$ is the match of right vertex $i$, or $-1$.
++ * Description: $g$: left adjacency; $r$: all $-1$, size of the right side, gets the match of each right vertex.
+  * Time: O(E \sqrt{V})
+  * Status: stress-tested by MinimumVertexCover and tested on Library Checker
+  */
+diff --git a/content/graph/LCA.h b/content/graph/LCA.h
+index a84fa6b..1069716 100644
+--- a/content/graph/LCA.h
++++ b/content/graph/LCA.h
+@@ -3,9 +3,7 @@
+  * Date: 2020-02-20
+  * License: CC0
+  * Source: Folklore
+- * Description: Data structure for computing lowest common ancestors in a tree
+- * (with 0 as root). C should be an adjacency list of the tree, either directed
+- * or undirected.
++ * Description: Root 0; adjacency list, directed or undirected.
+  * Time: $O(N \log N + Q)$
+  * Status: stress-tested
+  */
+diff --git a/content/graph/LinkCutTree.h b/content/graph/LinkCutTree.h
+index 41ee264..cad6500 100644
+--- a/content/graph/LinkCutTree.h
++++ b/content/graph/LinkCutTree.h
+@@ -2,9 +2,7 @@
+  * Author: Simon Lindholm
+  * Date: 2016-07-25
+  * Source: https://github.com/ngthanhtrung23/ACM_Notebook_new/blob/master/DataStructure/LinkCutTree.h
+- * Description: Represents a forest of unrooted trees. You can add and remove
+- * edges (as long as the result is still a forest), and check whether
+- * two nodes are in the same tree.
++ * Description: Must stay a forest.
+  * Time: All operations take amortized O(\log N).
+  * Status: Stress-tested a bit for N <= 20
+  */
+diff --git a/content/graph/MaximalCliques.h b/content/graph/MaximalCliques.h
+index 374ed00..2c54ef8 100644
+--- a/content/graph/MaximalCliques.h
++++ b/content/graph/MaximalCliques.h
+@@ -3,9 +3,7 @@
+  * Date: 2018-07-18
+  * License: CC0
+  * Source: https://en.wikipedia.org/wiki/Bron%E2%80%93Kerbosch_algorithm
+- * Description: Runs a callback for all maximal cliques in a graph (given as a
+- * symmetric bitset matrix; self-edges not allowed). Callback is given a bitset
+- * representing the maximal clique.
++ * Description: Symmetric bitset matrix, no self-edges.
+  * Time: O(3^{n/3}), much faster for sparse graphs
+  * Status: stress-tested
+  */
+diff --git a/content/graph/MaximumClique.h b/content/graph/MaximumClique.h
+index 83a03b2..a9f4c87 100644
+--- a/content/graph/MaximumClique.h
++++ b/content/graph/MaximumClique.h
+@@ -3,11 +3,8 @@
+  * Date: 2019-05-10
+  * License: GPL3+
+  * Source: https://en.wikipedia.org/wiki/MaxCliqueDyn_maximum_clique_algorithm, https://gitlab.com/janezkonc/mcqd/blob/master/mcqd.h
+- * Description: Quickly finds a maximum clique of a graph (given as symmetric bitset
+- * matrix; self-edges not allowed). Can be used to find a maximum independent
+- * set by finding a clique of the complement graph.
+- * Time: Runs in about 1s for n=155 and worst case random graphs (p=.90). Runs
+- * faster for sparse graphs.
++ * Description: Symmetric bitset matrix, no self-edges.
++ * Time: About 1 s for $n = 155$, $p = .9$; faster when sparse
+  * Status: stress-tested
+  */
+ typedef vector<bitset<200>> vb;
+diff --git a/content/graph/MaximumIndependentSet.h b/content/graph/MaximumIndependentSet.h
+index d7df141..00c1b9c 100644
+--- a/content/graph/MaximumIndependentSet.h
++++ b/content/graph/MaximumIndependentSet.h
+@@ -2,6 +2,5 @@
+  * Author: chilli
+  * Date: 2019-05-17
+  * Source: Wikipedia
+- * Description: To obtain a maximum independent set of a graph, find a max
+- * clique of the complement. If the graph is bipartite, see MinimumVertexCover.
++ * Description: Max clique of the complement. Bipartite: complement of \texttt{MinimumVertexCover}.
+  */
+diff --git a/content/graph/MinCostMaxFlow.h b/content/graph/MinCostMaxFlow.h
+index e58b5e3..64156b6 100644
+--- a/content/graph/MinCostMaxFlow.h
++++ b/content/graph/MinCostMaxFlow.h
+@@ -2,9 +2,7 @@
+  * Author: Stanford
+  * Date: Unknown
+  * Source: Stanford Notebook
+- * Description: Min-cost max-flow.
+- *  If costs can be negative, call setpi before maxflow, but note that negative cost cycles are not supported.
+- *  To obtain the actual flow, look at positive values only.
++ * Description: Negative costs: call \texttt{setpi} first (no negative cycles). Flow on an edge: its positive \texttt{flow}.
+  * Status: Tested on kattis:mincostmaxflow, stress-tested against another implementation
+  * Time: $O(F E \log(V))$ where F is max flow. $O(VE)$ for setpi.
+  */
+diff --git a/content/graph/MinCut.h b/content/graph/MinCut.h
+index 6fe8496..a34a11a 100644
+--- a/content/graph/MinCut.h
++++ b/content/graph/MinCut.h
+@@ -2,7 +2,6 @@
+  * Author: Simon Lindholm
+  * Date: 2015-05-13
+  * Source: Wikipedia
+- * Description: After running max-flow, the left side of a min-cut from $s$ to $t$ is given
+- * by all vertices reachable from $s$, only traversing edges with positive residual capacity.
++ * Description: $s$ side of a min cut: reachable from $s$ in the residual graph.
+  * Status: works
+  */
+diff --git a/content/graph/MinimumVertexCover.h b/content/graph/MinimumVertexCover.h
+index 7d4bec1..2098487 100644
+--- a/content/graph/MinimumVertexCover.h
++++ b/content/graph/MinimumVertexCover.h
+@@ -2,16 +2,14 @@
+  * Author: Johan Sannemo, Simon Lindholm
+  * Date: 2016-12-15
+  * License: CC0
+- * Description: Finds a minimum vertex cover in a bipartite graph.
+- *  The size is the same as the size of a maximum matching, and
+- *  the complement is a maximum independent set.
++ * Description: Complement: max independent set.
+  * Status: stress-tested
+  */
+ #pragma once
+ 
+ #include "HopcroftKarp.h"
+ 
+-vi cover(vector<vi>& g, int n, int m) {
++vi cover(vector<vi>& g, int n, int m) { // right j -> n+j
+ 	vi match(m, -1);
+ 	int res = hopcroftKarp(g, match);
+ 	vector<bool> lfound(n, true), seen(m);
+diff --git a/content/graph/PushRelabel.h b/content/graph/PushRelabel.h
+index 5528cbb..99c18fe 100644
+--- a/content/graph/PushRelabel.h
++++ b/content/graph/PushRelabel.h
+@@ -3,8 +3,7 @@
+  * Date: 2015-02-24
+  * License: CC0
+  * Source: Wikipedia, tinyKACTL
+- * Description: Push-relabel using the highest label selection rule and the gap heuristic. Quite fast in practice.
+- *  To obtain the actual flow, look at positive values only.
++ * Description: Flow on an edge: its positive \texttt{f}.
+  * Time: $O(V^2\sqrt E)$
+  * Status: Tested on Kattis and SPOJ, and stress-tested
+  */
+diff --git a/content/graph/SCC.h b/content/graph/SCC.h
+index 23d54ce..3585965 100644
+--- a/content/graph/SCC.h
++++ b/content/graph/SCC.h
+@@ -3,13 +3,10 @@
+  * Date: 2009-10-28
+  * License: CC0
+  * Source: Czech graph algorithms book, by Demel. (Tarjan's algorithm)
+- * Description: Finds strongly connected components in a
+- * directed graph. If vertices $u, v$ belong to the same component,
+- * we can reach $u$ from $v$ and vice versa.
+- * Usage: scc(graph, [\&](vi\& v) { ... }) visits all components
+- * in reverse topological order. comp[i] holds the component
+- * index of a node (a component only has edges to components with
+- * lower index). ncomps will contain the number of components.
++ * Description:
++ * Usage: scc(g, [\&](vi\& v) { ... }) visits the components
++ * in reverse topological order. comp[i]: component of i
++ * (edges only go to lower indices); ncomps: their number.
+  * Time: O(E + V)
+  * Status: Bruteforce-tested for N <= 5
+  */
+diff --git a/content/graph/WeightedMatching.h b/content/graph/WeightedMatching.h
+index 6d44b07..6369b7a 100644
+--- a/content/graph/WeightedMatching.h
++++ b/content/graph/WeightedMatching.h
+@@ -3,8 +3,7 @@
+  * Date: 2026-07-09
+  * License: CC0
+  * Source: https://github.com/scipy/scipy/blob/main/scipy/optimize/rectangular_lsap/rectangular_lsap.cpp
+- * Description: Min-cost bipartite matching that matches every left node, $N \le M$. Takes cost[N][M] (cost[i][j]: L[i] with R[j]),
+- * returns (min cost, match) with L[i] matched to R[match[i]]. Negate costs for max cost.
++ * Description: Min cost, every left node matched, $N \le M$. Max: negate.
+  * Time: O(N^2M)
+  * Status: Tested on kattis:cordonbleu, kattis:engaging, stress-tested
+  */
+diff --git a/content/number-theory/CRT.h b/content/number-theory/CRT.h
+index 5219619..c5ee2f1 100644
+--- a/content/number-theory/CRT.h
++++ b/content/number-theory/CRT.h
+@@ -2,11 +2,7 @@
+  * Author: Simon Lindholm
+  * Date: 2019-05-22
+  * License: CC0
+- * Description: Chinese Remainder Theorem.
+- *
+- * \texttt{crt(a, m, b, n)} computes $x$ such that $x\equiv a \pmod m$, $x\equiv b \pmod n$.
+- * If $|a| < m$ and $|b| < n$, $x$ will obey $0 \le x < \text{lcm}(m, n)$.
+- * Assumes $mn < 2^{62}$.
++ * Description: $0 \le x < \mathrm{lcm}(m, n)$ if $|a| < m$, $|b| < n$; asserts if none. $mn < 2^{62}$.
+  * Time: $\log(n)$
+  * Status: Works
+  */
+diff --git a/content/number-theory/DuSieve.h b/content/number-theory/DuSieve.h
+index 3dcaecd..a9659a6 100644
+--- a/content/number-theory/DuSieve.h
++++ b/content/number-theory/DuSieve.h
+@@ -3,12 +3,8 @@
+  * Date: 2026-11-09
+  * License: CC0
+  * Source: folklore (Du's sieve)
+- * Description: Prefix sums of $\phi$ (128 bit: $\Phi(10^{10}) \approx 3 \cdot 10^{19}$) and $\mu$
+- * for all $v = \lfloor n/i \rfloor$ and all $v \le B = n^{2/3}$, from a sieve up to $B$
+- * and $S_f(v) = H(v) - \sum_{d \ge 2} S_f(\lfloor v/d \rfloor)$ for $f * 1 = h$
+- * ($H$ the prefix sums of $h$: $v(v+1)/2$ for $\phi$, $1$ for $\mu$).
+- * The same recurrence $S_f(v) = (H(v) - \sum_{d \ge 2} g(d) S_f(\lfloor v/d \rfloor))/g(1)$
+- * handles any $f * g = h$ with known prefix sums of $g$ and $h$. Memory is also $O(n^{2/3})$.
++ * Description: $\Phi$ (128-bit) and $M$ at $v = \lfloor n/i \rfloor$ or $v \le n^{2/3}$.
++ * Other $f$, $f * g = h$: $S_f(v) = (H(v) - \sum_{d \ge 2} g(d) S_f(\lfloor v/d \rfloor))/g(1)$.
+  * Usage: Du D(n); D.phi(n); D.mu(n); // also D.phi(n / 3)
+  * Time: O(n^{2/3}), about 0.3 s for $n = 10^{10}$
+  * Status: stress-tested
+diff --git a/content/number-theory/ExLucas.h b/content/number-theory/ExLucas.h
+index dc2588f..473d525 100644
+--- a/content/number-theory/ExLucas.h
++++ b/content/number-theory/ExLucas.h
+@@ -3,10 +3,7 @@
+  * Date: 2026-10-30
+  * License: CC0
+  * Source: https://oi-wiki.org/math/number-theory/lucas/
+- * Description: Binomial $\binom{n}{k} \bmod m$ for any $m < 2^{31}$ (extended Lucas).
+- * Per prime power $q = p^a$: $n!$ with factors $p$ removed (product of units mod $q$
+- * is $-1$, or $+1$ if $p=2, a\ge3$) and $v_p(n!)$ by Legendre; then CRT with $c \equiv [q]$.
+- * Requires $n \le mx$; tables have size $\min(q, mx+1)$.
++ * Description: $\binom{n}{k} \bmod m$, any $m < 2^{31}$, $n \le mx$.
+  * Usage: BinomMod C(m, maxn); C(n, k);
+  * Time: $O(\sqrt m + \omega(m) \cdot mx)$ build, $O(\omega(m) \log n)$ per query.
+  * Status: stress-tested vs. exact big integers; AC on CF 896D
+diff --git a/content/number-theory/Factor.h b/content/number-theory/Factor.h
+index 3558e6a..ead3844 100644
+--- a/content/number-theory/Factor.h
++++ b/content/number-theory/Factor.h
+@@ -3,11 +3,9 @@
+  * Date: 2020-03-04
+  * License: CC0
+  * Source: own
+- * Description: Pollard-rho randomized factorization algorithm. Returns prime
+- * factors of a number, in arbitrary order (e.g. 2299 -> \{11, 19, 11\}).
++ * Description: Prime factors with multiplicity, unsorted.
+  * Time: $O(n^{1/4})$, less for numbers with small factors.
+  * Status: stress-tested
+- *
+  * Details: This implementation uses the improvement described here
+  * (https://en.wikipedia.org/wiki/Pollard%27s_rho_algorithm#Variants), where
+  * one can accumulate gcd calls by some factor (40 chosen here through
+diff --git a/content/number-theory/FastEratosthenes.h b/content/number-theory/FastEratosthenes.h
+index 85fcd52..2f0d1e9 100644
+--- a/content/number-theory/FastEratosthenes.h
++++ b/content/number-theory/FastEratosthenes.h
+@@ -2,7 +2,7 @@
+  * Author: Jakob Kogler, chilli, pajenegod
+  * Date: 2020-04-12
+  * License: CC0
+- * Description: Prime sieve for generating all primes smaller than LIM.
++ * Description: Primes below LIM.
+  * Time: LIM=1e9 $\approx$ 1.5s
+  * Status: Stress-tested
+  * Details: Despite its n log log n complexity, segmented sieve is still faster
+diff --git a/content/number-theory/Lucy.h b/content/number-theory/Lucy.h
+index f21808c..ab1a569 100644
+--- a/content/number-theory/Lucy.h
++++ b/content/number-theory/Lucy.h
+@@ -3,12 +3,7 @@
+  * Date: 2026-11-09
+  * License: CC0
+  * Source: folklore (Lucy\_Hedgehog's method)
+- * Description: Prime counting and prime sums for all $v = \lfloor n/i \rfloor$ and
+- * all $v \le \sqrt n$. \texttt{f(p)} is a completely multiplicative function
+- * at a prime (\texttt{1} counts, \texttt{p} sums, $p^k$ power sums) and
+- * \texttt{g(v)} $= f(2) + \dots + f(v)$ in closed form; the type of \texttt{g(v)}
+- * is the type of the result (use \texttt{ull} to sum modulo $2^{64}$).
+- * \texttt{L(v)} is then $\sum_{p \le v} f(p)$ for such a $v$.
++ * Description: $\sum_{p \le v} f(p)$, $v = \lfloor n/i \rfloor$; $f$ completely multiplicative, \texttt{g(v)} $= f(2) + \dots + f(v)$. Result type: \texttt{g}'s.
+  * Usage: Lucy L(n, [](ll) { return 1LL; }, [](ll v) { return v - 1; }); // L(n) = pi(n)
+  * Time: O(n^{3/4}), about 0.4 s for $n = 10^{11}$
+  * Status: stress-tested
+diff --git a/content/number-theory/MillerRabin.h b/content/number-theory/MillerRabin.h
+index ba0387c..cc7cc44 100644
+--- a/content/number-theory/MillerRabin.h
++++ b/content/number-theory/MillerRabin.h
+@@ -3,8 +3,7 @@
+  * Date: 2019-03-28
+  * License: CC0
+  * Source: Wikipedia, https://miller-rabin.appspot.com/
+- * Description: Deterministic Miller-Rabin primality test.
+- * Guaranteed to work for numbers up to $7 \cdot 10^{18}$; for larger numbers, use Python and extend A randomly.
++ * Description: Deterministic for $n < 7\cdot10^{18}$.
+  * Time: 7 times the complexity of $a^b \mod c$.
+  * Status: Stress-tested
+  */
+diff --git a/content/number-theory/ModInverse.h b/content/number-theory/ModInverse.h
+index 32700ad..8c5906b 100644
+--- a/content/number-theory/ModInverse.h
++++ b/content/number-theory/ModInverse.h
+@@ -3,7 +3,7 @@
+  * Date: 2016-07-24
+  * License: CC0
+  * Source: Russian page
+- * Description: Pre-computation of modular inverses. Assumes LIM $\le$ mod and that mod is a prime.
++ * Description: Inverses of $1..LIM-1$; LIM $\le$ mod, mod prime.
+  * Status: Works
+  */
+ #pragma once
+diff --git a/content/number-theory/ModLog.h b/content/number-theory/ModLog.h
+index b827126..0445cd4 100644
+--- a/content/number-theory/ModLog.h
++++ b/content/number-theory/ModLog.h
+@@ -3,12 +3,9 @@
+  * Date: 2020-06-03
+  * License: CC0
+  * Source: own work
+- * Description: Returns the smallest $x > 0$ s.t. $a^x = b \pmod m$, or
+- * $-1$ if no such $x$ exists. modLog(a,1,m) can be used to
+- * calculate the order of $a$.
++ * Description: Smallest $x > 0$, or $-1$. \texttt{modLog(a, 1, m)}: order of $a$.
+  * Time: $O(\sqrt m)$
+  * Status: tested for all 0 <= a,x < 500 and 0 < m < 500.
+- *
+  * Details: This algorithm uses the baby-step giant-step method to
+  * find (i,j) such that a^(n * i) = b * a^j (mod m), where n > sqrt(m)
+  * and 0 < i, j <= n. If a and m are coprime then a^j has a modular
+@@ -18,9 +15,9 @@
+  * without assuming a and m are coprime, using the following idea:
+  *
+  * Assume p^x is a prime divisor of m. Then we have 3 cases
+- *	 1. b is divisible by p^x
+- *	 2. b is divisible only by some p^y, 0<y<x
+- *	 3. b is not divisible by p
++ *  1. b is divisible by p^x
++ *  2. b is divisible only by some p^y, 0<y<x
++ *  3. b is not divisible by p
+  * The important thing to note is that in case 2, modLog(a,b,m) (if
+  * it exists) cannot be > sqrt(m), (technically it cannot be >= log2(m)).
+  * So once all exponenents of a that are <= sqrt(m) has been checked, you
+diff --git a/content/number-theory/ModMulLL.h b/content/number-theory/ModMulLL.h
+index 464fe4d..626154a 100644
+--- a/content/number-theory/ModMulLL.h
++++ b/content/number-theory/ModMulLL.h
+@@ -3,7 +3,7 @@
+  * Date: 2019-04-24
+  * License: CC0
+  * Source: https://github.com/RamchandraApte/OmniTemplate/blob/master/src/number_theory/modulo.hpp
+- * Description: Calculate $a\cdot b\bmod c$ (or $a^b \bmod c$) for $0 \le a, b \le c \le 7.2\cdot 10^{18}$.
++ * Description: $ab \bmod c$ and $a^b \bmod c$ for $0 \le a, b \le c \le 7.2\cdot10^{18}$.
+  * Time: O(1) for \texttt{modmul}, O(\log b) for \texttt{modpow}
+  * Status: stress-tested, proven correct
+  * Details:
+diff --git a/content/number-theory/ModSqrt.h b/content/number-theory/ModSqrt.h
+index eec704b..0760448 100644
+--- a/content/number-theory/ModSqrt.h
++++ b/content/number-theory/ModSqrt.h
+@@ -3,7 +3,7 @@
+  * Date: 2016-08-31
+  * License: CC0
+  * Source: http://eli.thegreenplace.net/2009/03/07/computing-modular-square-roots-in-python/
+- * Description: Tonelli-Shanks algorithm for modular square roots. Finds $x$ s.t. $x^2 = a \pmod p$ ($-x$ gives the other solution).
++ * Description: $x^2 \equiv a \pmod p$, $p$ prime; $-x$ is the other root; asserts if none.
+  * Time: O(\log^2 p) worst case, O(\log p) for most $p$
+  * Status: Tested for all a,p <= 10000
+  */
+diff --git a/content/number-theory/ModSum.h b/content/number-theory/ModSum.h
+index 0e181c0..bfadcee 100644
+--- a/content/number-theory/ModSum.h
++++ b/content/number-theory/ModSum.h
+@@ -3,10 +3,7 @@
+  * Date: 2015-06-23
+  * License: CC0
+  * Source: own work
+- * Description: Sums of mod'ed arithmetic progressions.
+- *
+- * \texttt{modsum(to, c, k, m)} = $\sum_{i=0}^{\mathrm{to}-1}{(ki+c) \% m}$.
+- * \texttt{divsum} is similar but for floored division.
++ * Description: \texttt{modsum(to, c, k, m)} $= \sum_{i=0}^{to-1} (ki + c) \bmod m$; \texttt{divsum}: the same with $\lfloor (ki + c)/m \rfloor$.
+  * Time: $\log(m)$, with a large constant.
+  * Status: Tested for all |k|,|c|,to,m <= 50, and on kattis:aladin
+  */
+diff --git a/content/number-theory/ModularArithmetic.h b/content/number-theory/ModularArithmetic.h
+index 27d4f66..40e559e 100644
+--- a/content/number-theory/ModularArithmetic.h
++++ b/content/number-theory/ModularArithmetic.h
+@@ -3,11 +3,7 @@
+  * Date: 2026-11-09
+  * License: CC0
+  * Source: the team's template
+- * Description: Modular integers, \texttt{mint<mod>}: $+ - * /$, the compound
+- * forms, \texttt{++}, \texttt{--}, unary minus, comparisons, input and output,
+- * \texttt{fpow(a, p)} and \texttt{inverse(a)} (Fermat: needs a prime $mod$).
+- * $mod < 2^{30}$ (e.g. $10^9 + 7$ or $998244353$) so that the sum of two values fits an \texttt{int};
+- * \texttt{(int)a} is the value in $[0, mod)$.
++ * Description: Prime $mod < 2^{30}$. \texttt{fpow(a, p)}, \texttt{inverse(a)}, \texttt{(int)a}.
+  * Usage: mi a = 5, b = 7; cout << a / b << ' ' << fpow(a, 100); vmi v(n);
+  * Time: O(\log p) for \texttt{fpow}
+  * Status: stress-tested
+diff --git a/content/number-theory/PrimitiveRoot.h b/content/number-theory/PrimitiveRoot.h
+index eb93140..830da07 100644
+--- a/content/number-theory/PrimitiveRoot.h
++++ b/content/number-theory/PrimitiveRoot.h
+@@ -3,9 +3,7 @@
+  * Date: 2026-10-29
+  * License: CC0
+  * Source: folklore
+- * Description: Smallest primitive root of the prime $p$ ($p \le 7 \cdot 10^{18}$,
+- * but $p - 1$ is factored by trial division, so $p \lesssim 10^{12}$; use \texttt{Factor} beyond).
+- * A primitive root $g$ has order $p - 1$; e.g. 998244353 has $g = 3$, $10^9 + 7$ has $g = 5$.
++ * Description: Prime $p \lesssim 10^{12}$ (trial division; else \texttt{Factor}). 998244353: 3, $10^9 + 7$: 5.
+  * Time: O(\sqrt p + \log^2 p) expected
+  * Status: stress-tested
+  */
+diff --git a/content/number-theory/euclid.h b/content/number-theory/euclid.h
+index d3997c4..dd3afc3 100644
+--- a/content/number-theory/euclid.h
++++ b/content/number-theory/euclid.h
+@@ -2,13 +2,11 @@
+  * Author: Unknown
+  * Date: 2002-09-15
+  * Source: predates tinyKACTL
+- * Description: Finds two integers $x$ and $y$, such that $ax+by=\gcd(a,b)$. If
+- * you just need gcd, use the built in \texttt{\_\_gcd} instead.
+- * If $a$ and $b$ are coprime, then $x$ is the inverse of $a \pmod{b}$.
++ * Description: $ax + by = \gcd(a, b)$ (returned).
+  */
+ #pragma once
+ 
+-ll euclid(ll a, ll b, ll &x, ll &y) {
++ll euclid(ll a, ll b, ll &x, ll &y) { // ax + by = gcd
+ 	if (!b) return x = 1, y = 0, a;
+ 	ll d = euclid(b, a % b, y, x);
+ 	return y -= a/b * x, d;
+diff --git a/content/number-theory/phiFunction.h b/content/number-theory/phiFunction.h
+index f16fc1e..6234a58 100644
+--- a/content/number-theory/phiFunction.h
++++ b/content/number-theory/phiFunction.h
+@@ -3,16 +3,7 @@
+  * Date: 2009-09-25
+  * License: CC0
+  * Source: http://en.wikipedia.org/wiki/Euler's_totient_function
+- * Description: \emph{Euler's $\phi$} function is defined as $\phi(n):=\#$ of positive integers $\leq n$ that are coprime with $n$.
+- * $\phi(1)=1$, $p$ prime $\Rightarrow \phi(p^k)=(p-1)p^{k-1}$, $m,n$ coprime $\Rightarrow \phi(mn)=\phi(m)\phi(n)$.
+- * If $n=p_1^{k_1}p_2^{k_2} ... p_r^{k_r}$ then $\phi(n) = (p_1-1)p_1^{k_1-1}...(p_r-1)p_r^{k_r-1}$.
+- * $\phi(n)=n \cdot \prod_{p|n}(1-1/p)$.
+- *
+- * $\sum_{d|n} \phi(d) = n$, $\sum_{1\leq k \leq n, \gcd(k,n)=1} k = n \phi(n)/2, n>1$
+- *
+- * \textbf{Euler's thm}: $a,n$ coprime $\Rightarrow a^{\phi(n)} \equiv 1 \pmod{n}$.
+- *
+- * \textbf{Fermat's little thm}: $p$ prime $\Rightarrow a^{p-1} \equiv 1 \pmod{p}$ $\forall a$.
++ * Description: Sieve of $\phi$ below LIM. $\sum_{d \mid n} \phi(d) = n$; $\sum_{k \le n, \gcd(k, n) = 1} k = n\phi(n)/2$ ($n > 1$).
+  * Status: Tested; stress-tested
+  */
+ #pragma once
+diff --git a/content/numerical/BerlekampMassey.h b/content/numerical/BerlekampMassey.h
+index 96b018d..f627407 100644
+--- a/content/numerical/BerlekampMassey.h
++++ b/content/numerical/BerlekampMassey.h
+@@ -3,11 +3,7 @@
+  * Date: 2017-10-31
+  * License: CC0
+  * Source: Wikipedia
+- * Description: Recovers any $n$-order linear recurrence relation from the first
+- * $2n$ terms of the recurrence.
+- * Useful for guessing linear recurrences after brute-forcing the first terms.
+- * Should work on any field, but numerical stability for floats is not guaranteed.
+- * Output will have size $\le n$.
++ * Description: Needs the first $2n$ terms (mod prime); output fits \texttt{linearRec}.
+  * Usage: berlekampMassey({0, 1, 1, 3, 5, 11}) // {1, 2}
+  * Time: O(N^2)
+  * Status: bruteforce-tested mod 5 for n <= 5 and all s
+diff --git a/content/numerical/BostanMori.h b/content/numerical/BostanMori.h
+index 1d60d4c..397aba6 100644
+--- a/content/numerical/BostanMori.h
++++ b/content/numerical/BostanMori.h
+@@ -3,11 +3,7 @@
+  * Date: 2026-11-08
+  * License: CC0
+  * Source: Bostan, Mori: A simple and fast algorithm for computing the N-th term of a linearly recurrent sequence
+- * Description: Generates the $k$'th term of an $n$-order linear recurrence
+- * $S[i] = \sum_j S[i-j-1]tr[j]$, given $S[0 \ldots \ge n-1]$ and $tr[0 \ldots n-1]$,
+- * modulo 998244353 (values in $[0, mod)$). Same interface as \texttt{linearRec}, much faster for large $n$.
+- * With $Q = 1 - \sum_j tr[j] x^{j+1}$ and $P = S \cdot Q \bmod x^n$ we want $[x^k] P/Q$;
+- * multiplying both by $Q(-x)$ makes the denominator even, so $k$ halves.
++ * Description: Same interface as \texttt{linearRec}, mod 998244353.
+  * Usage: bostanMori({0, 1}, {1, 1}, k) // k'th Fibonacci number
+  * Time: O(n \log n \log k)
+  * Status: stress-tested
+diff --git a/content/numerical/Determinant.h b/content/numerical/Determinant.h
+index 9cf3aab..3ff17c8 100644
+--- a/content/numerical/Determinant.h
++++ b/content/numerical/Determinant.h
+@@ -3,7 +3,7 @@
+  * Date: 2016-09-06
+  * License: CC0
+  * Source: folklore
+- * Description: Calculates determinant of a matrix. Destroys the matrix.
++ * Description: Destroys the matrix.
+  * Time: $O(N^3)$
+  * Status: stress-tested
+  */
+diff --git a/content/numerical/FastFourierTransform.h b/content/numerical/FastFourierTransform.h
+index 946d17a..65fd98f 100644
+--- a/content/numerical/FastFourierTransform.h
++++ b/content/numerical/FastFourierTransform.h
+@@ -3,10 +3,9 @@
+  * Date: 2019-01-09
+  * License: CC0
+  * Source: http://neerc.ifmo.ru/trains/toulouse/2017/fft2.pdf (do read, it's excellent)
+-   Accuracy bound from http://www.daemonology.net/papers/fft.pdf
+- * Description: \texttt{fft(a)} computes $\hat f(k) = \sum_x a[x] \exp(2\pi i \cdot k x / N)$ for all $k$, $N$ a power of 2.
+-\texttt{conv(a, b) = c} with $c[x] = \sum a[i]b[x-i]$. Complex or more than two vectors: FFT, multiply pointwise, divide by n, reverse(start+1, end), FFT back.
+- * Rounding is safe if $(\sum a_i^2 + \sum b_i^2)\log_2{N} < 9\cdot10^{14}$ (in practice $10^{16}$, more if random); else NTT/FFTMod.
++ *    Accuracy bound from http://www.daemonology.net/papers/fft.pdf
++ * Description: Convolution (doubles), exact while $(\sum a_i^2 + \sum b_i^2)\log_2 N < 9\cdot10^{14}$.
++ * By hand: FFT, multiply, divide by $n$, reverse(start+1, end), FFT.
+  * Time: O(N \log N) with $N = |A|+|B|$ ($\tilde 1s$ for $N=2^{22}$)
+  * Status: somewhat tested
+  * Details: An in-depth examination of precision for both FFT and FFTMod can be found
+diff --git a/content/numerical/FastFourierTransformMod.h b/content/numerical/FastFourierTransformMod.h
+index de31396..8480106 100644
+--- a/content/numerical/FastFourierTransformMod.h
++++ b/content/numerical/FastFourierTransformMod.h
+@@ -3,9 +3,7 @@
+  * Date: 2019-04-25
+  * License: CC0
+  * Source: http://neerc.ifmo.ru/trains/toulouse/2017/fft2.pdf
+- * Description: Higher precision FFT, can be used for convolutions modulo arbitrary integers
+- * as long as $N\log_2N\cdot \text{mod} < 8.6 \cdot 10^{14}$ (in practice $10^{16}$ or higher).
+- * Inputs must be in $[0, \text{mod})$.
++ * Description: Convolution mod any $M$, inputs in $[0, M)$; needs $N \log_2 N \cdot M < 8.6\cdot10^{14}$.
+  * Time: O(N \log N), where $N = |A|+|B|$ (twice as slow as NTT or FFT)
+  * Status: stress-tested
+  * Details: An in-depth examination of precision for both FFT and FFTMod can be found
+diff --git a/content/numerical/FastSubsetTransform.h b/content/numerical/FastSubsetTransform.h
+index 2be5d1e..71c2e8f 100644
+--- a/content/numerical/FastSubsetTransform.h
++++ b/content/numerical/FastSubsetTransform.h
+@@ -3,9 +3,7 @@
+  * Date: 2015-06-25
+  * License: GNU Free Documentation License 1.2
+  * Source: csacademy
+- * Description: Transform to a basis with fast convolutions of the form
+- * $\displaystyle c[z] = \sum\nolimits_{z = x \oplus y} a[x] \cdot b[y]$,
+- * where $\oplus$ is one of AND, OR, XOR. The size of $a$ must be a power of two.
++ * Description: AND / OR / XOR convolution (choose in \texttt{FST}); size a power of 2.
+  * Time: O(N \log N)
+  * Status: stress-tested
+  */
+diff --git a/content/numerical/HillClimbing.h b/content/numerical/HillClimbing.h
+index dee1987..b64993a 100644
+--- a/content/numerical/HillClimbing.h
++++ b/content/numerical/HillClimbing.h
+@@ -3,7 +3,7 @@
+  * Date: 2015-02-04
+  * License: CC0
+  * Source: Johan Sannemo
+- * Description: Poor man's optimization for unimodal functions.
++ * Description: Minimizes $f$ (unimodal).
+  * Status: used with great success; stress-tested
+  */
+ #pragma once
+diff --git a/content/numerical/IntDeterminant.h b/content/numerical/IntDeterminant.h
+index 34a63ee..6d93449 100644
+--- a/content/numerical/IntDeterminant.h
++++ b/content/numerical/IntDeterminant.h
+@@ -2,8 +2,7 @@
+  * Author: Unknown
+  * Date: 2014-11-27
+  * Source: somewhere on github
+- * Description: Calculates determinant using modular arithmetics.
+- * Modulos can also be removed to get a pure-integer version.
++ * Description: Any \texttt{mod}, also composite. Drop the mods for exact integers.
+  * Time: $O(N^3)$
+  * Status: stress-tested (N <= 6, the composite mod 12345)
+  */
+diff --git a/content/numerical/Integrate.h b/content/numerical/Integrate.h
+index 01adc28..8bb1bdc 100644
+--- a/content/numerical/Integrate.h
++++ b/content/numerical/Integrate.h
+@@ -3,10 +3,7 @@
+  * Date: 2015-02-11
+  * License: CC0
+  * Source: Wikipedia
+- * Description: Simple integration of a function over an interval using
+- *  Simpson's rule. The error should be proportional to $h^4$, although in
+- *  practice you will want to verify that the result is stable to desired
+- *  precision when epsilon changes.
++ * Description: Simpson, error $O(h^4)$.
+  * Status: stress-tested
+  */
+ #pragma once
+diff --git a/content/numerical/LagrangeInterpolation.h b/content/numerical/LagrangeInterpolation.h
+index fd6899c..e78219c 100644
+--- a/content/numerical/LagrangeInterpolation.h
++++ b/content/numerical/LagrangeInterpolation.h
+@@ -3,10 +3,7 @@
+  * Date: 2026-10-29
+  * License: CC0
+  * Source: folklore
+- * Description: Given $y_i = f(i)$ for $i = 0, \dots, n-1$, where $f$ is a polynomial
+- * of degree $< n$, returns $f(x) \bmod p$ for any integer $x$ ($mod$ prime $> n$).
+- * Use for sums of powers: $\sum_{i \le x} i^k$ has degree $k+1$, so
+- * feed it $k+2$ prefix sums.
++ * Description: Input $f(0), \dots, f(n-1)$, $\deg f < n$, mod prime $> n$. $\sum_{i \le x} i^k$: give $k+2$ values.
+  * Time: O(n)
+  * Status: stress-tested
+  */
+diff --git a/content/numerical/LinearRecurrence.h b/content/numerical/LinearRecurrence.h
+index b5ee365..3a3fd08 100644
+--- a/content/numerical/LinearRecurrence.h
++++ b/content/numerical/LinearRecurrence.h
+@@ -3,11 +3,7 @@
+  * Date: 2018-02-14
+  * License: CC0
+  * Source: Chinese material
+- * Description: Generates the $k$'th term of an $n$-order
+- * linear recurrence $S[i] = \sum_j S[i-j-1]tr[j]$,
+- * given $S[0 \ldots \ge n-1]$ and $tr[0 \ldots n-1]$.
+- * Faster than matrix multiplication.
+- * Useful together with Berlekamp--Massey.
++ * Description: $S[i] = \sum_j S[i-j-1]\,tr[j]$; $k$-th term, 0-indexed.
+  * Usage: linearRec({0, 1}, {1, 1}, k) // k'th Fibonacci number
+  * Time: O(n^2 \log k)
+  * Status: bruteforce-tested mod 5 for n <= 5
+diff --git a/content/numerical/MatrixInverse.h b/content/numerical/MatrixInverse.h
+index e3f63c9..5d82999 100644
+--- a/content/numerical/MatrixInverse.h
++++ b/content/numerical/MatrixInverse.h
+@@ -1,10 +1,7 @@
+ /**
+  * Author: Max Bennedich
+  * Date: 2004-02-08
+- * Description: Invert matrix $A$. Returns rank; result is stored in $A$ unless singular (rank < n).
+- * Can easily be extended to prime moduli; for prime powers, repeatedly
+- * set $A^{-1} = A^{-1} (2I - AA^{-1})\  (\text{mod }p^k)$ where $A^{-1}$ starts as
+- * the inverse of A mod p, and k is doubled in each step.
++ * Description: Returns rank; result in $A$ if rank $= n$. Mod $p^k$: from $X = A^{-1} \bmod p$ repeat $X \gets X(2I - AX)$.
+  * Time: O(n^3)
+  * Status: stress-tested
+  */
+diff --git a/content/numerical/NumberTheoreticTransform.h b/content/numerical/NumberTheoreticTransform.h
+index a8d0b0b..58264b4 100644
+--- a/content/numerical/NumberTheoreticTransform.h
++++ b/content/numerical/NumberTheoreticTransform.h
+@@ -3,9 +3,7 @@
+  * Date: 2019-04-16
+  * License: CC0
+  * Source: based on KACTL's FFT
+- * Description: \texttt{ntt(a)} computes $\hat f(k) = \sum_x a[x] g^{xk}$ for all $k$, $g=\text{root}^{(mod-1)/N}$, $N$ a power of 2.
+-\texttt{conv(a, b) = c} with $c[x] = \sum a[i]b[x-i]$, modulo primes $2^a b+1$ with result size at most $2^a$ (any modulus: FFTMod).
+- * By hand: NTT the inputs, multiply pointwise, divide by n, reverse(start+1, end), NTT back. Inputs in [0, mod).
++ * Description: Convolution mod 998244353 (or a prime $2^a b + 1$, result size $\le 2^a$). Inputs in $[0, mod)$.
+  * Time: O(N \log N)
+  * Status: stress-tested
+  */
+diff --git a/content/numerical/PolyInterpolate.h b/content/numerical/PolyInterpolate.h
+index 59737d9..5250332 100644
+--- a/content/numerical/PolyInterpolate.h
++++ b/content/numerical/PolyInterpolate.h
+@@ -3,9 +3,7 @@
+  * Date: 2017-05-10
+  * License: CC0
+  * Source: Wikipedia
+- * Description: Given $n$ points (x[i], y[i]), computes an n-1-degree polynomial $p$ that
+- *  passes through them: $p(x) = a[0]*x^0 + ... + a[n-1]*x^{n-1}$.
+- *  For numerical precision, pick $x[k] = c*\cos(k/(n-1)*\pi), k=0 \dots n-1$.
++ * Description: Returns $a$ with $p(x) = \sum a_i x^i$. Precision: $x_k = c\cos(k\pi/(n-1))$.
+  * Time: O(n^2)
+  * Status: stress-tested
+  */
+diff --git a/content/numerical/PolyOps.h b/content/numerical/PolyOps.h
+index af2a3e5..fb32d2b 100644
+--- a/content/numerical/PolyOps.h
++++ b/content/numerical/PolyOps.h
+@@ -3,12 +3,8 @@
+  * Date: 2026-10-29
+  * License: CC0
+  * Source: https://cp-algorithms.com/algebra/polynomial.html
+- * Description: Power series modulo $x^n$ (coefficients in $[0, mod)$, NTT prime).
+- * \texttt{polyInv} needs $a_0 \ne 0$, \texttt{polyLog} needs $a_0 = 1$, \texttt{polyExp} needs $a_0 = 0$.
+- * All results have exactly $n$ coefficients.
+- * \texttt{polyPow(a, k, n)} is $a^k \bmod x^n$ for any $a$ (also with leading zeros) and $k$ up to $10^{18}$;
+- * \texttt{polySqrt} needs $a_0 = 1$; \texttt{polyDivMod(a, b)} returns $(q, r)$ with $a = qb + r$,
+- * $\deg r < \deg b$, and needs \texttt{b.back() != 0}.
++ * Description: Mod $x^n$, $n$ terms out. Inv: $a_0 \ne 0$; Log, Sqrt: $a_0 = 1$; Exp: $a_0 = 0$; Pow: any $a$.
++ * \texttt{polyDivMod}: \texttt{b.back()} $\ne 0$.
+  * Usage: polyExp(polyLog(a, n), n) == a
+  * Time: O(n \log n)
+  * Status: stress-tested
+diff --git a/content/numerical/SolveLinear.h b/content/numerical/SolveLinear.h
+index 26312d5..04baf42 100644
+--- a/content/numerical/SolveLinear.h
++++ b/content/numerical/SolveLinear.h
+@@ -2,8 +2,7 @@
+  * Author: Per Austrin, Simon Lindholm
+  * Date: 2004-02-08
+  * License: CC0
+- * Description: Solves $A * x = b$. If there are multiple solutions, an arbitrary one is returned.
+- *  Returns rank, or -1 if no solutions. Data in $A$ and $b$ is lost.
++ * Description: Returns rank, or $-1$ if none. Destroys $A$, $b$.
+  * Time: O(n^2 m)
+  * Status: tested on kattis:equationsolver, and bruteforce-tested mod 3 and 5 for n,m <= 3; stress-tested
+  */
+diff --git a/content/numerical/SolveLinear2.h b/content/numerical/SolveLinear2.h
+index f169d3f..6c7d4b8 100644
+--- a/content/numerical/SolveLinear2.h
++++ b/content/numerical/SolveLinear2.h
+@@ -3,7 +3,7 @@
+  * Date: 2016-09-06
+  * License: CC0
+  * Source: me
+- * Description: To get all uniquely determined values of $x$ back from SolveLinear, make the following changes:
++ * Description: Changes to SolveLinear to get back all uniquely determined values of $x$:
+  * Status: tested on kattis:equationsolverplus, stress-tested
+  */
+ #pragma once
+diff --git a/content/numerical/SolveLinearBinary.h b/content/numerical/SolveLinearBinary.h
+index 7108789..63a966e 100644
+--- a/content/numerical/SolveLinearBinary.h
++++ b/content/numerical/SolveLinearBinary.h
+@@ -3,8 +3,7 @@
+  * Date: 2016-08-27
+  * License: CC0
+  * Source: own work
+- * Description: Solves $Ax = b$ over $\mathbb F_2$. If there are multiple solutions, one is returned arbitrarily.
+- *  Returns rank, or -1 if no solutions. Destroys $A$ and $b$.
++ * Description: Over $\mathbb F_2$. Returns rank, or $-1$ if none. Destroys $A$, $b$.
+  * Time: O(n^2 m)
+  * Status: bruteforce-tested for n, m <= 4
+  */
+diff --git a/content/numerical/SolveLinearMod.h b/content/numerical/SolveLinearMod.h
+index f991e48..89f2e14 100644
+--- a/content/numerical/SolveLinearMod.h
++++ b/content/numerical/SolveLinearMod.h
+@@ -2,9 +2,7 @@
+  * Author: Per Austrin, Simon Lindholm (SolveLinear); modular version by Claude
+  * Date: 2026-10-29
+  * License: CC0
+- * Description: Solves $A x = b$ over the field $\mathbb Z_{mod}$ ($mod$ prime).
+- * Returns the rank, or $-1$ if there is no solution. Free variables are set to 0.
+- * Data in $A$ and $b$ is lost. Entries must be in $[0, mod)$.
++ * Description: Mod prime, entries in $[0, mod)$. Returns rank, or $-1$ if none; free variables are 0. Destroys $A$, $b$.
+  * Time: O(n m \min(n, m))
+  * Status: stress-tested
+  */
+diff --git a/content/numerical/XorBasis.h b/content/numerical/XorBasis.h
+index 03b7c45..dad3bd9 100644
+--- a/content/numerical/XorBasis.h
++++ b/content/numerical/XorBasis.h
+@@ -3,12 +3,7 @@
+  * Date: 2026-10-29
+  * License: CC0
+  * Source: folklore (xor basis / linear basis over GF(2))
+- * Description: Basis of the span of the inserted 64-bit numbers under xor.
+- * \texttt{insert} returns whether $x$ was independent. \texttt{has(x)}
+- * tests $x \in$ span. \texttt{best(x)} is the maximum of $x \oplus s$ over
+- * the span ($x = 0$: maximum element). \texttt{kth(k)} is the $k$-th
+- * smallest element of the span (0-indexed, $k < 2^{\texttt{rk}}$);
+- * it makes the basis reduced, which is harmless.
++ * Description:
+  * Time: O(64) per operation
+  * Status: stress-tested
+  */
+@@ -31,11 +26,11 @@ struct XorBasis {
+ 		}
+ 		return 1;
+ 	}
+-	ull best(ull x = 0) {
++	ull best(ull x = 0) { // max x ^ s over the span
+ 		for (int i = 64; i--;) x = max(x, x ^ b[i]);
+ 		return x;
+ 	}
+-	ull kth(ull k) {
++	ull kth(ull k) { // k-th smallest, 0-indexed, k < 2^rk
+ 		rep(i,0,64) rep(j,0,i) if (b[j] && (b[i] >> j & 1)) b[i] ^= b[j];
+ 		ull r = 0; int t = 0;
+ 		rep(i,0,64) if (b[i] && (k >> t++ & 1)) r ^= b[i];
+diff --git a/content/strings/AhoCorasick.h b/content/strings/AhoCorasick.h
+index 67fcb55..fe53b43 100644
+--- a/content/strings/AhoCorasick.h
++++ b/content/strings/AhoCorasick.h
+@@ -3,13 +3,9 @@
+  * Date: 2015-02-18
+  * License: CC0
+  * Source: marian's (TC) code
+- * Description: Multiple pattern matching. \texttt{AhoCorasick ac(patterns)}; the start node is 0.
+-\texttt{find(word)} gives for each position the index of the longest word ending there, or $-1$.
+-\texttt{findAll($-$, word)} lists all words starting at each position, shortest first (up to $N \sqrt N$ without duplicate patterns).
+- * Duplicate patterns are allowed, empty ones are not. Longest words starting at each position: reverse all input.
+- * Large alphabets: split symbols into chunks, with sentinel bits for symbol boundaries.
+- * Time: construction takes $O(26N)$, where $N =$ sum of length of patterns.
+- * find(x) is $O(N)$, where N = length of x. findAll is $O(NM)$.
++ * Description: Non-empty patterns; set \texttt{alpha}, \texttt{first}. \texttt{find}: longest pattern ending at each position, $-1$ if none;
++ * \texttt{findAll}: all starting at each position.
++ * Time: O(26N) build ($N$ = total pattern length); find $O(|word|)$; findAll $O(NM)$
+  * Status: stress-tested
+  */
+ #pragma once
+diff --git a/content/strings/Hashing.h b/content/strings/Hashing.h
+index 62cefcb..f12881c 100644
+--- a/content/strings/Hashing.h
++++ b/content/strings/Hashing.h
+@@ -3,7 +3,7 @@
+  * Date: 2015-03-15
+  * License: CC0
+  * Source: own work
+- * Description: Self-explanatory methods for string hashing.
++ * Description:
+  * Status: stress-tested
+  */
+ #pragma once
+diff --git a/content/strings/KMP.h b/content/strings/KMP.h
+index d3987ec..013be04 100644
+--- a/content/strings/KMP.h
++++ b/content/strings/KMP.h
+@@ -2,9 +2,7 @@
+  * Author: Johan Sannemo
+  * Date: 2016-12-15
+  * License: CC0
+- * Description: pi[x] computes the length of the longest prefix of s that ends at x,
+- * other than s[0...x] itself (abacaba -> 0010123).
+- * Can be used to find all occurrences of a string.
++ * Description: \texttt{match}: start positions of \texttt{pat} in \texttt{s}.
+  * Time: O(n)
+  * Status: Tested on kattis:stringmatching
+  */
+diff --git a/content/strings/Manacher.h b/content/strings/Manacher.h
+index bec3781..ee2456d 100644
+--- a/content/strings/Manacher.h
++++ b/content/strings/Manacher.h
+@@ -1,8 +1,7 @@
+ /**
+  * Author: User adamant on CodeForces
+  * Source: http://codeforces.com/blog/entry/12143
+- * Description: For each position in a string, computes p[0][i] = half length of
+- *  longest even palindrome around pos i, p[1][i] = longest odd (half rounded down).
++ * Description: \texttt{p[1][i]}: odd palindrome at $i$, half length rounded down; \texttt{p[0][i]}: even, centered before $i$.
+  * Time: O(N)
+  * Status: Stress-tested
+  */
+diff --git a/content/strings/MinRotation.h b/content/strings/MinRotation.h
+index 0323664..4b70d0b 100644
+--- a/content/strings/MinRotation.h
++++ b/content/strings/MinRotation.h
+@@ -2,7 +2,7 @@
+  * Author: Stjepan Glavina
+  * License: Unlicense
+  * Source: https://github.com/stjepang/snippets/blob/master/min_rotation.cpp
+- * Description: Finds the lexicographically smallest rotation of a string.
++ * Description:
+  * Time: O(N)
+  * Usage:
+  *  rotate(v.begin(), v.begin()+minRotation(v), v.end());
+diff --git a/content/strings/PalindromicTree.h b/content/strings/PalindromicTree.h
+index 54a51e8..850f9a6 100644
+--- a/content/strings/PalindromicTree.h
++++ b/content/strings/PalindromicTree.h
+@@ -3,11 +3,7 @@
+  * Date: 2026-10-29
+  * License: CC0
+  * Source: https://arxiv.org/abs/1506.04862 (Eertree)
+- * Description: Palindromic tree (eertree). Node 0 has length $-1$, node 1 is the empty
+- * palindrome, every other node is a distinct palindromic substring of the string
+- * (so there are \texttt{sz(t) - 2} of them). \texttt{link} is the longest proper palindromic
+- * suffix, \texttt{last} the node of the longest palindromic suffix of the current prefix.
+- * After \texttt{count()}, \texttt{cnt[v]} is the number of occurrences of palindrome $v$.
++ * Description: Node 0: length $-1$, node 1: empty, the rest: distinct palindromes. \texttt{cnt[v]}: occurrences, after \texttt{count()}.
+  * Time: O(N) amortized, for a fixed alphabet
+  * Status: stress-tested
+  */
+diff --git a/content/strings/SuffixArray.h b/content/strings/SuffixArray.h
+index c85f676..d53e942 100644
+--- a/content/strings/SuffixArray.h
++++ b/content/strings/SuffixArray.h
+@@ -4,8 +4,7 @@
+  * License: Unknown
+  * Source: Suffix array - a powerful tool for dealing with strings
+  * (Chinese IOI National team training paper, 2009)
+- * Description: \texttt{sa[i]} is the start of the $i$'th smallest suffix; size $n+1$, \texttt{sa[0] = n}.
+-\texttt{lcp[i] = lcp(sa[i], sa[i-1])}, \texttt{lcp[0] = 0}. The input must not contain nul chars.
++ * Description: \texttt{sa} has size $n+1$ (\texttt{sa[0] = n}); \texttt{lcp[i] = lcp(sa[i], sa[i-1])}. No nul chars in the input.
+  * Time: O(n \log n)
+  * Status: stress-tested
+  */
+diff --git a/content/strings/SuffixAutomaton.h b/content/strings/SuffixAutomaton.h
+index 3b15021..34b80fc 100644
+--- a/content/strings/SuffixAutomaton.h
++++ b/content/strings/SuffixAutomaton.h
+@@ -3,13 +3,7 @@
+  * Date: 2026-10-29
+  * License: CC0
+  * Source: https://cp-algorithms.com/string/suffix-automaton.html
+- * Description: Minimal DFA accepting exactly the suffixes of the string
+- * (so every substring is a path from state 0). State $v$ stands for all
+- * substrings that end at the same set of positions, with lengths
+- * $(\texttt{len[link[v]]}, \texttt{len[v]}]$. Number of distinct
+- * substrings is $\sum_{v \ne 0} \texttt{len[v]} - \texttt{len[link[v]]}$.
+- * After \texttt{count()}, \texttt{cnt[v]} is the number of occurrences
+- * of the strings of $v$. Append characters with \texttt{extend}.
++ * Description: State $v$: lengths $(\texttt{len[link[v]]}, \texttt{len[v]}]$. \texttt{cnt[v]}: occurrences, after \texttt{count()}.
+  * Time: O(N) states, O(N \cdot 26) memory, \texttt{count} in $O(N \log N)$
+  * Status: stress-tested
+  */
+diff --git a/content/strings/Zfunc.h b/content/strings/Zfunc.h
+index c188523..8649f75 100644
+--- a/content/strings/Zfunc.h
++++ b/content/strings/Zfunc.h
+@@ -1,8 +1,7 @@
+ /**
+  * Author: chilli
+  * License: CC0
+- * Description: z[i] computes the length of the longest common prefix of s[i:] and s,
+- * except z[0] = 0. (abacaba -> 0010301)
++ * Description: $z[0] = 0$.
+  * Time: O(n)
+  * Status: stress-tested
+  */
+diff --git a/content/tex/preprocessor.py b/content/tex/preprocessor.py
+index ce86eee..b115989 100755
+--- a/content/tex/preprocessor.py
++++ b/content/tex/preprocessor.py
+@@ -223,11 +223,7 @@ def print_header(data, outstream):
+     def adjust(name):
+         return name if name.startswith('.') else name.split('.')[0]
+     output = r"\enspace{}".join(map(adjust, lines[:ind]))
+-    font_size = 10
+-    if header_length > 120:
+-        font_size = 8
+-    if header_length > 150:
+-        font_size = 7
++    font_size = max(5, min(10, 1200 // max(header_length, 1)))
+     output = r"\hspace{3mm}\textbf{" + output + "}"
+     output = "\\fontsize{%d}{%d}" % (font_size, font_size) + output
+     print(output, file=outstream)
+diff --git a/content/various/DivideAndConquerDP.h b/content/various/DivideAndConquerDP.h
+index 020ac77..5c0695a 100644
+--- a/content/various/DivideAndConquerDP.h
++++ b/content/various/DivideAndConquerDP.h
+@@ -2,8 +2,7 @@
+  * Author: Simon Lindholm
+  * License: CC0
+  * Source: Codeforces
+- * Description: Given $a[i] = \min_{lo(i) \le k < hi(i)}(f(i, k))$ where the (minimal)
+- * optimal $k$ increases with $i$, computes $a[i]$ for $i = L..R-1$.
++ * Description: $a[i] = \min_{lo(i) \le k < hi(i)} f(i, k)$ for $i \in [L, R)$, when the smallest optimal $k$ is non-decreasing in $i$.
+  * Time: O((N + (hi-lo)) \log N)
+  * Status: tested on http://codeforces.com/contest/321/problem/E; stress-tested
+  */
+diff --git a/content/various/IntervalCover.h b/content/various/IntervalCover.h
+index d547807..11c2e19 100644
+--- a/content/various/IntervalCover.h
++++ b/content/various/IntervalCover.h
+@@ -1,9 +1,7 @@
+ /**
+  * Author: Johan Sannemo
+  * License: CC0
+- * Description: Compute indices of smallest set of intervals covering another interval.
+- * Intervals should be [inclusive, exclusive). To support [inclusive, inclusive],
+- * change (A) to add \texttt{|| R.empty()}. Returns empty set on failure (or if G is empty).
++ * Description: Half-open (closed: add \texttt{|| R.empty()} at (A)); empty if impossible.
+  * Time: O(N \log N)
+  * Status: Tested on kattis:intervalcover; stress-tested
+  */
+diff --git a/content/various/IntervalMap.h b/content/various/IntervalMap.h
+index 3d08793..b2308c3 100644
+--- a/content/various/IntervalMap.h
++++ b/content/various/IntervalMap.h
+@@ -3,12 +3,7 @@
+  * Date: 2026-10-29
+  * License: CC0
+  * Source: folklore (Chtholly tree / ODT)
+- * Description: Partitions $[lo, hi)$ into intervals that each hold a value.
+- * \texttt{assign} overwrites a range and merges equal neighbours.
+- * \texttt{each} calls \texttt{f(a, b, T\& val)} on the pieces of $[l, r)$
+- * and lets \texttt{f} modify the values (e.g. range add, range count).
+- * With only \texttt{assign}, also replaces a set of disjoint intervals:
+- * \texttt{T = bool}, \texttt{m.assign(l, r, 1)} adds, \texttt{0} removes.
++ * Description: \texttt{each}: \texttt{f(a, b, val\&)} on the pieces of $[l, r)$. Set of intervals: \texttt{T = bool}.
+  * Usage: IntervalMap<int> m(0, n, 0); m.assign(l, r, v);
+  *  m.each(l, r, [\&](int a, int b, int\& x){ ... }); m.get(i);
+  * Time: amortized $O(\log N)$ per assign, plus the pieces visited
+diff --git a/content/various/TernarySearch.h b/content/various/TernarySearch.h
+index 8225cd6..8c88cfe 100644
+--- a/content/various/TernarySearch.h
++++ b/content/various/TernarySearch.h
+@@ -3,12 +3,9 @@
+  * Date: 2015-05-12
+  * License: CC0
+  * Source: own work
+- * Description:
+- * Find the smallest i in $[a,b]$ that maximizes $f(i)$, assuming that $f(a) < \dots < f(i) \ge \dots \ge f(b)$.
+- * To reverse which of the sides allows non-strict inequalities, change the < marked with (A) to <=, and reverse the loop at (B).
+- * To minimize $f$, change it to >, also at (B).
++ * Description: $f$ strictly increasing, then non-increasing; smallest argmax. Other side strict: \texttt{<=} at (A), reverse (B). Min: \texttt{>}.
+  * Usage:
+-	int ind = ternSearch(0,n-1,[\&](int i){return a[i];});
++ * 	int ind = ternSearch(0,n-1,[\&](int i){return a[i];});
+  * Time: O(\log(b-a))
+  * Status: tested; stress-tested
+  */
