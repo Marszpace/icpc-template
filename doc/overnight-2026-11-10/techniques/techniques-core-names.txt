@@ -1,0 +1,86 @@
+Reformulate
+	Contribution technique
+	Fix one end, sweep the other
+	Reverse the process
+	Invariants, monovariants
+	Differences / prefix sums
+	Manhattan <-> Chebyshev
+	Bound the answer
+	Swap state and value
+	Coloring argument
+	Pigeonhole
+	Sqrt threshold
+	Few distinct sizes
+	Layered / state graph
+	Functional graph
+	Bit by bit from the top
+Counting
+	Linearity of expectation
+	E[X] = sum P(X >= k)
+	Reflection principle
+	Kummer
+	Hall
+Greedy
+	Exchange argument
+	Regret greedy
+	Deadline scheduling
+	Matroid
+Dynamic programming
+	Aliens trick (WQS)
+	Knuth optimization
+	Monotone queue DP
+	Digit DP
+	Broken profile DP
+	Rerooting
+	Tree knapsack
+	DP over an automaton
+	Dynamic DP
+	Steiner tree
+Graphs
+	Difference constraints
+	Residue Dijkstra
+	Min-plus matrix power
+	Kruskal reconstruction tree
+	MST cycle property
+	Boruvka
+	Complement BFS
+	Triangles in O(m sqrt m)
+	Planar bounds
+	Grid is bipartite
+	Expected hitting times
+	Tree isomorphism
+Data structures
+	Queue from two stacks
+	Cartesian tree
+	Nearest smaller values
+	Segment tree merging
+	Rebuild every sqrt(Q)
+	Binary trie
+	Zobrist / xor hashing
+Offline
+	CDQ divide and conquer
+	Parallel binary search
+	Sort queries by right end
+	D&C on the array
+	Discrete 2nd derivatives
+Number theory
+	Frobenius number
+	Stern-Brocot
+Geometry
+	Inversion
+Strings
+	Period from KMP
+	Next-occurrence table
+Games
+	Sprague-Grundy
+	Nim
+	Games with cycles
+	Token on a graph
+	Mirror strategy
+Randomization and search
+	Meet in the middle
+	Bitset speedup
+	Random sampling
+Misc
+	Fractional programming
+	Largest empty rectangle

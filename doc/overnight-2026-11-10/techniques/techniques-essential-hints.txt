@@ -1,0 +1,61 @@
+Reformulate
+	Contribution technique: sum what each element adds
+	Reverse the process: deletions -> insertions, time backwards
+	Invariants, monovariants: sum, parity, xor, mod k, sorted
+	Differences / prefix sums: neighbour ops become simple there
+	Manhattan <-> Chebyshev: (x + y, x - y) turns L1 into L-inf
+	Bound the answer: often <= 2, <= log n or <= sqrt n: try each
+	Swap state and value: dp[value] = min cost, values small
+	Coloring argument: checkerboard or mod k colours, parity
+	Sqrt threshold: heavy (> sqrt) vs light items, two methods
+	Few distinct sizes: sum of sizes = n: O(sqrt n) distinct
+	Layered / state graph: node = (vertex, extra state), then BFS
+	Bit by bit from the top: greedy on xor / and / or optimum
+Counting
+	Linearity of expectation: sum of P(indicator), even dependent
+	Reflection principle: bad paths = paths to the mirrored end
+	Hall: match all of L iff |N(S)| >= |S| for all S
+Greedy
+	Exchange argument: sort by the pairwise comparison a < b
+	Regret greedy: heap of choices you can still undo
+Dynamic programming
+	Aliens trick (WQS): exactly k, convex in k: penalty lambda
+	Knuth optimization: opt[i][j-1] <= opt[i][j] <= opt[i+1][j]
+	Digit DP: count x <= N: (pos, tight, state)
+	Broken profile DP: tilings of n x m, n small: bitmask row
+	Rerooting: down pass, then up pass with prefix/suffix
+	DP over an automaton: state = (position, KMP / AC node)
+	Steiner tree: dp[mask][v]: merge submasks, then Dijkstra
+Graphs
+	Difference constraints: x_j - x_i <= w: edge i -> j, Bellman
+	Residue Dijkstra: reachable sums: dist[r mod a_min]
+	Min-plus matrix power: shortest walk with exactly k edges
+	Kruskal reconstruction tree: path max edge, components <= w
+	Complement BFS: keep a set of unvisited, scan it
+	Grid is bipartite: (i + j) parity: matching / flow / cover
+Data structures
+	Queue from two stacks: sliding min / gcd without undo
+	Cartesian tree: recursion on the minimum; O(n) with stack
+	Binary trie: max xor pair, count xor <= k
+	Zobrist / xor hashing: random 64-bit per item: set equality
+Offline
+	CDQ divide and conquer: left half updates answer right half
+	Parallel binary search: all queries binary search together
+	Sort queries by right end: last occurrence: distinct counts
+	Discrete 2nd derivatives: add arithmetic progressions in O(1)
+Number theory
+	Frobenius number: ab - a - b largest non-sum, gcd = 1
+Geometry
+	Inversion: circles through the centre become lines
+Strings
+	Period from KMP: p = n - pi[n-1]; full repeat iff p | n
+Games
+	Sprague-Grundy: g = mex of options; sum: xor
+	Games with cycles: retrograde BFS from terminal states
+	Token on a graph: first wins iff start in every max matching
+Randomization and search
+	Meet in the middle: n ~ 40: two halves, sort and combine
+	Bitset speedup: n^3 / 64, subset sums, reachability
+	Random sampling: property of >= half: try ~30 random picks
+Misc
+	Fractional programming: max sum a / sum b: sum(a - x b) >= 0?

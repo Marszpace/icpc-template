@@ -1,0 +1,61 @@
+Reformulate
+	Contribution technique
+	Reverse the process
+	Invariants, monovariants
+	Differences / prefix sums
+	Manhattan <-> Chebyshev
+	Bound the answer
+	Swap state and value
+	Coloring argument
+	Sqrt threshold
+	Few distinct sizes
+	Layered / state graph
+	Bit by bit from the top
+Counting
+	Linearity of expectation
+	Reflection principle
+	Hall
+Greedy
+	Exchange argument
+	Regret greedy
+Dynamic programming
+	Aliens trick (WQS)
+	Knuth optimization
+	Digit DP
+	Broken profile DP
+	Rerooting
+	DP over an automaton
+	Steiner tree
+Graphs
+	Difference constraints
+	Residue Dijkstra
+	Min-plus matrix power
+	Kruskal reconstruction tree
+	Complement BFS
+	Grid is bipartite
+Data structures
+	Queue from two stacks
+	Cartesian tree
+	Binary trie
+	Zobrist / xor hashing
+Offline
+	CDQ divide and conquer
+	Parallel binary search
+	Sort queries by right end
+	Discrete 2nd derivatives
+Number theory
+	Frobenius number
+Geometry
+	Inversion
+Strings
+	Period from KMP
+Games
+	Sprague-Grundy
+	Games with cycles
+	Token on a graph
+Randomization and search
+	Meet in the middle
+	Bitset speedup
+	Random sampling
+Misc
+	Fractional programming

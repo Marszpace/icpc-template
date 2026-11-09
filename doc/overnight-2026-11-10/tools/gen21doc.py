@@ -1,7 +1,7 @@
 import re, os, sys
 here = os.path.dirname(os.path.abspath(__file__))
 exec(open(os.path.join(here, 'desc21.py')).read())
-ROOT = '/home/user/icpc-template/content/'
+ROOT = os.path.join(here, '../../../content/')
 ORDER = ['G', 'L', 'M']
 
 def pick(d, lv):

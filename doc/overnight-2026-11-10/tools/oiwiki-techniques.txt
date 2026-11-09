@@ -1,0 +1,370 @@
+Algorithm analysis
+	Complexity
+	Amortized complexity
+Basic techniques
+	Enumeration
+	Simulation
+	Recursion and divide and conquer
+	Greedy algorithms
+	Prefix sums and differences
+	Binary search
+	Binary lifting
+	Construction
+	Discretization
+	Two pointers
+	Fractional programming
+	Space optimization
+Sorting
+	Selection sort
+	Bubble sort
+	Insertion sort
+	Counting sort
+	Radix sort
+	Quick sort
+	Merge sort
+	Heap sort
+	Bucket sort
+	Shell sort
+	Tournament sort
+	Timsort
+	Applications of sorting
+Combinatorial search
+	DFS
+	BFS
+	Bidirectional search
+	Heuristic search
+	Best-first (A*)
+	Iterative deepening DFS / IDA*
+	Backtracking
+	Dancing links
+	Alpha-beta pruning
+	Optimizing search (pruning)
+Dynamic programming
+	Memoized search
+	Knapsack
+	* Advanced knapsack
+	Dynprog over intervals
+	Dynprog over DAGs
+	Dynprog over trees
+	Dynprog over subsets (bitmask)
+	Digit DP
+	Plug DP
+	Counting DP
+	Dynamic DP
+	Dynprog over probabilities
+	DP of DP
+	DP optimization
+	* Monotone queues / monotone stacks
+	* Convex hull optimization (slope optimization)
+	* Quadrangle inequality (Knuth optimization)
+	* Slope trick
+	* WQS binary search
+	* State design
+Strings
+	String matching
+	Rolling polynomial hashes
+	Tries
+	Knuth-Morris-Pratt (prefix function)
+	Boyer-Moore
+	Z-function
+	Aho-Corasick
+	Suffix array
+	* Optimal in-place suffix sorting
+	Suffix automaton
+	* Generalized suffix automaton
+	Suffix balanced tree
+	Suffix tree
+	Manacher's algorithm
+	Palindromic tree
+	Subsequence automaton
+	Minimal rotation
+	Lyndon decomposition
+	Main-Lorentz algorithm
+Math basics
+	Boolean algebra
+	Numeral systems
+	* Positional notation
+	* Balanced ternary
+	* Gray code
+	Bit manipulation
+	Binary set operations
+	Arbitrary-precision arithmetic
+	Exponentiation by squaring
+	Permutations
+	Radians and coordinate systems
+	Complex numbers
+Number theory
+	Modular arithmetic
+	Primes
+	Greatest common divisor
+	Euler's totient function
+	Sieves
+	Prime factorization (Pollard-Rho, Miller-Rabin)
+	Bezout's theorem and linear Diophantine equations
+	Fermat's little theorem and Euler's theorem
+	Modular inverses
+	Linear congruences
+	Chinese remainder theorem
+	Lifting the exponent
+	Factorials modulo
+	Lucas's theorem
+	Congruence equations
+	Quadratic residues
+	Order and primitive roots
+	Discrete logarithm
+	Higher-order residues and roots of unity
+	Floor division blocks
+	Dirichlet convolution
+	Mobius inversion
+	Dirichlet hyperbola method and Du's sieve
+	Prime counting
+	Powerful number sieve
+	Min_25 sieve
+	Zhou's sieve
+	Euclid-like algorithm
+	Continued fractions
+	Stern-Brocot tree and Farey sequence
+	Quadratic fields
+	Pell's equation
+Polynomials and generating functions
+	Fundamental theorem of algebra
+	Fast Fourier transform
+	Number theoretic transform
+	Fast Walsh-Hadamard transform
+	Chirp Z-transform
+	Polynomial Newton iteration
+	Multipoint evaluation / fast interpolation
+	Elementary functions of polynomials
+	Linear recurrences with constant coefficients
+	Polynomial shift
+	Symbolic method
+	Lagrange inversion
+	Composition and compositional inverse
+	Ordinary generating functions
+	Exponential generating functions
+Combinatorics
+	Permutations and combinations
+	Pigeon-hole principle
+	Inclusion/exclusion
+	Fibonacci numbers
+	Derangements
+	Catalan number
+	Stirling numbers
+	Bell numbers
+	Bernoulli numbers
+	Entringer numbers
+	Eulerian numbers
+	Partition numbers
+	Vandermonde convolution
+	Polya enumeration
+	Graph enumeration
+Linear algebra
+	Vectors
+	Inner and outer products
+	Matrices
+	Elementary operations
+	Determinants
+	Vector spaces
+	Linear basis
+	Linear maps
+	Characteristic polynomial
+	Diagonalization
+	Jordan normal form
+	Linear programming
+	* Simplex method
+Abstract algebra
+	Groups
+	Rings
+	Fields
+	Schreier-Sims algorithm
+Probability theory
+	Conditional probability and independence
+	Random variables
+	Expectation and variance
+	Probability inequalities
+Game theory
+	Impartial combinatorial games
+	Zero-sum games
+	Partizan games
+Numerical methods
+	Interpolation
+	Numeric integration
+	Gaussian elimination
+	Newton's method
+Other math
+	Order theory
+	Young tableaux
+	Matroids
+	Berlekamp-Massey
+Data structures
+	Stack
+	Queue
+	Linked list
+	Hash table
+	Disjoint-set union
+	* Complexity of DSU
+	Heaps
+	* Binary heap
+	* Pairing heap
+	* Leftist tree
+	Blocking (sqrt decomposition)
+	* Block array
+	* Block list
+	* Tree blocking
+	* Sqrt tree
+	Monotone stack
+	Monotone queue
+	RMQ (sparse table a.k.a 2^k-jumps)
+	Fenwick tree
+	Segment tree
+	* Lazy propagation
+	* Merging and splitting
+	* Li Chao tree
+	* Cat tree
+	* Segment tree beats (range chmin/chmax, historical extrema)
+	* Kinetic tournament tree
+	Partition tree
+	Self-balancing trees
+	* Treap
+	* Splay tree
+	* WBLT
+	* Scapegoat tree
+	* Cartesian tree
+	* Size balanced tree
+	* AVL tree
+	* Red-black tree
+	* Left-leaning red-black tree
+	* AA tree
+	Skip list
+	Persistent data structures
+	* Persistent segment tree
+	* Persistent block array
+	* Persistent balanced tree
+	* Persistent trie
+	* Persistent mergeable heap
+	Trees in trees
+	* Segment tree in segment tree
+	* Segment tree in balanced tree
+	* Balanced tree in segment tree
+	* Weight segment tree in Fenwick tree
+	* Fenwick tree in block array
+	KD-trees
+	Global balanced binary tree
+	Dynamic trees
+	* Link-cut tree
+	* Euler tour tree
+	* Top tree
+	Split-merge tree
+	PQ tree
+	Finger tree
+	Huffman tree
+Graph theory
+	Graph concepts
+	Graph storage
+	Depth first search
+	Breadth first search
+	Tree diameter
+	Tree center
+	Centroid
+	LCA (2^k-jumps in trees in general)
+	Heavy-light decomposition
+	Small-to-large on trees (DSU on tree)
+	Virtual tree
+	Centroid decomposition
+	Dynamic centroid decomposition
+	AHU algorithm (tree isomorphism)
+	Tree hashing
+	Random walks on trees
+	Directed acyclic graphs
+	Topological sorting
+	Shortest paths
+	* Dijkstra's algorithm
+	* Bellman-Ford
+	* Floyd-Warshall
+	Difference constraints
+	K'th shortest path
+	Shortest paths modulo m
+	Minimum spanning tree
+	Minimum arborescence
+	Minimum diameter spanning tree
+	Steiner tree
+	Node splitting
+	Strongly connected components
+	Biconnected components
+	Cut vertices and cut-edges
+	Round-square tree
+	Vertex/edge connectivity
+	Cycle counting
+	Shortest cycle
+	2-SAT
+	Euler cycles
+	Hamiltonian graphs
+	Bipartite graphs
+	Planar graphs
+	Chordal graphs
+	Graph coloring
+	Flow networks
+	* Max flow
+	* Min cut
+	* Min-cost max flow
+	* Flows with lower and upper bounds
+	* Stoer-Wagner
+	Graph matching
+	* Bipartite matching
+	* Max-weight bipartite matching
+	* Maximal matching, general graphs
+	* Max-weight matching, general graphs
+	* Stable matching
+	Prufer sequences
+	Matrix tree theorem
+	LGV lemma
+	Maximum clique search
+	Dominator tree
+	Random walks on graphs
+Geometry
+	Coordinates and vectors (2D)
+	3D basics
+	Distance
+	Pick's theorem
+	Triangulation
+	Convex hull
+	Sweep line
+	Rotating calipers
+	Half-plane intersection
+	Closest pair
+	Randomized incremental construction
+	Smallest enclosing circle
+	Inversion
+Offline algorithms
+	CDQ divide and conquer
+	Parallel binary search
+	Mo's algorithm
+	* Mo's algorithm with modifications
+	* Mo's algorithm on trees
+	* Rollback Mo's algorithm
+	* 2D Mo's algorithm
+	* Secondary offline Mo's algorithm
+	* Mo's algorithm with bitset
+Randomization
+	Random functions
+	Randomization techniques
+	Hill climbing
+	Simulated annealing
+Miscellaneous
+	Hanging-line method
+	Finite state automata
+	Fundamentals of computational theory
+	Byte order (endianness)
+	Josephus problem
+	Expression evaluation
+	Scheduling jobs on one machine
+	Majority element
+	Garsia-Wachs algorithm
+	15-puzzle
+	Kahan summation
+	Chtholly tree (color segment amortization)
+Topics
+	RMQ
+	Applications of disjoint-set union
+	Bracket sequences
+	Segment tree and offline queries
