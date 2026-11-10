@@ -4,6 +4,8 @@ import csv, re, os, glob, sys
 OUT = sys.argv[1] if len(sys.argv) > 1 else 'doc/overnight-2026-11-10/'
 ns = {}
 exec(open(OUT + 'tools/desc21.py').read(), ns)
+exec(open(OUT + 'tools/hyb21.py').read(), ns)
+H = ns['H']
 D, FOLD = ns['D'], ns['FOLD']
 title = {}
 for p in glob.glob('content/*/chapter.tex'):
@@ -44,14 +46,18 @@ others = sorted(f[len('content/'):] for f in glob.glob('content/*/*') + glob.glo
 others += sorted(f for f in FOLD)  # printed today, not printed in M
 with open(OUT + 'descriptions-21.csv', 'w', newline='', encoding='utf-8') as fh:
     w = csv.writer(fh, quoting=csv.QUOTE_ALL)
-    w.writerow(['Section', 'File', 'G (gentle)', 'L (lean)', 'M (minimal)', 'Code comments added in L and M'])
+    w.writerow(['Section', 'File', 'G (gentle)', 'L (lean)', 'M (minimal)', 'Code comments added in L and M',
+                'H (hybrid: G + code comments)', 'Code comments added in H'])
     for f, d in D.items():
         ch, name = f.split('/')
         g, l, m = (pick(d, x) for x in ORDER)
         if 'FOLDM' in d: m = ((m or '') + ' ' + d['FOLDM']).strip()
         mcell = '(not printed: folded into %s)' % FOLD[f].split('/')[1] if f in FOLD else flat(m)
         com = ' | '.join(new.strip().replace('\t', '') for old, new in d.get('C', []))
-        w.writerow([title[ch], name, flat(g), flat(l), mcell, com])
+        h = H.get(f)
+        hdesc = flat(h['desc']) if h else flat(g)
+        hcom = ' | '.join('%s // %s' % (pat, c) for pat, c in h.get('C', [])) if h else ''
+        w.writerow([title[ch], name, flat(g), flat(l), mcell, com, hdesc, hcom])
     w.writerow([])
     w.writerow(['Section', 'File', 'Current description (file is in the repository but not printed in the book)'])
     n = 0

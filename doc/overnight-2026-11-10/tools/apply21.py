@@ -2,7 +2,9 @@
 import re, sys, os
 here = os.path.dirname(os.path.abspath(__file__))
 exec(open(os.path.join(here, 'desc21.py')).read())
-LV = sys.argv[1]
+exec(open(os.path.join(here, 'hyb21.py')).read())
+LV = sys.argv[1]   # G, L, M or H (hybrid: G plus code comments)
+BASE = 'G' if LV == 'H' else LV
 ORDER = ['G', 'L', 'M']
 
 def pick(d, lv):
@@ -47,7 +49,8 @@ for f, d in D.items():
     m = re.search(r'/\*\*(.*?)\*/', s, re.S)
     fields = parse_block(m.group(1))
     names = [x[0] for x in fields]
-    desc = pick(d, LV)
+    desc = pick(d, BASE)
+    if LV == 'H' and f in H: desc = H[f]['desc']
     if LV == 'M' and 'FOLDM' in d:
         desc = (desc + ' ' + d['FOLDM']).strip()
     i = names.index('Description')
@@ -61,7 +64,7 @@ for f, d in D.items():
     fields[i][1] = newd
     for key, fname in (('U', 'Usage'), ('T', 'Time')):
         if key in d:
-            try: v = pick(d[key], LV)
+            try: v = pick(d[key], BASE)
             except KeyError: continue
             if fname in names:
                 j = [x[0] for x in fields].index(fname)
@@ -70,8 +73,24 @@ for f, d in D.items():
             elif v:
                 j = [x[0] for x in fields].index('Description') + 1
                 fields.insert(j, [fname, v.split('\n')])
+    if LV == 'H' and f in H:
+        for key, fname in (('U', 'Usage'), ('T', 'Time')):
+            if key in H[f]:
+                j = [x[0] for x in fields].index(fname)
+                fields[j][1] = H[f][key].split('\n')
     block = '/**\n' + render(fields) + '\n */'
     s = s[:m.start()] + block + s[m.end():]
+    if LV == 'H' and f in H:
+        lines = s.split('\n')
+        for pat, comment in H[f].get('C', []):
+            idx = [i for i, l in enumerate(lines) if l.strip().startswith(pat)]
+            assert len(idx) == 1, (f, pat, len(idx))
+            l = lines[idx[0]]
+            assert '//' not in l, (f, l)
+            new = l + ' // ' + comment
+            assert len(new.expandtabs(2)) <= 63, (f, new, len(new.expandtabs(2)))
+            lines[idx[0]] = new
+        s = '\n'.join(lines)
     if LV in ('L', 'M'):
         for old, new in d.get('C', []):
             assert s.count(old + '\n') == 1, (f, old)

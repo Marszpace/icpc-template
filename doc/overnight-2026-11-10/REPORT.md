@@ -20,6 +20,23 @@ Checks: 0 overfull boxes, no overlaps or orphan titles (`layout-check.py`) in ev
 counts are unchanged; the code comments added by L and M are ignored by `hash.sh`. On the M version (which contains every
 code comment L adds), `make test` passes 133/133 and `make test-compiles` 155/155, also with `LLINT=1`.
 
+## Update 2026-11-10 (evening): level H, "hybrid"
+
+Question from the team: is L just G with parts moved into code comments? **No.** L cuts content as well (for example
+FenwickTree's "`query(pos)` sums [0, pos)" is gone and many hints shrink to a few words); only 11 files got comments.
+So there is now a fourth level, **H**: the content and hints of G, but a fact that belongs to one function moves into a trailing
+comment on its signature line (up to 63 columns, so no line is added and the hash does not change). Indexing and other
+conventions stay in the description, as the team asked (FenwickTree: "0-indexed." is in the description; in L it is only a
+code comment, which goes against that rule: say if L should be changed).
+
+- 41 files get comments, e.g. `vl polyInv(vl a, int n) { // a[0] != 0`, `ll query(int x) { // INF if no line covers x`,
+  `bool join(int a, int b, int w = 0) { // par(a)^par(b) = w`; the other 85 files are exactly G.
+- With the wild techniques: **25 pages** (G 25, L 24). Space saved against G: 139pt; L saves 623pt.
+- Same checks as the others: 0 overfull, no overlaps; all 124 hashes identical to the current book; `make test` 133/133 and
+  `make test-compiles` 155/155, also with `LLINT=1`.
+- Files: `diffs/21-H-descriptions.diff`, `preview-21H-with-techniques-wild.pdf`, columns H in `descriptions-21.csv`, source
+  `tools/hyb21.py` (one entry per file; `python3 tools/apply21.py H`).
+
 ## Item 21: descriptions
 
 Read **`descriptions-21.md`**. For each of the 126 files it shows the current text and the G, L and M proposals side by
