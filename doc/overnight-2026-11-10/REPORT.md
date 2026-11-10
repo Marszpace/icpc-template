@@ -29,8 +29,8 @@ comment on its signature line (up to 63 columns, so no line is added and the has
 conventions stay in the description, as the team asked (FenwickTree: "0-indexed." is in the description; in L it is only a
 code comment, which goes against that rule: say if L should be changed).
 
-- 41 files get comments, e.g. `vl polyInv(vl a, int n) { // a[0] != 0`, `ll query(int x) { // INF if no line covers x`,
-  `bool join(int a, int b, int w = 0) { // par(a)^par(b) = w`; the other 85 files are exactly G.
+- 36 files get 42 comments in total (39 files differ from G), e.g. `vl polyInv(vl a, int n) { // a[0] != 0`, `ll query(int x) { // INF if no line covers x`,
+  `bool join(int a, int b, int w = 0) { // par(a)^par(b) = w`; the other 87 files are exactly G.
 - With the wild techniques: **25 pages** (G 25, L 24). Space saved against G: 139pt; L saves 623pt.
 - Same checks as the others: 0 overfull, no overlaps; all 124 hashes identical to the current book; `make test` 133/133 and
   `make test-compiles` 155/155, also with `LLINT=1`.
