@@ -1,17 +1,10 @@
 #include "../utilities/template.h"
 
+// the primes the header lists (same root): every one must work
+// TEST_MODS: 998244353 167772161 469762049 1004535809 1012924417
+
 typedef vector<ll> vl;
-namespace ignore {
-#include "../../content/number-theory/ModPow.h"
-}
-ll modpow(ll a, ll e);
 #include "../../content/numerical/NumberTheoreticTransform.h"
-ll modpow(ll a, ll e) {
-	if (e == 0)
-		return 1;
-	ll x = modpow(a * a % mod, e >> 1);
-	return e & 1 ? x * a % mod : x;
-}
 
 vl simpleConv(vl a, vl b) {
 	int s = sz(a) + sz(b) - 1;
@@ -47,7 +40,7 @@ signed main() {
 			ntt(a2);
 			rep(k, 0, sz(a2)) {
 				ll sum = 0;
-				rep(x, 0, sz(a2)) { sum = (sum + a[x] * modpow(root, k * x * (mod - 1) / sz(a))) % mod; }
+				rep(x, 0, sz(a2)) { sum = (sum + a[x] * modpow(root, (ll)k * x * (mod - 1) / sz(a))) % mod; }
 				assert(sum == a2[k]);
 			}
 	}

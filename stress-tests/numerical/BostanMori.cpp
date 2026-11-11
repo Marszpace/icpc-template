@@ -1,17 +1,8 @@
 #include "../utilities/template.h"
 
-// BostanMori.h includes NumberTheoreticTransform.h, which wants its own mod
-namespace ignore {
-#include "../../content/number-theory/ModPow.h"
-}
-ll modpow(ll a, ll e);
+// TEST_MODS: 998244353
+
 #include "../../content/numerical/BostanMori.h"
-ll modpow(ll a, ll e) {
-	ll r = 1;
-	for (a %= mod; e; e >>= 1, a = a * a % mod)
-		if (e & 1) r = r * a % mod;
-	return r;
-}
 
 // terms one by one
 vl terms(vl S, const vl& tr, int cnt) {

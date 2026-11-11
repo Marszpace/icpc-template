@@ -1,5 +1,7 @@
 #include "../utilities/template.h"
 
+// TEST_MODS: 5
+
 #include "../../content/numerical/LinearRecurrence.h"
 
 template<class F>

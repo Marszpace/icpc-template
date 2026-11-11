@@ -1,6 +1,7 @@
 #include "../utilities/template.h"
 
-// The real header, with its composite modulus 12345 = 3 * 5 * 823.
+// The real header, also with composite moduli (12345 = 3 * 5 * 823, 4, 7).
+// TEST_MODS: 12345 4 7
 #include "../../content/numerical/IntDeterminant.h"
 
 // The pure-integer version the description mentions (modulos removed).

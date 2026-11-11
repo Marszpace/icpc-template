@@ -3,15 +3,16 @@
  * Date: 2026-11-09
  * License: CC0
  * Source: the team's template
- * Description: \texttt{mint<mod>}: arithmetic, comparisons, I/O, \texttt{fpow(a, p)}, \texttt{inverse(a)}; \texttt{(int)a} is the value.
+ * Description: Integers mod the global \texttt{mod} (prime $< 2^{30}$): arithmetic, comparisons, I/O, \texttt{fpow(a, p)}, \texttt{inverse(a)}; \texttt{(int)a} is the value.
  * Usage: mi a = 5, b = 7; cout << a / b << ' ' << fpow(a, 100); vmi v(n);
  * Time: O(\log p) for \texttt{fpow}
  * Status: stress-tested
  */
 #pragma once
 
-const int M = 1e9 + 7; // prime
-template<int mod> struct mint { // prime mod < 2^30
+#include "ModPow.h"
+
+struct mint { // mod: prime < 2^30
 	int v;
 	explicit operator int() const { return v; }
 	mint() : v(0) {}
@@ -60,5 +61,5 @@ template<int mod> struct mint { // prime mod < 2^30
 	friend mint operator*(mint a, mint b) { return a *= b; }
 	friend mint operator/(mint a, mint b) { return a /= b; }
 };
-using mi = mint<M>;
+using mi = mint;
 using vmi = vector<mi>;

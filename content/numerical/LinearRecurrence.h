@@ -10,7 +10,7 @@
  */
 #pragma once
 
-const ll mod = 5; /** exclude-line */
+#include "../number-theory/ModPow.h"
 
 typedef vector<ll> Poly;
 ll linearRec(Poly S, Poly tr, ll k) { // k-th term, 0-indexed

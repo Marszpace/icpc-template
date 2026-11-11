@@ -1,5 +1,7 @@
 #include "../utilities/template.h"
 
+// TEST_MODS: 998244353 1000000007 7
+
 #include "../../content/numerical/MatrixInverse-mod.h"
 
 // rank mod p by plain elimination

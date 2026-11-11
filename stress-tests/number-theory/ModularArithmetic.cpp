@@ -1,5 +1,9 @@
 #include "../utilities/template.h"
 
+// The modulus is global now: run once per prime. 1073741789 is the largest prime
+// below 2^30 (the worst case for int sums); 7 and 2 are tiny.
+// TEST_MODS: 998244353 1000000007 1073741789 1000003 7 2
+
 #include "../../content/number-theory/ModularArithmetic.h"
 
 ll pw(ll a, ll e, ll m) {
@@ -9,9 +13,9 @@ ll pw(ll a, ll e, ll m) {
 	return r;
 }
 
-template<int P> void test(mt19937_64& rng) {
-	typedef mint<P> T;
-	const ll m = P;
+void test(mt19937_64& rng) {
+	typedef mint T;
+	const ll m = mod;
 	rep(it,0,20000) {
 		ll x = (ll)(rng() >> (rng() % 40)) * (rng() % 2 ? 1 : -1);
 		ll y = (ll)(rng() >> (rng() % 40)) * (rng() % 2 ? 1 : -1);
@@ -63,12 +67,10 @@ template<int P> void test(mt19937_64& rng) {
 
 signed main() {
 	mt19937_64 rng(7);
-	// the largest prime below 2^30 is the worst case for int sums
-	test<998244353>(rng); test<1000000007>(rng); test<1073741789>(rng);
-	test<1000003>(rng); test<7>(rng); test<2>(rng);
+	test(rng);
 	mi z = 5;
 	vmi w(3, z);
-	assert(sz(w) == 3 && (int)(w[0] * w[1]) == 25);
-	assert((int)(mi(1) / mi(2) * mi(2)) == 1);
+	assert(sz(w) == 3 && (int)(w[0] * w[1]) == 25 % mod);
+	if (mod > 2) assert((int)(mi(1) / mi(2) * mi(2)) == 1);
 	cout<<"Tests passed!"<<endl;
 }

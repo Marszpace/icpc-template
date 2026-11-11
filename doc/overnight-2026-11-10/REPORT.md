@@ -7,6 +7,10 @@ and checked. All numbers are measured.
 `techniques-wild-hints.txt` are in the book (25 pages). This folder is kept for reference: the other levels (G, L, M), the worksheet and CSVs,
 the previews and the scripts in `tools/`.
 
+Note: after this, on 2026-11-11, the shared `mod` change rewrote the descriptions and headers of `ModPow.h`, `ModularArithmetic.h`,
+`NumberTheoreticTransform.h`, `IntDeterminant.h` and `LinearRecurrence.h`. `tools/apply21.py` and the diffs here were made before it, so
+re-applying them to a fresh checkout would not include that change (the book itself is current).
+
 ## TL;DR
 
 | Book | Pages |

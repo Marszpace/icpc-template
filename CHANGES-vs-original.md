@@ -126,7 +126,7 @@ Still open (edit / merge / undecided): see `TODO.md`.
 |---|---|
 | `content/data-structures/Treap.h` | lazy range add and reverse with subtree sums (`go(t, l, r, f)`, `Node::app`, `push`); `val` is now `ll`; the old API (`split`, `merge`, `ins`, `each`, `move`) is unchanged and its test still passes |
 | `content/combinatorial/IntPerm.h` | `permToInt` is now the lexicographic rank (order preserving), widened to `ll` (the old `int` version overflowed from n = 13), exact for n <= 20, plus its exact inverse `intToPerm` |
-| `content/number-theory/ModularArithmetic.h` | replaced by the team's `mint<mod>` (prime `mod` below 2^30, Fermat inverse, no global `mod` any more; the old euclid-based `Mod` also inverted modulo composites); postfix `++` / `--` take `signed` so that it builds with `#define int long long` |
+| `content/number-theory/ModularArithmetic.h` | replaced by the team's `mint` (prime `mod` below 2^30, Fermat inverse; no longer a template since 2026-11-11: it uses the one global `mod` of `ModPow.h`; the old euclid-based `Mod` also inverted modulo composites); postfix `++` / `--` take `signed` so that it builds with `#define int long long` |
 | `content/data-structures/UnionFindRollback.h` | optional parity argument `join(a, b, w)` and `par(x)`; old calls behave as before (`DirectedMST` test passes) |
 | `content/contest/template.cpp` -> `macros.cpp` | removed `cin.exceptions(cin.failbit);` (it makes `while (cin >> x)` throw at EOF); then renamed to `macros.cpp` and reduced to the macros and typedefs: no `#include <bits/stdc++.h>`, no `using namespace std`, no `main` (remembered by the team), plus the new macro `#define pb push_back` |
 | `stress-tests/utilities/template.h` | includes `<cassert>`, which GCC 16's `<bits/stdc++.h>` no longer does; now includes `macros.cpp` itself, and `-DLLINT` adds `#define int long long` |
@@ -170,9 +170,9 @@ Applied on top of the original KACTL layout (details, pictures and the rejected 
 
 ## Things to know
 
-- `PolyOps.h` and `NumberTheoreticTransform.h` use the modulus 998244353, while `ModPow.h`, `SolveLinearMod.h`,
-  `ExLucas.h`, `LagrangeInterpolation.h` use the global `mod` of `ModPow.h` (default 10^9+7). Set `mod` once when
-  mixing them, as with the other KACTL number-theory files.
+- There is **one** modulus now: `const int mod` in `ModPow.h` (default 998244353, was 10^9+7), used by `mint`, `modpow`, NTT, `PolyOps`, `BostanMori`,
+  `IntDeterminant`, `LinearRecurrence`, `SolveLinearMod`, `LagrangeInterpolation`, ... (originally each of `ModPow`, NTT, `IntDeterminant` and
+  `LinearRecurrence` defined its own, so two of them could not be included together). NTT has a `static_assert` that `mod = c * 2^k + 1`.
 - The page limit of the Danang contest is 26 PDF pages (25 + cover), confirmed by the team on 2026-11-08.
 - The cover page (`content/kactl.tex`) now names the NTU team.
 - On GCC 16 or newer, add `#include <cassert>` to the contest template if you use `assert`.

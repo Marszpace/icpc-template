@@ -5,8 +5,5 @@ DivideAndConquerDP.h
 ModInverse.h
 ModSqrt.h
 Hashing-codeforces.h
-NumberTheoreticTransform.h
 MoQueries.h
 LazySegTree.h
-BostanMori.h
-PolyOps.h

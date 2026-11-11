@@ -1,17 +1,9 @@
 #include "../utilities/template.h"
 
+// TEST_MODS: 998244353
+
 typedef vector<ll> vl;
-namespace ignore {
-#include "../../content/number-theory/ModPow.h"
-}
-ll modpow(ll a, ll e);
 #include "../../content/numerical/PolyOps.h"
-ll modpow(ll a, ll e) {
-	ll r = 1;
-	for (a %= mod; e; e >>= 1, a = a * a % mod)
-		if (e & 1) r = r * a % mod;
-	return r;
-}
 
 // O(n^2) reference implementations from the defining recurrences
 vl naiveInv(const vl& a, int n) {

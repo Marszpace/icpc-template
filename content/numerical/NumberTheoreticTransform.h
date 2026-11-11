@@ -3,7 +3,7 @@
  * Date: 2019-04-16
  * License: CC0
  * Source: based on KACTL's FFT
- * Description: Convolution mod a prime $2^a b + 1$ with result size $\le 2^a$ (default 998244353; any modulus: FFTMod). Inputs in $[0, mod)$.
+ * Description: Convolution mod \texttt{mod}, a prime $c \cdot 2^k + 1$ such as 998244353, result size $\le 2^k$ (any modulus: FFTMod). Inputs in $[0, mod)$.
  * By hand: NTT, multiply, divide by $n$, reverse(start+1, end), NTT back.
  * Time: O(N \log N)
  * Status: stress-tested
@@ -12,9 +12,10 @@
 
 #include "../number-theory/ModPow.h"
 
-const ll mod = (119 << 23) + 1, root = 62; // = 998244353
-// For p < 2^30 there is also e.g. 5 << 25, 7 << 26, 479 << 21
-// and 483 << 21 (same root). The last two are > 10^9.
+// mod = c * 2^k + 1: 998244353 = (119 << 23) + 1. Same root for
+// 5 << 25, 7 << 26, 479 << 21 and 483 << 21 (each + 1).
+static_assert((mod - 1) % (1 << 21) == 0, "mod: NTT prime");
+const ll root = 62;
 typedef vector<ll> vl;
 void ntt(vl &a) {
 	int n = sz(a), L = 31 - __builtin_clz(n);

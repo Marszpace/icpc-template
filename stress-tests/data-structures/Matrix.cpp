@@ -1,5 +1,7 @@
 #include "../utilities/template.h"
 
+// TEST_MODS: 998244353 1000000007
+
 #include "../../content/data-structures/Matrix.h"
 #include "../../content/number-theory/ModularArithmetic.h"
 
@@ -26,17 +28,17 @@ signed main() {
 		Matrix<ll, 3> B; for (auto& r : B.d) for (ll& x : r) x = rand() % 5 - 2;
 		assert((A * B).d == (mul<ll, 3>(A.d, B.d)));
 	}
-	// with the team's mint: Fibonacci mod 1e9+7 at a huge index
+	// with the team's mint: Fibonacci mod mod at a huge index
 	{
 		Matrix<mi, 2> F;
 		F.d = {{{{1, 1}}, {{1, 0}}}};
 		auto r = F ^ (ll)1e18;
-		// F(1e18) mod 1e9+7 by fast doubling
+		// F(1e18) mod mod by fast doubling
 		auto fib = [&](auto&& self, ll n) -> pair<ll, ll> {
 			if (!n) return {0, 1};
 			auto [a, b] = self(self, n / 2);
-			ll c = a * ((2 * b - a + M) % M) % M, d = (a * a + b * b) % M;
-			return n & 1 ? make_pair(d, (c + d) % M) : make_pair(c, d);
+			ll c = a * ((2 * b - a + mod) % mod) % mod, d = (a * a + b * b) % mod;
+			return n & 1 ? make_pair(d, (c + d) % mod) : make_pair(c, d);
 		};
 		assert(r.d[0][1].v == fib(fib, (ll)1e18).first);
 		Matrix<mi, 2> I = F ^ 0;

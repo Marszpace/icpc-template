@@ -15,8 +15,18 @@ ulimit -s 524288 # For 2-sat test
 for test in $tests; do
     echo "$(basename $test): "
     start=`date +%s.%N`
-    g++ $FLAGS $test && ./a.out
-    retCode=$?
+    # a test may list moduli: `// TEST_MODS: 998244353 1000000007` runs it once per
+    # value, compiled with -DTEST_MOD=<value> (see content/number-theory/ModPow.h)
+    mods="$(sed -n 's,^// TEST_MODS:,,p' $test | head -1)"
+    [ -z "$mods" ] && mods="-"
+    retCode=0
+    for m in $mods; do
+        d=""
+        [ "$m" != "-" ] && d="-DTEST_MOD=$m"
+        g++ $FLAGS $d $test && ./a.out
+        r=$?
+        if (($r != 0)); then retCode=$r; echo "Failed with mod $m"; fi
+    done
     if (($retCode != 0)); then
         echo "Failed with $retCode"
         fail+=1

@@ -1,5 +1,7 @@
 #include "../utilities/template.h"
 
+// TEST_MODS: 998244353 1000000007
+
 #include "../../content/numerical/SolveLinearMod.h"
 
 // rank over the rationals with fraction-free (Bareiss) elimination; the
