@@ -3,11 +3,8 @@
  * Date: 2026-11-08
  * License: CC0
  * Source: Bostan, Mori: A simple and fast algorithm for computing the N-th term of a linearly recurrent sequence
- * Description: Generates the $k$'th term of an $n$-order linear recurrence
- * $S[i] = \sum_j S[i-j-1]tr[j]$, given $S[0 \ldots \ge n-1]$ and $tr[0 \ldots n-1]$,
- * modulo 998244353 (values in $[0, mod)$). Same interface as \texttt{linearRec}, much faster for large $n$.
- * With $Q = 1 - \sum_j tr[j] x^{j+1}$ and $P = S \cdot Q \bmod x^n$ we want $[x^k] P/Q$;
- * multiplying both by $Q(-x)$ makes the denominator even, so $k$ halves.
+ * Description: Same as \texttt{linearRec} mod 998244353 (values in $[0, mod)$), $O(n \log n \log k)$:
+ * halves $k$ via $P(x)Q(-x) / Q(x)Q(-x)$.
  * Usage: bostanMori({0, 1}, {1, 1}, k) // k'th Fibonacci number
  * Time: O(n \log n \log k)
  * Status: stress-tested

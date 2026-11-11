@@ -3,8 +3,7 @@
  * Date: 2026-07-09
  * License: CC0
  * Source: https://github.com/scipy/scipy/blob/main/scipy/optimize/rectangular_lsap/rectangular_lsap.cpp
- * Description: Min-cost bipartite matching that matches every left node, $N \le M$. Takes cost[N][M] (cost[i][j]: L[i] with R[j]),
- * returns (min cost, match) with L[i] matched to R[match[i]]. Negate costs for max cost.
+ * Description: Min-cost bipartite matching using every left node, $N \le M$; returns (cost, match), L[i] $\to$ R[match[i]]. Max: negate the costs.
  * Time: O(N^2M)
  * Status: Tested on kattis:cordonbleu, kattis:engaging, stress-tested
  */

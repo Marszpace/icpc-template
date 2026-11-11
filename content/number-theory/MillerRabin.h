@@ -3,8 +3,7 @@
  * Date: 2019-03-28
  * License: CC0
  * Source: Wikipedia, https://miller-rabin.appspot.com/
- * Description: Deterministic Miller-Rabin primality test.
- * Guaranteed to work for numbers up to $7 \cdot 10^{18}$; for larger numbers, use Python and extend A randomly.
+ * Description: Deterministic for $n < 7\cdot10^{18}$.
  * Time: 7 times the complexity of $a^b \mod c$.
  * Status: Stress-tested
  */

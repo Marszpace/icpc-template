@@ -3,10 +3,8 @@
  * Date: 2019-05-07
  * License: Boost Software License
  * Source: https://github.com/AlCash07/ACTL/blob/master/include/actl/geometry/algorithm/intersect/line_convex_polygon.hpp
- * Description: Line vs convex polygon (ccw, no collinear points). \texttt{lineHull(line, poly)} returns
- * $(-1, -1)$ if no collision, $(i, -1)$ if touching corner $i$, $(i, i)$ if along side $(i, i+1)$,
- * $(i, j)$ if crossing sides $(i, i+1)$ and $(j, j+1)$ (a crossed corner $i$ counts as side $(i, i+1)$), in the order the line hits them.
-\texttt{extrVertex} returns the hull point with the max projection onto a line.
+ * Description: Line $ab$ vs a ccw convex polygon without collinear points: $(-1, -1)$ none, $(i, -1)$ touches corner $i$,
+ * $(i, i)$ along side $(i, i+1)$, $(i, j)$ crosses sides $(i, i+1)$ and $(j, j+1)$, in hit order. \texttt{extrVertex}: max projection.
  * Time: O(\log n)
  * Status: stress-tested
  */

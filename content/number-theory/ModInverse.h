@@ -3,7 +3,7 @@
  * Date: 2016-07-24
  * License: CC0
  * Source: Russian page
- * Description: Pre-computation of modular inverses. Assumes LIM $\le$ mod and that mod is a prime.
+ * Description: Inverses of $1..LIM-1$; LIM $\le$ mod, mod prime.
  * Status: Works
  */
 #pragma once

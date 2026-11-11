@@ -3,9 +3,8 @@
  * Date: 2019-10-31
  * License: CC0
  * Source: https://vlecomte.github.io/cp-geo.pdf
- * Description: External tangents of two circles (internal ones if r2 is negated). Returns 0 tangents if one circle contains the other
- * (internal case: also if they overlap; also if equal), 1 if they touch (.first = .second, perpendicular to the center line), else 2.
- * .first and .second are the tangency points on circle 1 and 2. Tangents from a point: r2 = 0.
+ * Description: External tangents (internal: negate r2; from a point: r2 = 0) as (point on c1, point on c2): none if one circle
+ * contains the other (internal: also if they overlap), 1 if they touch (\texttt{.first = .second}), else 2.
  * Status: tested
  */
 #pragma once

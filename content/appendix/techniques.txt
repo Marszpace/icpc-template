@@ -1,159 +1,195 @@
-Recursion
-Divide and conquer
-	Finding interesting points in N log N
-Algorithm analysis
-	Master theorem
-	Amortized time complexity
-Greedy algorithm
-	Scheduling
-	Max contiguous subvector sum
-	Invariants
-	Huffman encoding
-Graph theory
-	Dynamic graphs (extra book-keeping)
-	Breadth first search
-	Depth first search
-	* Normal trees / DFS trees
-	Dijkstra's algorithm
-	MST: Prim's algorithm
-	Bellman-Ford
-	Konig's theorem and vertex cover
-	Min-cost max flow
-	Lovasz toggle
-	Matrix tree theorem
-	Maximal matching, general graphs
-	Hopcroft-Karp
-	Hall's marriage theorem
-	Graphical sequences
-	Floyd-Warshall
-	Euler cycles
-	Flow networks
-	* Augmenting paths
-	* Edmonds-Karp
-	Bipartite matching
-	Min. path cover
-	Topological sorting
-	Strongly connected components
-	2-SAT
-	Cut vertices, cut-edges and biconnected components
-	Edge coloring
-	* Trees
-	Vertex coloring
-	* Bipartite graphs (=> trees)
-	* 3^n (special case of set cover)
-	Diameter and centroid
-	K'th shortest path
-	Shortest cycle
+Reformulate
+	Contribution technique: sum what each element adds
+	Fix one end, sweep the other: or fix the max / middle
+	Reverse the process: deletions -> insertions, time backwards
+	Invariants, monovariants: sum, parity, xor, mod k, sorted
+	Differences / prefix sums: neighbour ops become simple there
+	Manhattan <-> Chebyshev: (x + y, x - y) turns L1 into L-inf
+	Bound the answer: often <= 2, <= log n or <= sqrt n: try each
+	Binary search the answer: when checking a value is easy
+	Complement counting: count the bad ones and subtract
+	Swap state and value: dp[value] = min cost, values small
+	Coloring argument: checkerboard or mod k colours, parity
+	Pigeonhole: n + 1 prefix sums mod n: a block divisible by n
+	Sqrt threshold: heavy (> sqrt) vs light items, two methods
+	Few distinct sizes: sum of sizes = n: O(sqrt n) distinct
+	Layered / state graph: node = (vertex, extra state), then BFS
+	Functional graph: out-degree 1: rho shape, cycle + trees
+	Bit by bit from the top: greedy on xor / and / or optimum
+	Lexicographic minimum: fix positions in order, check feasible
+	Balanced ternary: digits -1, 0, 1: balance-scale weights
+Counting
+	Linearity of expectation: sum of P(indicator), even dependent
+	E[X] = sum P(X >= k): for X >= 0 integer, e.g. E[max]
+	Reflection principle: bad paths = paths to the mirrored end
+	Inclusion-exclusion: sum over subsets of violated rules
+	Kummer: v_p(C(n, k)) = carries of k + (n-k) in base p
+	Vandermonde: sum C(a, i) C(b, k-i) = C(a+b, k)
+	Stars and bars: C(n + k - 1, k - 1) ways to split n into k
+	Hall: match all of L iff |N(S)| >= |S| for all S
+	Erdos-Szekeres: n^2 + 1 terms: monotone run of n + 1
+	Coupon collector: n H_n expected draws
+	Graph enumeration: connected labeled graphs: log of the EGF
+	Entringer / zigzag: alternating permutations, boustrophedon
+	Young tableaux: hook length formula; RSK and LIS
+	Probability bounds: Markov, Chebyshev, Chernoff, union bound
+Greedy
+	Exchange argument: sort by the pairwise comparison a < b
+	Regret greedy: heap of choices you can still undo
+	Deadline scheduling: by deadline, heap; drop worst if late
+	Huffman merging: merge the two smallest, cost = merges
+	Matroid: greedy is optimal; two of them: intersection
 Dynamic programming
-	Knapsack
-	Coin change
-	Longest common subsequence
-	Longest increasing subsequence
-	Number of paths in a dag
-	Shortest path in a dag
-	Dynprog over intervals
-	Dynprog over subsets
-	Dynprog over probabilities
-	Dynprog over trees
-	3^n set cover
-	Divide and conquer
-	Knuth optimization
-	Convex hull optimizations
-	RMQ (sparse table a.k.a 2^k-jumps)
-	Bitonic cycle
-	Log partitioning (loop over most restricted)
-Combinatorics
-	Computation of binomial coefficients
-	Pigeon-hole principle
-	Inclusion/exclusion
-	Catalan number
-	Pick's theorem
-Number theory
-	Integer parts
-	Divisibility
-	Euclidean algorithm
-	Modular arithmetic
-	* Modular multiplication
-	* Modular inverses
-	* Modular exponentiation by squaring
-	Chinese remainder theorem
-	Fermat's little theorem
-	Euler's theorem
-	Phi function
-	Frobenius number
-	Quadratic reciprocity
-	Pollard-Rho
-	Miller-Rabin
-	Hensel lifting
-	Vieta root jumping
-Game theory
-	Combinatorial games
-	Game trees
-	Mini-max
-	Nim
-	Games on graphs
-	Games on graphs with loops
-	Grundy numbers
-	Bipartite games without repetition
-	General games without repetition
-	Alpha-beta pruning
-Probability theory
-Optimization
-	Binary search
-	Ternary search
-	Unimodality and convex functions
-	Binary search on derivative
-Numerical methods
-	Numeric integration
-	Newton's method
-	Root-finding with binary/ternary search
-	Golden section search
-Matrices
-	Gaussian elimination
-	Exponentiation by squaring
-Sorting
-	Radix sort
-Geometry
-	Coordinates and vectors
-	* Cross product
-	* Scalar product
-	Convex hull
-	Polygon cut
-	Closest pair
-	Coordinate-compression
-	Quadtrees
-	KD-trees
-	All segment-segment intersection
-Sweeping
-	Discretization (convert to events and sweep)
-	Angle sweeping
-	Line sweeping
-	Discrete second derivatives
-Strings
-	Longest common substring
-	Palindrome subsequences
-	Knuth-Morris-Pratt
-	Tries
-	Rolling polynomial hashes
-	Suffix array
-	Suffix tree
-	Aho-Corasick
-	Manacher's algorithm
-	Letter position lists
-Combinatorial search
-	Meet in the middle
-	Brute-force with pruning
-	Best-first (A*)
-	Bidirectional search
-	Iterative deepening DFS / A*
+	Aliens trick (WQS): exactly k, convex in k: penalty lambda
+	Knuth optimization: opt[i][j-1] <= opt[i][j] <= opt[i+1][j]
+	Monotone queue DP: min over a sliding window of k
+	Digit DP: count x <= N: (pos, tight, state)
+	Broken profile DP: tilings of n x m, n small: bitmask row
+	Rerooting: down pass, then up pass with prefix/suffix
+	Tree knapsack: merging by subtree sizes is O(n^2) total
+	DP over an automaton: state = (position, KMP / AC node)
+	Dynamic DP: segment tree of (max,+) matrices, updates
+	Steiner tree: dp[mask][v]: merge submasks, then Dijkstra
+	Bounded knapsack: binary splitting, or monotone queue
+	Bitonic tour: dp[i][j]: two paths ending at i and j
+	Exchange DP order: iterate over the smallest dimension
+	Expected value DP: backwards from the end; cycles: equations
+	Garsia-Wachs: optimal alphabetic tree (merge cost)
+Graphs
+	Difference constraints: x_j - x_i <= w: edge i -> j, Bellman
+	Residue Dijkstra: reachable sums: dist[r mod a_min]
+	Min-plus matrix power: shortest walk with exactly k edges
+	Kruskal reconstruction tree: path max edge, components <= w
+	MST cycle property: heaviest cycle edge is never needed
+	Boruvka: MST of an implicit graph (xor, geometry)
+	Complement BFS: keep a set of unvisited, scan it
+	Triangles in O(m sqrt m): orient edges low -> high degree
+	Planar bounds: E <= 3V - 6; V - E + F = 2
+	Grid is bipartite: (i + j) parity: matching / flow / cover
+	Expected hitting times: linear system; on a tree, DP
+	Tree isomorphism: canonical form or hash of sorted children
+	Dominator tree: vertices every s -> v path passes
+	Stable matching: Gale-Shapley proposals, O(n^2)
+	0-1 BFS: deque: weight 0 front, weight 1 back
+	Min mean cycle: Karp O(VE), or binary search + Bellman
+	Shortest cycle: BFS from each vertex, O(VE)
+	K-th shortest path: Eppstein; or A* with exact heuristic
+	Euler tour flattening: subtree = a range of dfs times
+	Long-path decomposition: depth DP in O(n) total
+	Edge coloring: bipartite: max degree colours; else <= D + 1
+	Vertex coloring: k colours: 2^n incl.-excl. over indep. sets
+	Chordal graphs: perfect elimination order (max card. search)
+	Max-weight general matching: weighted blossom, O(n^3)
+	Min diameter spanning tree: absolute centre of the graph
+	Dynamic graphs: extra book-keeping per change
+	Lovasz toggle
 Data structures
-	LCA (2^k-jumps in trees in general)
-	Pull/push-technique on trees
-	Heavy-light decomposition
-	Centroid decomposition
-	Lazy propagation
-	Self-balancing trees
-	Convex hull trick (wcipeg.com/wiki/Convex_hull_trick)
-	Monotone queues / monotone stacks / sliding queues
-	Sliding queue using 2 stacks
-	Persistent segment tree
+	Queue from two stacks: sliding min / gcd without undo
+	Cartesian tree: recursion on the minimum; O(n) with stack
+	Nearest smaller values: monotone stack; histogram rectangles
+	Segment tree merging: merge dynamic trees small to large
+	Rebuild every sqrt(Q): buffer updates, recompute periodically
+	Binary trie: max xor pair, count xor <= k
+	Zobrist / xor hashing: random 64-bit per item: set equality
+	Merge sort tree / wavelet: k-th or count in a range, static
+	Small to large: each item moves O(log n) times
+Advanced data structures
+	Splay tree: amortized log; accessed node goes to the root
+	Balanced BSTs: AVL, red-black, AA, SBT, scapegoat
+	WBLT: weight-balanced leafy tree: merge / split
+	Skip list: random levels, expected O(log n)
+	Pairing / leftist heap: mergeable heaps (leftist: rank)
+	Persistent heap: leftist heap with path copying (k-th path)
+	Persistent balanced tree: path-copied treap (persistent rope)
+	Persistent block array: sqrt blocks, copy on write
+	Finger tree: O(1) at both ends, log split / concat
+	Disjoint sparse table: (cat tree) O(1) query, any assoc. op
+	Sqrt tree: O(1) range query, O(n log log n) build
+	Kinetic segment tree: max of a_i + t b_i as t only increases
+	Euler tour tree: dynamic forest with subtree aggregates
+	Top tree: dynamic trees, path and subtree ops
+	Global balanced binary tree: HLD paths as weighted BSTs
+	Block list: list of sqrt-size blocks, split / merge
+	Tree blocking: cut a tree into O(sqrt n) clusters
+	Tree in tree: segtree of treaps / BIT of value segtrees
+	PQ tree: orders with consecutive-ones constraints
+	Quadtree: 2D subdivision (usually kd-tree is better)
+Offline
+	CDQ divide and conquer: left half updates answer right half
+	Parallel binary search: all queries binary search together
+	Sort queries by right end: last occurrence: distinct counts
+	D&C on the array: count pairs that cross the middle
+	Discrete 2nd derivatives: add arithmetic progressions in O(1)
+	Mo with updates: time as 3rd axis, blocks n^(2/3)
+	Rollback Mo: only insertions: roll back to block start
+	2D Mo: Mo over two dimensions / grids
+	Secondary offline Mo: answer the pointer moves offline again
+	Mo with bitset: bitset as the state of the window
+	Interesting points in N log N
+Number theory
+	Frobenius number: ab - a - b largest non-sum, gcd = 1
+	Stern-Brocot: best rational approximation, binary search
+	gcd of powers: gcd(a^m-1, a^n-1) = a^gcd(m,n)-1; same for F
+	Wilson: (p - 1)! = -1 mod p
+	Sum of two squares: p = 1 mod 4 primes; Gaussian integers
+	Vieta jumping: (x, y) -> (k y - x, y), descent
+	Hensel lifting: root mod p -> mod p^k
+	Pell equation: x^2 - d y^2 = 1 from continued fractions
+	Min_25 sieve: prefix sums of multiplicative f
+	Powerful number sieve: f = g * h, h only on powerful numbers
+	Zhou's sieve: multiplicative prefix sums (like Min_25)
+	k-th roots mod p: via primitive root + discrete log
+	Quadratic fields: arithmetic in Z[sqrt d] (closed forms)
+	Quadratic reciprocity: Legendre symbols of odd primes p, q
+Polynomials and algebra
+	Multipoint evaluation: subproduct tree, O(n log^2 n)
+	Polynomial shift: p(x + c) with one convolution
+	Chirp Z-transform: evaluate at a geometric sequence
+	Composition: f(g(x)); compositional inverse
+	Lagrange inversion: g = f^-1: [x^n] g = [x^(n-1)] (x/f)^n / n
+	Characteristic polynomial: Hessenberg O(n^3); Cayley-Hamilton
+	Diagonalization / Jordan: A^k from eigenvalues
+	Linear programming: simplex; duality; zero-sum games
+	Schreier-Sims: permutation group order and membership
+Geometry
+	Inversion: circles through the centre become lines
+	Point-line duality: (a, b) <-> y = ax - b, hull <-> envelope
+	Golden section search: unimodal real f, 1 eval per step
+	Area by Green: union of circles / arcs: sum over arcs
+	Segment intersections: Bentley-Ottmann, O((n + k) log n)
+	Triangulation: ear clipping; Delaunay
+	3D basics: cross products, planes, hull
+Strings
+	Period from KMP: p = n - pi[n-1]; full repeat iff p | n
+	Next-occurrence table: nxt[i][c]: subsequence checks / counts
+	Lyndon / Duval: factorization, min rotation, O(n)
+	Hash + binary search: lcp / comparisons of substrings
+	Main-Lorentz: all tandem repeats in O(n log n)
+	Generalized SAM: one automaton for many strings
+	SA-IS: linear-time suffix array
+	Suffix balanced tree: online suffix order, add at the front
+	Boyer-Moore: bad-character skips, sublinear on average
+Games
+	Sprague-Grundy: g = mex of options; sum: xor
+	Nim: first player wins iff xor != 0
+	Games with cycles: retrograde BFS from terminal states
+	Token on a graph: first wins iff start in every max matching
+	Mirror strategy: copy the opponent symmetrically
+	Staircase nim: only odd steps matter
+	Partizan games: surreal numbers, Hackenbush
+	Alpha-beta pruning: minimax with cut-offs
+Randomization and search
+	Meet in the middle: n ~ 40: two halves, sort and combine
+	Bitset speedup: n^3 / 64, subset sums, reachability
+	Random sampling: property of >= half: try ~30 random picks
+	Random shuffle: expected bounds (incremental, treap order)
+	Simulated annealing: hill climbing that accepts worse moves
+	IDA* / A*: admissible heuristic, iterative deepening
+	Exact cover: dancing links (sudoku, pentomino)
+Misc
+	Fractional programming: max sum a / sum b: sum(a - x b) >= 0?
+	Largest empty rectangle: histogram per row + monotone stack
+	Josephus: J(n) = (J(n - 1) + k) mod n
+	Majority vote: Boyer-Moore counter; mergeable in a segtree
+	Gray code: i ^ (i >> 1): neighbours differ in 1 bit
+	Kahan summation: compensated sum for floating error

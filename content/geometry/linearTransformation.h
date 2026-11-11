@@ -3,15 +3,15 @@
  * Date: 2009-04-09
  * License: CC0
  * Source:
- * Description:\\
-\begin{minipage}{75mm}
- Apply the linear transformation (translation, rotation and scaling) which takes line p0-p1 to line q0-q1 to point r.
-\end{minipage}
-\begin{minipage}{15mm}
-\vspace{-3mm}
-\includegraphics[width=\textwidth]{content/geometry/linearTransformation}
-\vspace{-2mm}
-\end{minipage}
+ * Description: \\
+ * \begin{minipage}{75mm}
+ * Maps $r$ by the similarity taking $p_0 \to q_0$, $p_1 \to q_1$.
+ * \end{minipage}
+ * \begin{minipage}{15mm}
+ * \vspace{-3mm}
+ * \includegraphics[width=\textwidth]{content/geometry/linearTransformation}
+ * \vspace{-2mm}
+ * \end{minipage}
  * Status: stress-tested
  */
 #pragma once

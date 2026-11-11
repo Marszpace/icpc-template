@@ -3,9 +3,7 @@
  * Date: 2020-02-20
  * License: CC0
  * Source: Folklore
- * Description: Data structure for computing lowest common ancestors in a tree
- * (with 0 as root). C should be an adjacency list of the tree, either directed
- * or undirected.
+ * Description: Euler tour + RMQ; root 0, adjacency list (directed or undirected).
  * Time: $O(N \log N + Q)$
  * Status: stress-tested
  */

@@ -4,8 +4,7 @@
  * License: Unknown
  * Source: Suffix array - a powerful tool for dealing with strings
  * (Chinese IOI National team training paper, 2009)
- * Description: \texttt{sa[i]} is the start of the $i$'th smallest suffix; size $n+1$, \texttt{sa[0] = n}.
-\texttt{lcp[i] = lcp(sa[i], sa[i-1])}, \texttt{lcp[0] = 0}. The input must not contain nul chars.
+ * Description: \texttt{sa} has size $n+1$ (\texttt{sa[0] = n}); \texttt{lcp[i] = lcp(sa[i], sa[i-1])}. No nul chars in the input.
  * Time: O(n \log n)
  * Status: stress-tested
  */

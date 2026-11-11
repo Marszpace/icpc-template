@@ -3,7 +3,7 @@
  * Date: 2009-08-03
  * License: CC0
  * Source: My head
- * Description: Basic operations on square matrices.
+ * Description: Square matrices with \texttt{*} and power \texttt{\textasciicircum}.
  * Usage: Matrix<int, 3> A;
  *  A.d = {{{{1,2,3}}, {{4,5,6}}, {{7,8,9}}}};
  *  array<int, 3> vec = {1,2,3};

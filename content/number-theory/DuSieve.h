@@ -3,12 +3,8 @@
  * Date: 2026-11-09
  * License: CC0
  * Source: folklore (Du's sieve)
- * Description: Prefix sums of $\phi$ (128 bit: $\Phi(10^{10}) \approx 3 \cdot 10^{19}$) and $\mu$
- * for all $v = \lfloor n/i \rfloor$ and all $v \le B = n^{2/3}$, from a sieve up to $B$
- * and $S_f(v) = H(v) - \sum_{d \ge 2} S_f(\lfloor v/d \rfloor)$ for $f * 1 = h$
- * ($H$ the prefix sums of $h$: $v(v+1)/2$ for $\phi$, $1$ for $\mu$).
- * The same recurrence $S_f(v) = (H(v) - \sum_{d \ge 2} g(d) S_f(\lfloor v/d \rfloor))/g(1)$
- * handles any $f * g = h$ with known prefix sums of $g$ and $h$. Memory is also $O(n^{2/3})$.
+ * Description: Prefix sums $\Phi$ (128-bit) and $M$ of $\phi$ and $\mu$ at any $v = \lfloor n/i \rfloor$ or $v \le n^{2/3}$.
+ * Any $f$ with $f * g = h$ and known prefix sums $G$, $H$: $S_f(v) = (H(v) - \sum_{d \ge 2} g(d) S_f(\lfloor v/d \rfloor))/g(1)$.
  * Usage: Du D(n); D.phi(n); D.mu(n); // also D.phi(n / 3)
  * Time: O(n^{2/3}), about 0.3 s for $n = 10^{10}$
  * Status: stress-tested

@@ -3,6 +3,10 @@
 Proposals only: **nothing in the book changed**. Every proposal can be applied with one command (below) and was built
 and checked. All numbers are measured.
 
+**Status (2026-11-11): applied.** The team chose `preview-21H-with-techniques-wild.pdf`: level H descriptions (diff `21-H-descriptions.diff`) and
+`techniques-wild-hints.txt` are in the book (25 pages). This folder is kept for reference: the other levels (G, L, M), the worksheet and CSVs,
+the previews and the scripts in `tools/`.
+
 ## TL;DR
 
 | Book | Pages |

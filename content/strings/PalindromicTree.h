@@ -3,17 +3,14 @@
  * Date: 2026-10-29
  * License: CC0
  * Source: https://arxiv.org/abs/1506.04862 (Eertree)
- * Description: Palindromic tree (eertree). Node 0 has length $-1$, node 1 is the empty
- * palindrome, every other node is a distinct palindromic substring of the string
- * (so there are \texttt{sz(t) - 2} of them). \texttt{link} is the longest proper palindromic
- * suffix, \texttt{last} the node of the longest palindromic suffix of the current prefix.
- * After \texttt{count()}, \texttt{cnt[v]} is the number of occurrences of palindrome $v$.
+ * Description: Eertree: the other nodes are the distinct palindromic substrings; \texttt{link}: longest proper palindromic suffix;
+ * \texttt{last}: longest palindromic suffix of the prefix. \texttt{cnt[v]} after \texttt{count()}.
  * Time: O(N) amortized, for a fixed alphabet
  * Status: stress-tested
  */
 #pragma once
 
-struct PalTree {
+struct PalTree { // node 0: len -1, node 1: empty
 	struct Nd {
 		int len, link, cnt = 0; array<int, 26> nx;
 		Nd(int len, int link) : len(len), link(link) {nx.fill(0);}

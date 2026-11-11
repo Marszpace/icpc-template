@@ -3,10 +3,9 @@
  * Date: 2019-01-09
  * License: CC0
  * Source: http://neerc.ifmo.ru/trains/toulouse/2017/fft2.pdf (do read, it's excellent)
-   Accuracy bound from http://www.daemonology.net/papers/fft.pdf
- * Description: \texttt{fft(a)} computes $\hat f(k) = \sum_x a[x] \exp(2\pi i \cdot k x / N)$ for all $k$, $N$ a power of 2.
-\texttt{conv(a, b) = c} with $c[x] = \sum a[i]b[x-i]$. Complex or more than two vectors: FFT, multiply pointwise, divide by n, reverse(start+1, end), FFT back.
- * Rounding is safe if $(\sum a_i^2 + \sum b_i^2)\log_2{N} < 9\cdot10^{14}$ (in practice $10^{16}$, more if random); else NTT/FFTMod.
+ *    Accuracy bound from http://www.daemonology.net/papers/fft.pdf
+ * Description: Convolution with doubles. Exact while $(\sum a_i^2 + \sum b_i^2)\log_2 N < 9\cdot10^{14}$
+ * (in practice $10^{16}$), else NTT / FFTMod. By hand: FFT, multiply, divide by $n$, reverse(start+1, end), FFT back.
  * Time: O(N \log N) with $N = |A|+|B|$ ($\tilde 1s$ for $N=2^{22}$)
  * Status: somewhat tested
  * Details: An in-depth examination of precision for both FFT and FFTMod can be found
@@ -37,7 +36,7 @@ void fft(vector<C>& a) {
 			a[i + j] += z;
 		}
 }
-vd conv(const vd& a, const vd& b) {
+vd conv(const vd& a, const vd& b) { // c[x] = sum a[i]b[x-i]
 	if (a.empty() || b.empty()) return {};
 	vd res(sz(a) + sz(b) - 1);
 	int L = 32 - __builtin_clz(sz(res)), n = 1 << L;

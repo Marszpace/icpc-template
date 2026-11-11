@@ -3,9 +3,7 @@
  * Date: 2016-03-22
  * License: CC0
  * Source: hacKIT, NWERC 2015
- * Description: A set (not multiset!) with support for finding the n'th
- * element, and finding the index of an element.
- * To get a map, change \texttt{null\_type}.
+ * Description: Set (not multiset) with \texttt{find\_by\_order} and \texttt{order\_of\_key}. For a map, change \texttt{null\_type}.
  * Time: O(\log N)
  * Status: stress-tested
  */

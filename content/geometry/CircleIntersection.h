@@ -2,8 +2,7 @@
  * Author: Simon Lindholm
  * Date: 2015-09-01
  * License: CC0
- * Description: Computes the pair of points at which two circles intersect.
- * Returns false in case of no intersection.
+ * Description: False if none, else the two points in \texttt{out}.
  * Status: stress-tested
  */
 #pragma once

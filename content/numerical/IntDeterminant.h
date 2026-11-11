@@ -2,8 +2,7 @@
  * Author: Unknown
  * Date: 2014-11-27
  * Source: somewhere on github
- * Description: Calculates determinant using modular arithmetics.
- * Modulos can also be removed to get a pure-integer version.
+ * Description: Determinant mod any \texttt{mod} (also composite) by Euclid row steps. Remove the \texttt{\% mod} for exact integers.
  * Time: $O(N^3)$
  * Status: stress-tested (N <= 6, the composite mod 12345)
  */

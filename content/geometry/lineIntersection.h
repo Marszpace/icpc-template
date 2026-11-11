@@ -4,15 +4,12 @@
  * License: CC0
  * Source: https://vlecomte.github.io/cp-geo.pdf
  * Description: \\
-\begin{minipage}{75mm}
- * Intersection of the lines through s1,e1 and s2,e2: \{1, point\} if unique,
-\{0, (0,0)\} if parallel, \{-1, (0,0)\} if they are the same line.
- * With Point<ll> the point is wrong if it is not integral.
- * Uses products of three coordinates (overflow).
-\end{minipage}
-\begin{minipage}{15mm}
-\includegraphics[width=\textwidth]{content/geometry/lineIntersection}
-\end{minipage}
+ * \begin{minipage}{75mm}
+ * \{1, p\} if unique, \{0, (0,0)\} if parallel, \{-1, (0,0)\} if the same line. With Point<ll> only integral points. Products of 3 coordinates.
+ * \end{minipage}
+ * \begin{minipage}{15mm}
+ * \includegraphics[width=\textwidth]{content/geometry/lineIntersection}
+ * \end{minipage}
  * Usage:
  * 	auto res = lineInter(s1,e1,s2,e2);
  * 	if (res.first == 1)

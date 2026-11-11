@@ -3,9 +3,7 @@
  * Date: 2015-01-31
  * License: CC0
  * Source: me
- * Description: A class for ordering angles (as represented by int points and
- *  a number of rotations around the origin). Useful for rotational sweeping.
- *  Sometimes also represents points or vectors.
+ * Description: Angles as int points plus full turns \texttt{t}, totally ordered; for rotational sweeps.
  * Usage:
  *  vector<Angle> v = {w[0], w[0].t360() ...}; // sorted
  *  int j = 0; rep(i,0,n) { while (v[j] < v[i].t180()) ++j; }

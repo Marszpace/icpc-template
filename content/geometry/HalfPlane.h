@@ -3,13 +3,8 @@
  * Date: 2026-10-29
  * License: CC0
  * Source: https://cp-algorithms.com/geometry/halfplane-intersection.html
- * Description: Intersection of half-planes. Each half-plane is a pair
- * $(s, e)$: the points on the left of the directed line $s \to e$.
- * Returns the vertices of the intersection in ccw order, or an empty
- * vector if it is empty. Use \texttt{Point<double>}, and add a large
- * bounding box (4 half-planes) if the intersection may be unbounded.
- * Touching or degenerate results may come back either empty or with
- * (almost) zero area.
+ * Description: Half-plane $(s, e)$ = left of $s \to e$. Returns the intersection in ccw order, empty if empty (or degenerate).
+ * Use doubles; add a big bounding box if it may be unbounded.
  * Usage: vector<pair<P,P>> h = {{s1, e1}, {s2, e2}, ...};
  * Time: O(n \log n)
  * Status: stress-tested

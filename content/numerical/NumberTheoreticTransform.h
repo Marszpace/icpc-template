@@ -3,9 +3,8 @@
  * Date: 2019-04-16
  * License: CC0
  * Source: based on KACTL's FFT
- * Description: \texttt{ntt(a)} computes $\hat f(k) = \sum_x a[x] g^{xk}$ for all $k$, $g=\text{root}^{(mod-1)/N}$, $N$ a power of 2.
-\texttt{conv(a, b) = c} with $c[x] = \sum a[i]b[x-i]$, modulo primes $2^a b+1$ with result size at most $2^a$ (any modulus: FFTMod).
- * By hand: NTT the inputs, multiply pointwise, divide by n, reverse(start+1, end), NTT back. Inputs in [0, mod).
+ * Description: Convolution mod a prime $2^a b + 1$ with result size $\le 2^a$ (default 998244353; any modulus: FFTMod). Inputs in $[0, mod)$.
+ * By hand: NTT, multiply, divide by $n$, reverse(start+1, end), NTT back.
  * Time: O(N \log N)
  * Status: stress-tested
  */
@@ -35,7 +34,7 @@ void ntt(vl &a) {
 			ai += (ai + z >= mod ? z - mod : z);
 		}
 }
-vl conv(const vl &a, const vl &b) {
+vl conv(const vl &a, const vl &b) { // c[x] = sum a[i]b[x-i]
 	if (a.empty() || b.empty()) return {};
 	int s = sz(a) + sz(b) - 1, B = 32 - __builtin_clz(s),
 	    n = 1 << B;

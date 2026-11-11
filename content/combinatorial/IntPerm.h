@@ -2,10 +2,7 @@
  * Author: Simon Lindholm, Claude
  * Date: 2018-07-06
  * License: CC0
- * Description: Permutation of $0, \ldots, n-1$ $\leftrightarrow$ integer in $[0, n!)$:
- * \texttt{permToInt} is the rank of the permutation in lexicographic order and
- * \texttt{intToPerm(r, n)} is the \texttt{r}'th permutation (0-indexed), its exact
- * inverse. Order preserving. Exact for $n \le 20$. For a permutation whose size is not fixed, see \texttt{radixToPerm}.
+ * Description: Exact for $n \le 20$. Unknown size: \texttt{radixToPerm}.
  * Usage: intToPerm(0, 3) // {0, 1, 2}, intToPerm(5, 3) // {2, 1, 0}
  * Time: O(n) and O(n^2)
  * Status: stress-tested

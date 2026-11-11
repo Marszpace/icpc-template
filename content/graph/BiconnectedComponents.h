@@ -3,8 +3,7 @@
  * Date: 2017-04-17
  * License: CC0
  * Source: folklore
- * Description: Runs the callback on the edges of each biconnected component (any two of its nodes lie on a common cycle).
- * A node can be in several components; an edge in none is a bridge.
+ * Description: Calls \texttt{f} with the edge ids of each biconnected component; an edge in none is a bridge.
  * Usage:
  *  int eid = 0; ed.resize(N);
  *  for each edge (a,b) {

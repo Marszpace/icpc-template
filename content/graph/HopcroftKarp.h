@@ -2,14 +2,13 @@
  * Author: Adam Soltan
  * Date: 2026-01-13
  * License: CC0
- * Description: Bipartite matching. $g$: neighbours of each left vertex; $r$: all $-1$, size of the right side.
- * Returns the matching size; $r[i]$ is the match of right vertex $i$, or $-1$.
+ * Description: $g$: neighbours of each left vertex; $r$: all $-1$, size of the right side; $r[i]$ = match of right vertex $i$ or $-1$.
  * Time: O(E \sqrt{V})
  * Status: stress-tested by MinimumVertexCover and tested on Library Checker
  */
 #pragma once
 
-int hopcroftKarp(vector<vi>& g, vi& r) {
+int hopcroftKarp(vector<vi>& g, vi& r) { // matching size
 	int n = sz(g), res = 0;
 	vi l(n, -1), q(n), d(n);
 	auto dfs = [&](auto f, int u) -> bool {

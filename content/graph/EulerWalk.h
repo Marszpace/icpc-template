@@ -3,8 +3,8 @@
  * Date: 2019-12-31
  * License: CC0
  * Source: folklore
- * Description: Euler path/cycle, undirected or directed. Input: lists of (dest, global edge index); both directions of an undirected edge share the index.
- * Returns the nodes of the walk (src at both ends for a cycle), or empty if there is none. Edge indices: add .second to s and ret.
+ * Description: Euler path / cycle from \texttt{src}, undirected or directed. Lists of (dest, edge id); an undirected edge has one id both ways.
+ * Returns the nodes (src at both ends for a cycle), empty if none. Edge ids: also push \texttt{.second}.
  * Time: O(V + E)
  * Status: stress-tested
  */

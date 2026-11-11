@@ -3,11 +3,8 @@
  * Date: 2026-10-29
  * License: CC0
  * Source: https://cp-algorithms.com/geometry/minkowski.html
- * Description: Minkowski sum $\{p + q\}$ of two convex polygons given in
- * ccw order (at least 3 vertices, no three collinear). Returns a convex
- * polygon in ccw order. Two convex polygons $A, B$ intersect iff the
- * origin is in $A + (-B)$, and their distance is the distance from the
- * origin to it. With integer points, cross products must fit in 64 bits.
+ * Description: Of two ccw convex polygons ($\ge 3$ vertices, no 3 collinear), ccw. $A$ and $B$ intersect iff $0 \in A + (-B)$;
+ * their distance is the distance from 0 to it.
  * Time: O(n + m)
  * Status: stress-tested
  */

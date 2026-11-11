@@ -3,10 +3,7 @@
  * Date: 2015-02-11
  * License: CC0
  * Source: Wikipedia
- * Description: Simple integration of a function over an interval using
- *  Simpson's rule. The error should be proportional to $h^4$, although in
- *  practice you will want to verify that the result is stable to desired
- *  precision when epsilon changes.
+ * Description: Simpson's rule with $2n$ intervals; error $\propto h^4$, check that the result is stable when $n$ changes.
  * Status: stress-tested
  */
 #pragma once

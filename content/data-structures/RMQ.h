@@ -3,8 +3,7 @@
  * Date: 2015-02-06
  * License: CC0
  * Source: Folklore
- * Description: Range Minimum Queries on an array. Returns
- * min(V[a], V[a + 1], ... V[b - 1]) in constant time.
+ * Description: Sparse table (min).
  * Usage:
  *  RMQ rmq(values);
  *  rmq.query(inclusive, exclusive);
@@ -23,7 +22,7 @@ struct RMQ {
 				jmp[k][j] = min(jmp[k - 1][j], jmp[k - 1][j + pw]);
 		}
 	}
-	T query(int a, int b) {
+	T query(int a, int b) { // min of V[a..b), O(1)
 		assert(a < b); // or return inf if a == b
 		int dep = 31 - __builtin_clz(b - a);
 		return min(jmp[dep][a], jmp[dep][b - (1 << dep)]);

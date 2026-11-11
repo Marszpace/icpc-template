@@ -2,9 +2,7 @@
  * Author: Per Austrin, Simon Lindholm (SolveLinear); modular version by Claude
  * Date: 2026-10-29
  * License: CC0
- * Description: Solves $A x = b$ over the field $\mathbb Z_{mod}$ ($mod$ prime).
- * Returns the rank, or $-1$ if there is no solution. Free variables are set to 0.
- * Data in $A$ and $b$ is lost. Entries must be in $[0, mod)$.
+ * Description: Mod prime, entries in $[0, mod)$. Returns rank, or $-1$ if none; free variables are 0. Destroys $A$, $b$.
  * Time: O(n m \min(n, m))
  * Status: stress-tested
  */

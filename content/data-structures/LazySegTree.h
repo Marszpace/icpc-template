@@ -3,11 +3,8 @@
  * Date: 2026-10-30
  * License: CC0
  * Source: folklore
- * Description: Lazy segment tree over any monoid with lazy tags. Never edit this part, only the block before it
- * (\texttt{LazySegTreeBlock.h}), which defines \texttt{S}, \texttt{L}, \texttt{e}, \texttt{id}, \texttt{op}, \texttt{ok}, \texttt{app}, \texttt{comp}.
- * \texttt{app(s, x, len)} applies tag $x$ to the value $s$ of a segment of length \texttt{len},
- * \texttt{comp(x, y)} is the tag "$y$ first, then $x$". Ranges are $[l, r)$. Beats with add is $O(\log^2 N)$ amortized.
- * \texttt{maxRight(l, f)} is the largest $r$ with \texttt{f(query(l, r))} true, for monotone $f$ with \texttt{f(e())} true (descent in $O(\log N)$).
+ * Description: Lazy segment tree; edit only \texttt{LazySegTreeBlock.h}. \texttt{app(s, x, len)} applies tag $x$ to a segment of length \texttt{len};
+ * \texttt{comp(x, y)} = $y$ first, then $x$. Ranges $[l, r)$. \texttt{maxRight(l, f)}: largest $r$ with \texttt{f(query(l, r))}, for monotone $f$ with \texttt{f(e())} true.
  * Usage: vector<S> v(n); LazySeg t(v); t.upd(l, r, {5, 0}); t.query(l, r).sum;
  * t.maxRight(l, [\&](S s) { return s.mx < x; }); // first index >= l with value >= x
  * Time: O(\log N)

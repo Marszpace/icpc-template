@@ -3,12 +3,9 @@
  * Date: 2020-04-03
  * License: CC0
  * Source: https://github.com/spaghetti-source/algorithm/blob/master/graph/gomory_hu_tree.cc#L102
- * Description: Given a list of edges representing an undirected flow graph,
- * returns edges of the Gomory-Hu tree. The max flow between any pair of
- * vertices is given by minimum edge weight along the Gomory-Hu tree path.
+ * Description: Gomory-Hu tree of an undirected graph: max flow $u$--$v$ = min edge on the tree path.
  * Time: $O(V)$ Flow Computations
  * Status: Tested on CERC 2015 J, stress-tested
- *
  * Details: The implementation used here is not actually the original
  * Gomory-Hu, but Gusfield's simplified version: "Very simple methods for all
  * pairs network flow analysis". PushRelabel is used here, but any flow

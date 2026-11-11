@@ -3,13 +3,13 @@
  * Date: 2021-01-09
  * License: CC0
  * Source: https://en.wikipedia.org/wiki/Stoer%E2%80%93Wagner_algorithm
- * Description: Find a global minimum cut in an undirected graph, as represented by an adjacency matrix.
+ * Description: Stoer-Wagner on an adjacency matrix.
  * Time: O(V^3)
  * Status: Stress-tested together with GomoryHu
  */
 #pragma once
 
-pair<int, vi> globalMinCut(vector<vi> mat) {
+pair<int, vi> globalMinCut(vector<vi> mat) { // (weight, side)
 	pair<int, vi> best = {INT_MAX, {}};
 	int n = sz(mat);
 	vector<vi> co(n);

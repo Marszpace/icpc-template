@@ -3,11 +3,9 @@
  * Date: 2020-03-04
  * License: CC0
  * Source: own
- * Description: Pollard-rho randomized factorization algorithm. Returns prime
- * factors of a number, in arbitrary order (e.g. 2299 -> \{11, 19, 11\}).
+ * Description: Prime factors with multiplicity, in any order (Pollard rho).
  * Time: $O(n^{1/4})$, less for numbers with small factors.
  * Status: stress-tested
- *
  * Details: This implementation uses the improvement described here
  * (https://en.wikipedia.org/wiki/Pollard%27s_rho_algorithm#Variants), where
  * one can accumulate gcd calls by some factor (40 chosen here through

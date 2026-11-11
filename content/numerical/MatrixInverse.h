@@ -1,10 +1,8 @@
 /**
  * Author: Max Bennedich
  * Date: 2004-02-08
- * Description: Invert matrix $A$. Returns rank; result is stored in $A$ unless singular (rank < n).
- * Can easily be extended to prime moduli; for prime powers, repeatedly
- * set $A^{-1} = A^{-1} (2I - AA^{-1})\  (\text{mod }p^k)$ where $A^{-1}$ starts as
- * the inverse of A mod p, and k is doubled in each step.
+ * Description: Returns rank; $A^{-1}$ is stored in $A$ if rank $= n$. Mod $p^k$: start from the inverse mod $p$ and repeat
+ * $A^{-1} \gets A^{-1}(2I - AA^{-1})$, doubling $k$ each time.
  * Time: O(n^3)
  * Status: stress-tested
  */

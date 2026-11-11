@@ -1,14 +1,13 @@
 /**
  * Author: chilli
  * License: CC0
- * Description: z[i] computes the length of the longest common prefix of s[i:] and s,
- * except z[0] = 0. (abacaba -> 0010301)
+ * Description: $z[i]$ = lcp of $s[i..]$ and $s$, $z[0] = 0$.
  * Time: O(n)
  * Status: stress-tested
  */
 #pragma once
 
-vi Z(const string& S) {
+vi Z(const string& S) { // abacaba -> 0010301
 	vi z(sz(S));
 	int l = -1, r = -1;
 	rep(i,1,sz(S)) {

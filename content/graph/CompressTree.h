@@ -2,11 +2,7 @@
  * Author: Simon Lindholm
  * Date: 2016-01-14
  * License: CC0
- * Description: Given a rooted tree and a subset S of nodes, compute the minimal
- * subtree that contains all the nodes by adding all (at most $|S|-1$)
- * pairwise LCA's and compressing edges.
- * Returns a list of (par, orig\_index) representing a tree rooted at 0.
- * The root points to itself.
+ * Description: Virtual tree of a subset: the subset plus pairwise LCAs. Returns (parent index, original node); the root is first and is its own parent.
  * Time: $O(|S| \log |S|)$
  * Status: Tested at CodeForces; stress-tested
  */

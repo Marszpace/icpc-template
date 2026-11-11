@@ -3,13 +3,8 @@
  * Date: 2026-10-29
  * License: CC0
  * Source: https://cp-algorithms.com/string/suffix-automaton.html
- * Description: Minimal DFA accepting exactly the suffixes of the string
- * (so every substring is a path from state 0). State $v$ stands for all
- * substrings that end at the same set of positions, with lengths
- * $(\texttt{len[link[v]]}, \texttt{len[v]}]$. Number of distinct
- * substrings is $\sum_{v \ne 0} \texttt{len[v]} - \texttt{len[link[v]]}$.
- * After \texttt{count()}, \texttt{cnt[v]} is the number of occurrences
- * of the strings of $v$. Append characters with \texttt{extend}.
+ * Description: State $v$: substrings with the same end positions, lengths $(\texttt{len[link[v]]}, \texttt{len[v]}]$.
+ * Distinct substrings: $\sum_{v \ne 0} \texttt{len[v]} - \texttt{len[link[v]]}$.
  * Time: O(N) states, O(N \cdot 26) memory, \texttt{count} in $O(N \log N)$
  * Status: stress-tested
  */
@@ -39,7 +34,7 @@ struct SuffixAutomaton {
 		}
 		last = cur;
 	}
-	void count() {
+	void count() { // cnt[v] = occurrences
 		vi o(sz(t)); iota(all(o), 0);
 		sort(all(o), [&](int a, int b) { return t[a].len > t[b].len; });
 		for (int v : o) if (t[v].link >= 0) t[t[v].link].cnt += t[v].cnt;

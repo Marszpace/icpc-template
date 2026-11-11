@@ -2,9 +2,7 @@
  * Author: Simon Lindholm
  * Date: 2016-07-25
  * Source: https://github.com/ngthanhtrung23/ACM_Notebook_new/blob/master/DataStructure/LinkCutTree.h
- * Description: Represents a forest of unrooted trees. You can add and remove
- * edges (as long as the result is still a forest), and check whether
- * two nodes are in the same tree.
+ * Description: Forest with \texttt{link}, \texttt{cut} (must stay a forest) and \texttt{connected}.
  * Time: All operations take amortized O(\log N).
  * Status: Stress-tested a bit for N <= 20
  */

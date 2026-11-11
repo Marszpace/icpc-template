@@ -3,7 +3,7 @@
  * Date: 2015-02-04
  * License: CC0
  * Source: Johan Sannemo
- * Description: Poor man's optimization for unimodal functions.
+ * Description: Minimizes $f$ over the plane from \texttt{start}; fine for unimodal $f$.
  * Status: used with great success; stress-tested
  */
 #pragma once

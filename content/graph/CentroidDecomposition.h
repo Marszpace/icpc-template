@@ -3,18 +3,14 @@
  * Date: 2026-10-29
  * License: CC0
  * Source: folklore
- * Description: Centroid decomposition. \texttt{run(f)} calls \texttt{f(c)}
- * once per centroid $c$; at that moment a DFS from $c$ that skips
- * \texttt{dead} vertices visits exactly the component of $c$
- * (centroids of earlier calls are \texttt{dead}). \texttt{cpar} is the
- * centroid tree (root has $-1$). Each vertex is in $O(\log N)$ components.
+ * Description: \texttt{run(f)} calls \texttt{f(c)} per centroid $c$; a DFS from $c$ skipping \texttt{dead} then visits exactly its component.
  * Usage: Centroid C(g); C.run([\&](int c){ ... });
  * Time: O(N \log N) plus the work done in \texttt{f}
  * Status: stress-tested
  */
 #pragma once
 
-struct Centroid {
+struct Centroid { // cpar: centroid tree, root -1
 	vector<vi> g; vi sub, cpar; vector<char> dead;
 	Centroid(vector<vi> g) : g(g), sub(sz(g)), cpar(sz(g), -1), dead(sz(g)) {}
 	int calc(int v, int p) {

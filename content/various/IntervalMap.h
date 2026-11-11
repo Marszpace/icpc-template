@@ -3,12 +3,8 @@
  * Date: 2026-10-29
  * License: CC0
  * Source: folklore (Chtholly tree / ODT)
- * Description: Partitions $[lo, hi)$ into intervals that each hold a value.
- * \texttt{assign} overwrites a range and merges equal neighbours.
- * \texttt{each} calls \texttt{f(a, b, T\& val)} on the pieces of $[l, r)$
- * and lets \texttt{f} modify the values (e.g. range add, range count).
- * With only \texttt{assign}, also replaces a set of disjoint intervals:
- * \texttt{T = bool}, \texttt{m.assign(l, r, 1)} adds, \texttt{0} removes.
+ * Description: Partition of $[lo, hi)$ into intervals with values; \texttt{assign} merges equal neighbours; \texttt{each} visits the pieces of $[l, r)$
+ * by reference. A set of disjoint intervals: \texttt{T = bool}.
  * Usage: IntervalMap<int> m(0, n, 0); m.assign(l, r, v);
  *  m.each(l, r, [\&](int a, int b, int\& x){ ... }); m.get(i);
  * Time: amortized $O(\log N)$ per assign, plus the pieces visited

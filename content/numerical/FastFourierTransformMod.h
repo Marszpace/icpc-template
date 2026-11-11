@@ -3,9 +3,7 @@
  * Date: 2019-04-25
  * License: CC0
  * Source: http://neerc.ifmo.ru/trains/toulouse/2017/fft2.pdf
- * Description: Higher precision FFT, can be used for convolutions modulo arbitrary integers
- * as long as $N\log_2N\cdot \text{mod} < 8.6 \cdot 10^{14}$ (in practice $10^{16}$ or higher).
- * Inputs must be in $[0, \text{mod})$.
+ * Description: Convolution modulo any \texttt{M}, inputs in $[0, M)$, while $N\log_2 N \cdot M < 8.6\cdot10^{14}$ (in practice $10^{16}$).
  * Time: O(N \log N), where $N = |A|+|B|$ (twice as slow as NTT or FFT)
  * Status: stress-tested
  * Details: An in-depth examination of precision for both FFT and FFTMod can be found

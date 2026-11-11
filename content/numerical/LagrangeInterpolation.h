@@ -3,10 +3,8 @@
  * Date: 2026-10-29
  * License: CC0
  * Source: folklore
- * Description: Given $y_i = f(i)$ for $i = 0, \dots, n-1$, where $f$ is a polynomial
- * of degree $< n$, returns $f(x) \bmod p$ for any integer $x$ ($mod$ prime $> n$).
- * Use for sums of powers: $\sum_{i \le x} i^k$ has degree $k+1$, so
- * feed it $k+2$ prefix sums.
+ * Description: $f(x) \bmod p$ from $y_i = f(i)$, $i < n$, $\deg f < n$, $p$ prime $> n$.
+ * Sums of powers: $\sum_{i \le x} i^k$ has degree $k+1$, so give it $k+2$ prefix sums.
  * Time: O(n)
  * Status: stress-tested
  */

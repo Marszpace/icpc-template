@@ -2,7 +2,7 @@
  * Author: Stanford
  * Date: Unknown
  * Source: Stanford Notebook
- * Description: KD-tree (2d, can be extended to 3d)
+ * Description: 2D nearest neighbour: \texttt{nearest(p)} = (squared distance, point).
  * Status: Tested on excellentengineers; stress-tested
  */
 #pragma once

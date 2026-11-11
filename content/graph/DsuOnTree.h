@@ -3,10 +3,8 @@
  * Date: 2026-10-29
  * License: CC0
  * Source: folklore (small-to-large / sack)
- * Description: Answers a question about every subtree using one global
- * structure. \texttt{add(v)} / \texttt{rem(v)} insert / remove vertex $v$
- * (and only $v$) from it; \texttt{query(v)} is called when the structure
- * holds exactly the vertices of the subtree of $v$.
+ * Description: Small to large: \texttt{add(v)} / \texttt{rem(v)} put one vertex into / out of a global structure;
+ * \texttt{query(v)} runs when it holds exactly the subtree of $v$.
  * Usage: DsuOnTree T(g, root);
  *  T.run([\&](int v){...}, [\&](int v){...}, [\&](int v){...});
  * Time: O(N \log N) calls to add/rem

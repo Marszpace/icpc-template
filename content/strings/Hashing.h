@@ -3,7 +3,7 @@
  * Date: 2015-03-15
  * License: CC0
  * Source: own work
- * Description: Self-explanatory methods for string hashing.
+ * Description: Hashing mod $2^{64} - 1$; \texttt{hashInterval(a, b)} hashes $[a, b)$.
  * Status: stress-tested
  */
 #pragma once

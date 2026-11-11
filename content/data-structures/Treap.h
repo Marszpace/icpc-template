@@ -2,12 +2,8 @@
  * Author: someone on Codeforces
  * Date: 2017-03-14
  * Source: folklore
- * Description: A short self-balancing tree. It acts as a
- *  sequential container with log-time splits/joins, and
- *  is easy to augment with additional data. Here each node
- *  keeps the sum of its subtree, with lazy range add and
- *  range reverse: \texttt{go(t, l, r, f)} runs \texttt{f} on the
- *  subtree holding positions $[l, r)$ (see the comment above it).
+ * Description: Implicit treap (a sequence, split / merge by position) keeping subtree sums with lazy range add and reverse.
+ * \texttt{go(t, l, r, f)} runs \texttt{f} on the node holding positions $[l, r)$.
  * Time: $O(\log N)$
  * Status: stress-tested
  */

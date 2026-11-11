@@ -3,8 +3,7 @@
  * Date: 2009-03-21
  * License: CC0
  * Source:
- * Description: 1/0/-1 if $p$ is left of/on/right of the line from $s$ towards $e$.
- * With $eps$, 0 if $p$ is within distance $eps$ of the line. Uses products of coordinates (overflow).
+ * Description: 1 / 0 / $-1$: $p$ left of / on / right of $s \to e$; with \texttt{eps}, within distance \texttt{eps} counts as on.
  * Usage:
  * 	bool left = sideOf(p1,p2,q)==1;
  * Status: tested

@@ -4,15 +4,12 @@
  * License: CC0
  * Source: https://vlecomte.github.io/cp-geo.pdf
  * Description: \\
-\begin{minipage}{75mm}
- * Intersection of segments s1-e1 and s2-e2: one point, none (empty vector),
- * or the two endpoints of the common segment if there are infinitely many.
- * With Point<ll> the point is wrong if it is not integral.
- * Uses products of three coordinates (overflow).
-\end{minipage}
-\begin{minipage}{15mm}
-\includegraphics[width=\textwidth]{content/geometry/SegmentIntersection}
-\end{minipage}
+ * \begin{minipage}{75mm}
+ * One point, none, or the two endpoints of the common part. With Point<ll> the point is wrong if not integral. Products of 3 coordinates.
+ * \end{minipage}
+ * \begin{minipage}{15mm}
+ * \includegraphics[width=\textwidth]{content/geometry/SegmentIntersection}
+ * \end{minipage}
  * Usage:
  * vector<P> inter = segInter(s1,e1,s2,e2);
  * if (sz(inter)==1)

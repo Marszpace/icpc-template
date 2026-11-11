@@ -3,10 +3,7 @@
  * Date: 2019-12-26
  * License: CC0
  * Source: folklore
- * Description: Disjoint-set data structure with undo.
- * If undo is not needed, skip st, time() and rollback().
- * Optional parity: \texttt{join(a, b, w)} also demands that the parity
- * $\texttt{par(a)} \oplus \texttt{par(b)}$ (distance mod 2 to the root) is $w$.
+ * Description: DSU with undo (\texttt{rollback(time())}); skip \texttt{st}, \texttt{time}, \texttt{rollback} if not needed.
  * If \texttt{join} returns false and $\texttt{par(a)} \oplus \texttt{par(b)} \ne w$, the demand is contradictory.
  * Usage: int t = uf.time(); ...; uf.rollback(t);
  * Time: $O(\log(N))$
@@ -26,7 +23,7 @@ struct RollbackUF {
 			e[st[i].first] = st[i].second;
 		st.resize(t);
 	}
-	bool join(int a, int b, int w = 0) {
+	bool join(int a, int b, int w = 0) { // par(a)^par(b) = w
 		int x = par(a) ^ par(b) ^ w;
 		a = find(a), b = find(b);
 		if (a == b) return false;

@@ -3,11 +3,7 @@
  * Date: 2026-11-09
  * License: CC0
  * Source: the team's template
- * Description: Modular integers, \texttt{mint<mod>}: $+ - * /$, the compound
- * forms, \texttt{++}, \texttt{--}, unary minus, comparisons, input and output,
- * \texttt{fpow(a, p)} and \texttt{inverse(a)} (Fermat: needs a prime $mod$).
- * $mod < 2^{30}$ (e.g. $10^9 + 7$ or $998244353$) so that the sum of two values fits an \texttt{int};
- * \texttt{(int)a} is the value in $[0, mod)$.
+ * Description: \texttt{mint<mod>}: arithmetic, comparisons, I/O, \texttt{fpow(a, p)}, \texttt{inverse(a)}; \texttt{(int)a} is the value.
  * Usage: mi a = 5, b = 7; cout << a / b << ' ' << fpow(a, 100); vmi v(n);
  * Time: O(\log p) for \texttt{fpow}
  * Status: stress-tested
@@ -15,7 +11,7 @@
 #pragma once
 
 const int M = 1e9 + 7; // prime
-template<int mod> struct mint {
+template<int mod> struct mint { // prime mod < 2^30
 	int v;
 	explicit operator int() const { return v; }
 	mint() : v(0) {}

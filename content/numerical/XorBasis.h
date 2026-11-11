@@ -3,12 +3,7 @@
  * Date: 2026-10-29
  * License: CC0
  * Source: folklore (xor basis / linear basis over GF(2))
- * Description: Basis of the span of the inserted 64-bit numbers under xor.
- * \texttt{insert} returns whether $x$ was independent. \texttt{has(x)}
- * tests $x \in$ span. \texttt{best(x)} is the maximum of $x \oplus s$ over
- * the span ($x = 0$: maximum element). \texttt{kth(k)} is the $k$-th
- * smallest element of the span (0-indexed, $k < 2^{\texttt{rk}}$);
- * it makes the basis reduced, which is harmless.
+ * Description: Basis of the span under xor. \texttt{insert} returns whether $x$ was independent; \texttt{has(x)}: $x$ in the span.
  * Time: O(64) per operation
  * Status: stress-tested
  */
@@ -31,11 +26,11 @@ struct XorBasis {
 		}
 		return 1;
 	}
-	ull best(ull x = 0) {
+	ull best(ull x = 0) { // max x ^ s over the span
 		for (int i = 64; i--;) x = max(x, x ^ b[i]);
 		return x;
 	}
-	ull kth(ull k) {
+	ull kth(ull k) { // k-th smallest, 0-idx, k < 2^rk
 		rep(i,0,64) rep(j,0,i) if (b[j] && (b[i] >> j & 1)) b[i] ^= b[j];
 		ull r = 0; int t = 0;
 		rep(i,0,64) if (b[i] && (k >> t++ & 1)) r ^= b[i];

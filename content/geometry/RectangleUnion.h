@@ -3,8 +3,7 @@
  * Date: 2026-10-29
  * License: CC0
  * Source: folklore (sweep line + segment tree)
- * Description: Area of the union of axis-aligned rectangles.
- * A rectangle is $\{x_1, y_1, x_2, y_2\}$ and covers $[x_1, x_2) \times [y_1, y_2)$.
+ * Description: Area of the union; \{x1, y1, x2, y2\} is $[x_1, x_2) \times [y_1, y_2)$.
  * Time: O(N \log N)
  * Status: stress-tested
  */

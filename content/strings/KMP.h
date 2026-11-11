@@ -2,15 +2,13 @@
  * Author: Johan Sannemo
  * Date: 2016-12-15
  * License: CC0
- * Description: pi[x] computes the length of the longest prefix of s that ends at x,
- * other than s[0...x] itself (abacaba -> 0010123).
- * Can be used to find all occurrences of a string.
+ * Description: \texttt{pi}: prefix function; \texttt{match}: start positions of \texttt{pat} in \texttt{s}.
  * Time: O(n)
  * Status: Tested on kattis:stringmatching
  */
 #pragma once
 
-vi pi(const string& s) {
+vi pi(const string& s) { // abacaba -> 0010123
 	vi p(sz(s));
 	rep(i,1,sz(s)) {
 		int g = p[i-1];

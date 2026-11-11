@@ -3,7 +3,7 @@
  * Date: 2016-09-06
  * License: CC0
  * Source: me
- * Description: To get all uniquely determined values of $x$ back from SolveLinear, make the following changes:
+ * Description: Changes to SolveLinear to get back all uniquely determined values of $x$:
  * Status: tested on kattis:equationsolverplus, stress-tested
  */
 #pragma once

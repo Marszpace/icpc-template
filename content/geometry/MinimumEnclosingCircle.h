@@ -3,7 +3,7 @@
  * Date: 2019-05-07
  * License: CC0
  * Source: folklore
- * Description: Computes the minimum circle that encloses a set of points.
+ * Description: Smallest enclosing circle (center, radius).
  * Time: expected O(n)
  * Status: stress-tested
  */

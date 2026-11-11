@@ -3,10 +3,7 @@
  * Date: 2026-10-29
  * License: CC0
  * Source: https://cp-algorithms.com/geometry/convex_hull_trick.html
- * Description: Li Chao tree: minimum of lines $kx + m$ at integer points $x \in [0, n)$.
- * \texttt{add} inserts a line everywhere, \texttt{addSeg} only for $x \in [a, b)$,
- * in any order. For maximum, negate $k$, $m$ and the answer.
- * \texttt{query} returns \texttt{INF} if no line covers $x$.
+ * Description: Minimum of lines $kx + m$ at integer $x \in [0, n)$; \texttt{addSeg} only on $x \in [a, b)$. Max: negate $k$, $m$ and the answer.
  * Time: O(\log N) per operation ($O(\log^2 N)$ for \texttt{addSeg})
  * Status: stress-tested
  */
@@ -32,7 +29,7 @@ struct LiChao {
 		addSeg(k,m,a,b,2*o,lo,mid); addSeg(k,m,a,b,2*o+1,mid,hi);
 	}
 	void add(ll k, ll m) { addSeg(k, m, 0, n); }
-	ll query(int x) {
+	ll query(int x) { // INF if no line covers x
 		ll r = INF;
 		for (int o = 1, lo = 0, hi = n; ; ) {
 			r = min(r, t[o].at(x));

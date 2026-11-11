@@ -3,12 +3,8 @@
  * Date: 2026-10-29
  * License: CC0
  * Source: https://cp-algorithms.com/algebra/polynomial.html
- * Description: Power series modulo $x^n$ (coefficients in $[0, mod)$, NTT prime).
- * \texttt{polyInv} needs $a_0 \ne 0$, \texttt{polyLog} needs $a_0 = 1$, \texttt{polyExp} needs $a_0 = 0$.
- * All results have exactly $n$ coefficients.
- * \texttt{polyPow(a, k, n)} is $a^k \bmod x^n$ for any $a$ (also with leading zeros) and $k$ up to $10^{18}$;
- * \texttt{polySqrt} needs $a_0 = 1$; \texttt{polyDivMod(a, b)} returns $(q, r)$ with $a = qb + r$,
- * $\deg r < \deg b$, and needs \texttt{b.back() != 0}.
+ * Description: Power series mod $x^n$ and \texttt{mod} (NTT prime); results have exactly $n$ terms.
+ * \texttt{polyPow(a, k, n)}: any $a$, $k \le 10^{18}$. \texttt{polyDivMod(a, b)} returns $(q, r)$.
  * Usage: polyExp(polyLog(a, n), n) == a
  * Time: O(n \log n)
  * Status: stress-tested
@@ -17,7 +13,7 @@
 
 #include "NumberTheoreticTransform.h"
 
-vl polyInv(vl a, int n) {
+vl polyInv(vl a, int n) { // a[0] != 0
 	vl b = {modpow(a[0], mod - 2)};
 	for (int m = 1; m < n; m *= 2) {
 		vl f(a.begin(), a.begin()+min(sz(a), 2*m)), c = conv(f, b);
@@ -40,11 +36,11 @@ vl polyInt(vl a) {
 	rep(i,1,sz(a)) a[i] = a[i] * inv[i] % mod;
 	return a;
 }
-vl polyLog(vl a, int n) {
+vl polyLog(vl a, int n) { // a[0] = 1
 	vl c = conv(polyDer(a), polyInv(a, n));
 	c.resize(n - 1); return polyInt(c);
 }
-vl polyExp(vl a, int n) {
+vl polyExp(vl a, int n) { // a[0] = 0
 	vl b = {1};
 	for (int m = 1; m < n; m *= 2) {
 		vl l = polyLog(b, 2 * m), f(2 * m);
@@ -74,7 +70,7 @@ vl polyPow(vl a, ll k, int n) { // a^k mod x^n, k >= 0
 vl polySqrt(vl a, int n) { // a[0] = 1
 	return polyPow(a, (mod + 1) / 2, n);
 }
-pair<vl, vl> polyDivMod(vl a, vl b) {
+pair<vl, vl> polyDivMod(vl a, vl b) { // b.back() != 0
 	int n = sz(a), m = sz(b);
 	if (n < m) return {{}, a};
 	vl ra(a.rbegin(), a.rend()), rb(b.rbegin(), b.rend());

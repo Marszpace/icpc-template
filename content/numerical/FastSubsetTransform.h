@@ -3,9 +3,7 @@
  * Date: 2015-06-25
  * License: GNU Free Documentation License 1.2
  * Source: csacademy
- * Description: Transform to a basis with fast convolutions of the form
- * $\displaystyle c[z] = \sum\nolimits_{z = x \oplus y} a[x] \cdot b[y]$,
- * where $\oplus$ is one of AND, OR, XOR. The size of $a$ must be a power of two.
+ * Description: AND / OR / XOR convolution $c[z] = \sum_{x \oplus y = z} a[x]b[y]$ (choose the line in \texttt{FST}); size a power of 2.
  * Time: O(N \log N)
  * Status: stress-tested
  */

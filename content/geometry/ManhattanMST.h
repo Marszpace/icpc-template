@@ -3,10 +3,7 @@
  * Date: 2019-11-02
  * License: CC0
  * Source: https://github.com/spaghetti-source/algorithm/blob/master/geometry/rectilinear_mst.cc
- * Description: Given N points, returns up to 4*N edges, which are guaranteed
- * to contain a minimum spanning tree for the graph with edge weights w(p, q) =
- * |p.x - q.x| + |p.y - q.y|. Edges are in the form (distance, src, dst). Use a
- * standard MST algorithm on the result to find the final MST.
+ * Description: $\le 4N$ edges (distance, i, j) that contain a Manhattan MST; run Kruskal on them.
  * Time: O(N \log N)
  * Status: Stress-tested
  */

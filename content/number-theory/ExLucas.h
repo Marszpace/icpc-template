@@ -3,10 +3,7 @@
  * Date: 2026-10-30
  * License: CC0
  * Source: https://oi-wiki.org/math/number-theory/lucas/
- * Description: Binomial $\binom{n}{k} \bmod m$ for any $m < 2^{31}$ (extended Lucas).
- * Per prime power $q = p^a$: $n!$ with factors $p$ removed (product of units mod $q$
- * is $-1$, or $+1$ if $p=2, a\ge3$) and $v_p(n!)$ by Legendre; then CRT with $c \equiv [q]$.
- * Requires $n \le mx$; tables have size $\min(q, mx+1)$.
+ * Description: $\binom{n}{k} \bmod m$ for any $m < 2^{31}$ and $n \le mx$ (extended Lucas: per prime power, $n!$ without the factors $p$, then CRT).
  * Usage: BinomMod C(m, maxn); C(n, k);
  * Time: $O(\sqrt m + \omega(m) \cdot mx)$ build, $O(\omega(m) \log n)$ per query.
  * Status: stress-tested vs. exact big integers; AC on CF 896D

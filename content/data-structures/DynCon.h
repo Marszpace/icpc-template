@@ -3,13 +3,8 @@
  * Date: 2026-10-29
  * License: CC0
  * Source: folklore (segment tree on time + rollback DSU)
- * Description: Offline dynamic connectivity. \texttt{add(l, r, a, b)} makes
- * edge $a$--$b$ present during times $[l, r)$. \texttt{run(f)} calls
- * \texttt{f(t)} for $t = 0, \dots, T-1$ in order; during the call
- * \texttt{uf} describes the graph at time $t$ (components, sizes), and
- * \texttt{bad} is the number of edges closing an odd cycle (the graph is
- * bipartite iff \texttt{bad == 0}). For toggle queries, keep a
- * \texttt{map<pii,int>} of start times and close open edges at $T$.
+ * Description: Offline dynamic connectivity. \texttt{add(l, r, a, b)}: edge $a$--$b$ during times $[l, r)$. \texttt{run(f)} calls \texttt{f(t)} for $t = 0..T-1$
+ * with \texttt{uf} = the graph at time $t$. Toggles: map of start times.
  * Usage: DynCon dc(n, T); dc.add(l, r, a, b);
  *  dc.run([\&](int t){ ... dc.uf.find(x) ... });
  * Time: O((N + E \log T) \log N)
@@ -19,7 +14,7 @@
 
 #include "UnionFindRollback.h"
 
-struct DynCon {
+struct DynCon { // bad: odd-cycle edges, 0 = bipartite
 	int T, bad = 0; RollbackUF uf; vector<vector<pii>> seg;
 	DynCon(int n, int T) : T(T), uf(n), seg(4*T + 4) {}
 	void add(int l, int r, int a, int b, int o = 1, int lo = 0, int hi = -1) {

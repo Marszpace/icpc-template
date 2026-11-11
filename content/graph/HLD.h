@@ -3,10 +3,8 @@
  * Date: 2020-01-12
  * License: CC0
  * Source: https://codeforces.com/blog/entry/53170, https://github.com/bqi343/USACO/blob/master/Implementations/content/graphs%20(12)/Trees%20(10)/HLD%20(10.3).h
- * Description: Heavy-light decomposition: every path to the root has $O(\log n)$ light edges.
- * Path and subtree updates and queries go to a \texttt{LazySeg} (edit its block for other operations):
- * updates take its tag \texttt{L}, queries return its value \texttt{S}, all values start as \texttt{S()}.
- * Takes the full adjacency list, root 0. \texttt{VALS\_EDGES}: values on the edges instead of the nodes.
+ * Description: Performs HLD over a \texttt{LazySeg} (edit its block): updates take \texttt{L}, queries return \texttt{S}, values start as \texttt{S()}.
+ * Full adjacency list, root 0.
  * Time: O((\log N)^2)
  * Status: stress-tested against old HLD
  */
@@ -15,7 +13,7 @@
 #include "../data-structures/LazySegTreeBlock.h"
 #include "../data-structures/LazySegTree.h"
 
-template <bool VALS_EDGES> struct HLD {
+template <bool VALS_EDGES> struct HLD { // VALS_EDGES: on edges
 	int N, tim = 0;
 	vector<vi> adj;
 	vi par, siz, rt, pos;

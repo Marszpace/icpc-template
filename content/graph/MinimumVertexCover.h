@@ -2,16 +2,14 @@
  * Author: Johan Sannemo, Simon Lindholm
  * Date: 2016-12-15
  * License: CC0
- * Description: Finds a minimum vertex cover in a bipartite graph.
- *  The size is the same as the size of a maximum matching, and
- *  the complement is a maximum independent set.
+ * Description: Bipartite. Size = max matching; complement = max independent set.
  * Status: stress-tested
  */
 #pragma once
 
 #include "HopcroftKarp.h"
 
-vi cover(vector<vi>& g, int n, int m) {
+vi cover(vector<vi>& g, int n, int m) { // right j -> n+j
 	vi match(m, -1);
 	int res = hopcroftKarp(g, match);
 	vector<bool> lfound(n, true), seen(m);

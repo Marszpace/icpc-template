@@ -3,8 +3,8 @@
  * Date: 2019-12-28
  * License: CC0
  * Source: https://github.com/hoke-t/tamu-kactl/blob/master/content/data-structures/MoQueries.h
- * Description: Interval or tree path queries: visit the queries along an approximate TSP, adding/removing points at the ends.
- * Values on tree edges: \texttt{step} adds/removes the edge $(a, c)$ and the initial \texttt{add} goes (keep \texttt{in}).
+ * Description: Mo's algorithm on intervals (\texttt{mo}) or tree paths (\texttt{moTree}); fill in \texttt{add}, \texttt{del}, \texttt{calc}.
+ * Values on tree edges: \texttt{step} toggles the edge $(a, c)$ and the initial \texttt{add} goes (keep \texttt{in}).
  * Time: O(N \sqrt Q)
  * Status: stress-tested
  */
@@ -14,7 +14,7 @@ void add(int ind, int end) { ... } // add a[ind] (end = 0 or 1)
 void del(int ind, int end) { ... } // remove a[ind]
 int calc() { ... } // compute current answer
 
-vi mo(vector<pii> Q) {
+vi mo(vector<pii> Q) { // queries [l, r)
 	int L = 0, R = 0, blk = 350; // ~N/sqrt(Q)
 	vi s(sz(Q)), res = s;
 #define K(x) pii(x.first/blk, x.second ^ -(x.first/blk & 1))

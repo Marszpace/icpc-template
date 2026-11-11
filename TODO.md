@@ -1,11 +1,11 @@
 # TODO (from the team review, `entries - nx_entries.csv`, and the coverage audit)
 
-State (2026-11-09): the book is 26 PDF pages (cover + 25), the Danang limit is 26 (25 + cover). `troubleshoot.txt`, the *C++ pitfalls* section and `Int128.h` were cut on 2026-11-09
-(team review: known by heart); with items 16, 17, 19 added the book is back at 26 with about 0.6 of a column free on the techniques page. The techniques rework
-(370 candidate lines vs 159 now) is still the main lever for room; the final book must be at most 26 pages.
+State (2026-11-11): the book is **25 PDF pages (cover + 24)**; the Danang limit is 26, so there is **one page of room** (about 2.2 columns free on the last body page,
+the techniques page is full). Done since 2026-11-09: items 16-19, the new layout, the shorter descriptions (level H, the team's working copy) and the
+wild techniques list. `doc/overnight-2026-11-09/` and `doc/overnight-2026-11-10/` are kept for reference (reports, patches, previews, scripts).
 
 ## Standing rules (so every item below can be done without asking)
-- **Page cap:** the final book must be at most 26 PDF pages; aim for 26 or fewer with a few lines to spare. Rebuild with `make kactl` after every item and check
+- **Page cap:** the final book must be at most 26 PDF pages (now 25); aim for 26 or fewer with a few lines to spare. Rebuild with `make kactl` after every item and check
   the count (`Output written on build//kactl.pdf (N pages ...)`). If something does not fit, pay for it in this order: cleanup items,
   then the lowest-value new item (move it to "Deferred" here and say so in the report). Never drop an entry the team marked Keep without telling them.
 - **Code:** every new or changed code file gets a stress test in `stress-tests/<chapter>/` that is mutation-checked, passes `make test` and
@@ -84,16 +84,16 @@ Cleanup first (frees about 65 lines), then additions, cheapest and most useful f
     stress test against plain `%` arithmetic (all operators, negative inputs, `mod - 1`, division, `fpow` with large exponents, `>>`/`<<`) in both modes;
     (4) update the description and usage line (`using mi = mint<998244353>` etc.), and check whether other headers can use it. Fixed `mod` for the
     shared-`mod` item below stays a separate decision (template parameter does not clash with the global `const ll mod` of other headers).
-20. [ ] **Techniques page** (team decision 2026-11-10: go wild, include maybe and niche). Ready: `doc/overnight-2026-11-10/techniques/techniques-wild-hints.txt`,
-    180 entries with one-line hints, fills exactly one page (2.87 columns). Worksheet with a verdict for every source line:
-    `techniques/techniques-worksheet.md`. To apply: copy the file to `content/appendix/techniques.txt` (after the team has looked).
+20. [x] **Techniques page** (done 2026-11-11, team decision: go wild, include maybe and niche): `content/appendix/techniques.txt` is now the 180-entry list with one-line hints
+    (195 lines, one full page); every source line has a verdict in `doc/overnight-2026-11-10/techniques/techniques-worksheet.md` / `techniques.csv`.
+    The smaller lists (essential / core / all) are in the same folder if space is ever needed.
 
 - [x] **Layout report (2026-11-09)** (done: patches 01, 02, 03, 05, 06, the modified 02/04 header, equation spacing (13), 09 (shorter descriptions) and 12 (unwrapped code lines) are applied; 07 (techniques in the same flow) and 08 (no blank lines in code) were not taken; see `doc/overnight-2026-11-09/REPORT.md`. The book is 26 pages with about 1.9 columns free on the last body page and 0.6 column on the techniques page.)
 
-21. [ ] **Reduce the descriptions even further** (proposal ready 2026-11-10, waiting for the team: `doc/overnight-2026-11-10/descriptions-21.md`).
-    Three levels for all 126 files: G (gentle, 25 pages), L (the team rule: only what you need to use it, 24 pages), M (minimal, 24 pages + 1 column).
-    L and M move some facts into trailing code comments (hashes unchanged, tests pass). Diffs in `doc/overnight-2026-11-10/diffs/`; per-file
-    choices: edit `tools/desc21.py` and rerun `tools/apply21.py`.
+21. [x] **Reduce the descriptions** (done 2026-11-11 at level **H**, the team's choice: the content and hints of G, with facts that belong to one function moved into trailing
+    code comments; 36 files got 42 comments; hashes unchanged). Levels G / L / M / H, side by side: `doc/overnight-2026-11-10/descriptions-21.md` and `.csv`.
+    **Open:** the team may want to go further (L saves one more page): edit `doc/overnight-2026-11-10/tools/desc21.py` (G, L, M) or `hyb21.py` (H) and apply
+    with `tools/apply21.py`. Note: in L, FenwickTree's indexing is only a code comment (the team rule says the description should state it).
 
 ## Blocked: needs the team or you (do not start these)
 - [ ] **Edit Fenwick Trees** (your template). Not decided: the team first has to answer (a) is `FenwickTree.h` 0- or 1-indexed (it is 0-indexed:

@@ -3,11 +3,8 @@
  * Date: 2026-10-29
  * License: CC0
  * Source: folklore
- * Description: Block-cut tree of an undirected graph (a forest if it is not connected).
- * Nodes $0..n-1$ are the vertices; every biconnected component (a bridge is a
- * component with 2 vertices) gets one more node, adjacent to its vertices.
- * A vertex is a cut vertex iff it has more than one neighbour in the tree.
- * Vertex $w$ separates $u$ and $v$ iff it is a cut vertex on the tree path $u \dots v$.
+ * Description: Nodes $0..n-1$ are the vertices, then one node per biconnected component (a bridge is one with 2 vertices), adjacent to its vertices;
+ * a forest. Cut vertex iff tree degree $> 1$; $w$ separates $u$, $v$ iff it is a cut vertex on their tree path.
  * Time: O(N + M)
  * Status: stress-tested
  */

@@ -3,11 +3,8 @@
  * Date: 2015-02-18
  * License: CC0
  * Source: marian's (TC) code
- * Description: Multiple pattern matching. \texttt{AhoCorasick ac(patterns)}; the start node is 0.
-\texttt{find(word)} gives for each position the index of the longest word ending there, or $-1$.
-\texttt{findAll($-$, word)} lists all words starting at each position, shortest first (up to $N \sqrt N$ without duplicate patterns).
- * Duplicate patterns are allowed, empty ones are not. Longest words starting at each position: reverse all input.
- * Large alphabets: split symbols into chunks, with sentinel bits for symbol boundaries.
+ * Description: Patterns non-empty (duplicates allowed); alphabet: \texttt{alpha}, \texttt{first}.
+ * \texttt{findAll(pat, word)}: all patterns starting at each position, shortest first.
  * Time: construction takes $O(26N)$, where $N =$ sum of length of patterns.
  * find(x) is $O(N)$, where N = length of x. findAll is $O(NM)$.
  * Status: stress-tested
@@ -57,7 +54,7 @@ struct AhoCorasick {
 			}
 		}
 	}
-	vi find(string word) {
+	vi find(string word) { // longest ending at i, -1
 		int n = 0;
 		vi res; // ll count = 0;
 		for (char c : word) {
