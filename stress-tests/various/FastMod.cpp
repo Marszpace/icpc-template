@@ -132,14 +132,14 @@ signed main1() {
 #ifndef MOD
 #define MOD 90217093 //202171241
 #endif
-int mod = MOD;
+int modValue = MOD;
 
 // Performance
 signed main2(int argc, char** argv) {
 	int which = atoi(argv[1]);
-	if (which == 0) perf_plain(mod); // 7.529 for 8, 1.714 for 1
+	if (which == 0) perf_plain(modValue); // 7.529 for 8, 1.714 for 1
 	if (which == 1) perf_const<MOD>(); // 0.971 for 8, 0.499 for 1
-	if (which == 2) perf_old_barrett(mod); // 1.094 for 8, 0.564 for 1
-	if (which == 3) perf_barrett(mod); // 0.870 for 8, 0.405 for 1
+	if (which == 2) perf_old_barrett(modValue); // 1.094 for 8, 0.564 for 1
+	if (which == 3) perf_barrett(modValue); // 0.870 for 8, 0.405 for 1
 	return 0;
 }

@@ -100,10 +100,10 @@ Cleanup first (frees about 65 lines), then additions, cheapest and most useful f
   `update(pos, dif)` and `query(pos)` = sum of `[0, pos)`; the confusion is probably about this, so a clearer description / usage line may be
   all that is wanted) and (b) what to do about `FenwickTree2d.h`, which is "really weird" because it needs `fakeUpdate()` for every updated cell before
   `init()` (offline). Options once known: a plain 2D BIT with fixed size, or the offline version with a clearer interface.
-- [x] **One shared `mod`** (done 2026-11-11, team: no template): `const int mod = 998244353` lives only in `ModPow.h`; `mint` is a plain struct using it (`mi`, `vmi` aliases kept);
-  NTT, `IntDeterminant` and `LinearRecurrence` lost their own `mod`; NTT has `static_assert((mod - 1) % (1 << 21) == 0)`; `NumberTheoreticTransform`, `BostanMori` and
-  `PolyOps` left `skip_headers`; their tests no longer need the namespace hack. Tests list moduli with `// TEST_MODS: ...` (run-all.sh runs one build per value,
-  `ModPow.h` has hidden `TEST_MOD` lines); ModularArithmetic is tested with six primes, NTT with the five primes its comment names (so "same root 62" is checked).
+- [x] **One shared `mod`** (done 2026-11-11, changed to a convention 2026-11-12 on the team's request): headers use a global `const ll mod` that the solution declares and never define it;
+  `mint` is a plain struct (`mi`, `vmi` aliases) with no includes; `ModPow.h` is only `modpow`. NTT has `static_assert((mod - 1) % (1 << 21) == 0)`; `NumberTheoreticTransform`,
+  `BostanMori` and `PolyOps` left `skip_headers`. The test prelude and `template.h` declare `mod` (998244353, `-DTEST_MOD` overrides) and tests list moduli with `// TEST_MODS: ...`;
+  ModularArithmetic is tested with six primes, NTT with the five primes its comment names (so "same root 62" is checked).
 - [ ] **Rework `techniques.txt`** (159 lines, one page, stale after the cuts). Source: the content dump of the OI Wiki translation the team uploaded
   (`oiwiki-content.zip`: 452 markdown pages in 14 sections, 453 `.cpp` examples, 450 `.in` / `.ans` test pairs). **The zip is enough; the live site is
   not needed** (it never resolved from the session, and the `icpc-template` environment created for it can be ignored). The zip also has a ready-made

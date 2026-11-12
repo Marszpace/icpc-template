@@ -8,8 +8,6 @@
  */
 #pragma once
 
-#include "../number-theory/ModPow.h"
-
 ll det(vector<vector<ll>>& a) {
 	int n = sz(a); ll ans = 1;
 	rep(i,0,n) {

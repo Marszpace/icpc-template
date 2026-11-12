@@ -1,6 +1,6 @@
 #include "../utilities/template.h"
 
-const ll mod = 1000000007;
+// TEST_MODS: 1000000007
 
 #include "../../content/numerical/FastFourierTransformMod.h"
 
