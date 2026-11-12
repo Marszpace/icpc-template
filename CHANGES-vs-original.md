@@ -163,7 +163,7 @@ Applied on top of the original KACTL layout (details, pictures and the rejected 
 - Tighter spacing above and below listings, smaller section and subsection headings, a compact table of contents, 6pt column gap, 3pt above and below
   display equations (and a stray `\\` removed from the first trigonometry equations).
 - Bug fixes: overlapping lines in text sections (the `\subsection` skip had negative stretch), the page 20 header ran into "NTU", two `Time:` lines ran
-  into the hash, file titles stranded at the bottom of a column, figures in 4 geometry files overlapping the header.
+  into the hash, file titles stranded at the bottom of a column, figures in 4 geometry files overlapping the header. The "Contents" title on the first page was cut off at the top edge (fixed 2026-11-12).
 - Shorter descriptions for 17 files (patch 09), 27 code lines shortened so they no longer wrap (the hashes of 15 files changed).
 - Descriptions of all 126 files shortened (2026-11-11, level H of `doc/overnight-2026-11-10/`): the useful facts of the original text are kept, and facts that belong to one function (index base, return value, precondition) moved into trailing comments on its signature line (36 files, 42 comments); hashes unchanged. Two text-only headers keep their text.
 - *Techniques* page: replaced by a 180-entry list of non-obvious techniques, each with a one-line hint (from the original page, the OI-wiki list and our own); `doc/overnight-2026-11-10/techniques/techniques.csv` has every candidate, kept or not, with the reason.
