@@ -9,7 +9,7 @@ the previews and the scripts in `tools/`.
 
 Note: after this, on 2026-11-11, the shared `mod` change rewrote the descriptions and headers of `ModPow.h`, `ModularArithmetic.h`,
 `NumberTheoreticTransform.h`, `IntDeterminant.h` and `LinearRecurrence.h`. `tools/apply21.py` and the diffs here were made before it, so
-re-applying them to a fresh checkout would not include that change (the book itself is current).
+re-applying them to a fresh checkout would not include that change (the book itself is current). `FenwickTree2d.h` was also removed (2026-11-12), so `tools/desc21.py` / `hyb21.py` still list it and would fail on a fresh re-apply.
 
 ## TL;DR
 

@@ -170,6 +170,9 @@ Applied on top of the original KACTL layout (details, pictures and the rejected 
 
 ## Things to know
 
+- `FenwickTree2d.h` was **removed entirely** (file and test; team decision 2026-11-12, it needed `fakeUpdate` for every cell before `init`). `FenwickTree.h` stays 0-indexed:
+  `query(pos)` sums `[0, pos)`, like every range in the template (0-based, half-open `[l, r)`; the closed `[a, b]` of `TernarySearch` is documented there).
+
 - There is **one** modulus convention now: a header that needs a modulus uses the global `const ll mod` that your solution declares first, and no header defines it
   (originally each of `ModPow`, NTT, `IntDeterminant` and `LinearRecurrence` defined its own, so two of them could not be included together). Used by `mint`,
   `modpow`, NTT, `PolyOps`, `BostanMori`, `IntDeterminant`, `LinearRecurrence`, `SolveLinearMod`, `LagrangeInterpolation`, ... `ModPow.h` is only `modpow` now.

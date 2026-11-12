@@ -3,7 +3,7 @@
  * Date: 2009-10-30
  * License: CC0
  * Source: folklore/TopCoder
- * Description: 0-indexed. \texttt{lower\_bound} needs non-negative values.
+ * Description: 0-indexed; \texttt{query(pos)} sums $[0, pos)$. \texttt{lower\_bound} needs non-negative values.
  * Time: Both operations are $O(\log N)$.
  * Status: Stress-tested
  */

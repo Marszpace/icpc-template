@@ -96,10 +96,9 @@ Cleanup first (frees about 65 lines), then additions, cheapest and most useful f
     with `tools/apply21.py`. Note: in L, FenwickTree's indexing is only a code comment (the team rule says the description should state it).
 
 ## Blocked: needs the team or you (do not start these)
-- [ ] **Edit Fenwick Trees** (your template). Not decided: the team first has to answer (a) is `FenwickTree.h` 0- or 1-indexed (it is 0-indexed:
-  `update(pos, dif)` and `query(pos)` = sum of `[0, pos)`; the confusion is probably about this, so a clearer description / usage line may be
-  all that is wanted) and (b) what to do about `FenwickTree2d.h`, which is "really weird" because it needs `fakeUpdate()` for every updated cell before
-  `init()` (offline). Options once known: a plain 2D BIT with fixed size, or the offline version with a clearer interface.
+- [x] **Edit Fenwick Trees** (done 2026-11-12, team decision): `FenwickTree2d.h` and its test are removed entirely (they stay in git history); `FenwickTree.h` stays 0-indexed
+  with `query(pos)` = sum of `[0, pos)` (the convention of the whole template: 0-based, half-open `[l, r)`), now stated in its description; its test checks `update` / `query`
+  against prefix sums and `lower_bound` up to 300 elements (it used to test only `lower_bound` on up to 9; the 2D test was the only other user of `update` / `query`).
 - [x] **One shared `mod`** (done 2026-11-11, changed to a convention 2026-11-12 on the team's request): headers use a global `const ll mod` that the solution declares and never define it;
   `mint` is a plain struct (`mi`, `vmi` aliases) with no includes; `ModPow.h` is only `modpow`. NTT has `static_assert((mod - 1) % (1 << 21) == 0)`; `NumberTheoreticTransform`,
   `BostanMori` and `PolyOps` left `skip_headers`. The test prelude and `template.h` declare `mod` (998244353, `-DTEST_MOD` overrides) and tests list moduli with `// TEST_MODS: ...`;
