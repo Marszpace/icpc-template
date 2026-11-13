@@ -1,8 +1,5 @@
-# Interactive tester. ./A solution; ./interactor in reads the
-# test file "in", talks on stdin/stdout (flush every line!),
-# verdict on stderr, exit != 0 on WA; ./gen S prints a test.
-# Usage: bash interactive.sh in       one test
-#        bash interactive.sh gen [N]  stress test
+# ./interactor in test file "in", verdict on stderr, 
+# exit != 0 on WA
 run() {
 	timeout 5 ./interactor $1 > to < from 2> verdict & p=$!
 	timeout 5 ./A < to > from; ar=$?  # keep this open order

@@ -1,9 +1,4 @@
-# Stress test. Compile like the judge, plus -Wall and
-# -D_GLIBCXX_ASSERTIONS (vector/string out-of-range aborts).
-# ./A solution, ./gen S prints a small random test (seed S),
-# ./A2 brute force (may be missing if ./checker exists),
-# ./checker in out ans: optional, exit 0 = OK (ans = A2 output)
-# Usage: bash stress.sh [iterations]
+# ./checker in out ans: exit 0 = OK
 for ((i=1; i<=${1:-1000}; i++)); do
 	./gen $i > in
 	timeout 5 ./A < in > out ||
