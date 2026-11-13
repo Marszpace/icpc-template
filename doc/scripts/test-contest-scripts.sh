@@ -145,7 +145,8 @@ expect 0 '^[0-9a-f]{6}$' "hash: prints 6 hex chars" ./hash.sh h1.cpp
 	&& echo "ok: hash: stdin (book / vim use) gives the same hash" || { echo "FAIL: hash stdin"; fails=$((fails+1)); }
 [ "$(./hash.sh h1.cpp)" = "$(cpp -dD -P -fpreprocessed < h1.cpp | tr -d '[:space:]' | md5sum | cut -c-6)" ] \
 	&& echo "ok: hash equals the original one-liner" || { echo "FAIL: hash vs original one-liner"; fails=$((fails+1)); }
-expect 1 "can't read" "hash: missing file is an error" ./hash.sh nope.cpp
+# the argument guard was removed on purpose (shorter script): a missing file hashes like empty input
+expect 0 "d41d8c" "hash: missing file gives the hash of empty input (no guard)" ./hash.sh nope.cpp
 cp h1.cpp keep.txt; ./hash.sh h1.cpp keep.txt > /dev/null; cmp -s h1.cpp keep.txt && echo "ok: hash does not overwrite a second argument" || { echo "FAIL: hash overwrote its second argument"; fails=$((fails+1)); }
 
 [ $fails -eq 0 ] && echo "all contest script tests passed" || { echo "$fails failed"; exit 1; }

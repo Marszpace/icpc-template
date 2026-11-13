@@ -4,7 +4,7 @@
 **printed in `kactl.pdf`**; cut files stay in the repository (only their `\kactlimport` line is commented out),
 so they can be turned back on in the `chapter.tex` of their directory.
 
-The book is now **25 PDF pages (cover + 24)**, one under the Danang limit (26), after the team cut *C++ pitfalls* and `Int128.h` (2026-11-09), changed the layout and shortened the descriptions (2026-11-11). About 2.2 columns are free on the last body page; the techniques page is full.
+`LinearSieve.h` is printed again (team edit 2026-11-13; it was in the cut list before). The book is now **25 PDF pages (cover + 24)**, one under the Danang limit (26), after the team cut *C++ pitfalls* and `Int128.h` (2026-11-09), changed the layout and shortened the descriptions (2026-11-11). About 2.2 columns are free on the last body page; the techniques page is full.
 
 ## Added to the book
 
@@ -60,6 +60,8 @@ Also new in the book, as text notes (no code):
 | Chapter | File | Lines (whole file) | Note |
 |---|---|---:|---|
 | data-structures | `SubMatrix.h` | 27 |  |
+| data-structures | `HashMap.h` | 20 | team edit 2026-11-13 (stress-tested; the file and its test stay) |
+| combinatorial | Factorial table (`factorial.tex`) | 10 | team edit 2026-11-13 |
 | various | `Int128.h` | 21 | printing for `__int128`; team: known by heart (kept as file, stress-tested, used by the DuSieve test) |
 | geometry | `FastDelaunay.h` | 106 |  |
 | geometry | `PolyhedronVolume.h` | 14 |  |
@@ -106,7 +108,6 @@ As above, code files stay in the repository with the `\kactlimport` line comment
 | math | Recurrences | 3 | can be derived |
 | math | Spherical coordinates | 5 | memorized |
 | math | Probability theory, Discrete / Continuous distributions, Markov chains | 50 | memorized |
-| number-theory | `LinearSieve.h` | 29 | memorized |
 | combinatorial | `Binomial.h` | 23 | trivial |
 | combinatorial | Sprague-Grundy (whole *Games* section) | 5 | trivial |
 | graph | `BellmanFord.h`, `FloydWarshall.h`, `TopoSort.h` | 83 | trivial |
@@ -130,7 +131,7 @@ Still open (edit / merge / undecided): see `TODO.md`.
 | `content/data-structures/UnionFindRollback.h` | optional parity argument `join(a, b, w)` and `par(x)`; old calls behave as before (`DirectedMST` test passes) |
 | `content/contest/template.cpp` -> `macros.cpp` | removed `cin.exceptions(cin.failbit);` (it makes `while (cin >> x)` throw at EOF); then renamed to `macros.cpp` and reduced to the macros and typedefs: no `#include <bits/stdc++.h>`, no `using namespace std`, no `main` (remembered by the team), plus the new macro `#define pb push_back` |
 | `stress-tests/utilities/template.h` | includes `<cassert>`, which GCC 16's `<bits/stdc++.h>` no longer does; now includes `macros.cpp` itself, and `-DLLINT` adds `#define int long long` |
-| `content/contest/hash.sh` | takes a file argument (`./hash.sh file.cpp`; stdin still works for the book build); refuses unreadable files; same hash as before for the same input |
+| `content/contest/hash.sh` | takes a file argument (`./hash.sh file.cpp`; stdin still works for the book build); no guard against unreadable files (a missing file prints `d41d8c`, the hash of empty input; removed by the team to save lines); same hash as before for the same input |
 | `doc/scripts/prelude.h` | new: what `macros.cpp` assumes before it (includes, `using namespace std`, optional `#define int long long`), used by `make test-compiles` |
 | 8 printed headers + 3 unprinted | work with `#define int long long` as well as without it (see below) |
 
