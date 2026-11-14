@@ -4,7 +4,12 @@ using namespace std;
 #ifdef LLINT // run the whole suite with #define int long long
 #define int long long
 #endif
+// Many tests define their own seeded global rng / rnd; rename the template's.
+#define rng macros_rng
+#define rnd macros_rnd
 #include "../../content/contest/macros.cpp"
+#undef rng
+#undef rnd
 
 // Headers that need a modulus use a global `const ll mod` that the solution
 // declares first (they never define it). Tests: -DTEST_MOD=<value> overrides.
