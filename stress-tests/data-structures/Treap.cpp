@@ -1,5 +1,9 @@
 #include "../utilities/template.h"
 
+// the header uses the contest file's rng / rnd, which template.h renames
+#define rng macros_rng
+#define rnd macros_rnd
+
 #include "../../content/data-structures/Treap.h"
 
 pair<Node*, Node*> split2(Node* n, int v) {

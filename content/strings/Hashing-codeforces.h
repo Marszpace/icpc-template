@@ -54,11 +54,8 @@ vector<H> getHashes(string& str, int length) {
 
 H hashString(string& s){H h{}; for(char c:s) h=h*C+c;return h;}
 
-#include <sys/time.h>
 int main() {
-	timeval tp;
-	gettimeofday(&tp, 0);
-	C = (int)tp.tv_usec; // (less than modulo)
+	C = (int)rnd(1000, 1000000000); // random base, less than the moduli
 	assert((ull)(H(1)*2+1-3) == 0);
 	// ...
 }

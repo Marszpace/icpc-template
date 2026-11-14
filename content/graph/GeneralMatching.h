@@ -14,7 +14,7 @@
 vector<pii> generalMatching(int N, vector<pii>& ed) {
 	vector<vector<ll>> mat(N, vector<ll>(N)), A;
 	for (pii pa : ed) {
-		int a = pa.first, b = pa.second, r = rand() % mod;
+		ll a = pa.first, b = pa.second, r = rnd(0, mod - 1);
 		mat[a][b] = r, mat[b][a] = (mod - r) % mod;
 	}
 
@@ -26,7 +26,7 @@ vector<pii> generalMatching(int N, vector<pii>& ed) {
 		rep(i,0,N) {
 			mat[i].resize(M);
 			rep(j,N,M) {
-				int r = rand() % mod;
+				ll r = rnd(0, mod - 1);
 				mat[i][j] = r, mat[j][i] = (mod - r) % mod;
 			}
 		}

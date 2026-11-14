@@ -1,5 +1,9 @@
 #include "../utilities/template.h"
 
+// the header uses the contest file's rng / rnd, which template.h renames
+#define rng macros_rng
+#define rnd macros_rnd
+
 #include "../../content/graph/GeneralMatching.h"
 
 // maximum matching size by DP over vertex subsets

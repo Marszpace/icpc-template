@@ -14,7 +14,7 @@ struct Node {
 	ll val, sum, add = 0;
 	int y, c = 1;
 	bool rev = 0;
-	Node(ll val) : val(val), sum(val), y(rand()) {}
+	Node(ll val) : val(val), sum(val), y((int)rng()) {}
 	void recalc(), push();
 	void app(ll a, bool f) { // add a to all values, reverse if f
 		val += a, sum += a * c, add += a;

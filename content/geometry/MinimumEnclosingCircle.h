@@ -12,7 +12,7 @@
 #include "circumcircle.h"
 
 pair<P, double> mec(vector<P> ps) {
-	shuffle(all(ps), mt19937(time(0)));
+	shuffle(all(ps), rng);
 	P o = ps[0];
 	double r = 0, EPS = 1 + 1e-8;
 	rep(i,0,sz(ps)) if ((o - ps[i]).dist() > r * EPS) {

@@ -1,5 +1,9 @@
 #include "../utilities/template.h"
 
+// the header uses the contest file's rng / rnd, which template.h renames
+#define rng macros_rng
+#define rnd macros_rnd
+
 #define main main2
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wreturn-type"
@@ -7,11 +11,8 @@
 #pragma GCC diagnostic pop
 #undef main
 
-#include <sys/time.h>
 signed main() {
-	timeval tp;
-	gettimeofday(&tp, 0);
-	C = (int)tp.tv_usec;
+	C = (int)rnd(1000, 1000000000);
 	assert((ull)(H(1)*2+1-3) == 0);
 
 	rep(it,0,10000) {
