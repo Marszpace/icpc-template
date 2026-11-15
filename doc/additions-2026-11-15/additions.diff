@@ -1,0 +1,791 @@
+diff --git a/content/geometry/3dHull.h b/content/geometry/3dHull.h
+index aeda36a..f725fc6 100644
+--- a/content/geometry/3dHull.h
++++ b/content/geometry/3dHull.h
+@@ -2,11 +2,10 @@
+  * Author: Johan Sannemo
+  * Date: 2017-04-18
+  * Source: derived from https://gist.github.com/msg555/4963794 by Mark Gordon
+- * Description: Computes all faces of the 3-dimension hull of a point set.
+- *  *No four points must be coplanar*, or else random results will be returned.
+- *  All faces will point outwards.
++ * Description: All faces of the 3D convex hull. \textbf{No four points coplanar} (else perturb them).
++ * \texttt{q} is an outward normal; $a, b, c$ are ccw seen from outside.
+  * Time: O(n^2)
+- * Status: tested on SPOJ CH3D
++ * Status: stress-tested, tested on SPOJ CH3D
+  */
+ #pragma once
+ 
+diff --git a/content/geometry/CircleUnion.h b/content/geometry/CircleUnion.h
+new file mode 100644
+index 0000000..9c76831
+--- /dev/null
++++ b/content/geometry/CircleUnion.h
+@@ -0,0 +1,46 @@
++/**
++ * Author: Claude
++ * Date: 2026-11-15
++ * License: CC0
++ * Source: Green's theorem over the uncovered arcs (folklore)
++ * Description: Area of the union of circles (centre $c_i$, radius $r_i \ge 0$). Identical circles count once.
++ * Time: O(N^2 \log N)
++ * Status: stress-tested
++ */
++#pragma once
++
++#include "Point.h"
++
++typedef Point<double> P;
++double circleUnion(vector<P>& c, vector<double>& r) {
++	int n = sz(c); double res = 0, e = 1e-9, pi = M_PI;
++	rep(i,0,n) {
++		P o = c[i]; double R = r[i]; bool in = 0;
++		vector<pair<double, double>> s; // covered arcs
++		rep(j,0,n) if (j != i) {
++			double d = (c[j] - o).dist(), q = r[j];
++			if (d + R < q + e && (j < i || R + e < d + q)) {
++				in = 1; break; // inside j; equal circles: keep first
++			}
++			if (d >= R + q || d + q < R + e) continue;
++			double a = (c[j] - o).angle(), w = acos(max(-1.0,
++				min(1.0, (R * R + d * d - q * q) / (2 * R * d))));
++			double lo = a - w, hi = a + w;
++			if (lo < -pi) s.push_back({lo + 2 * pi, pi}), lo = -pi;
++			if (hi > pi) s.push_back({-pi, hi - 2 * pi}), hi = pi;
++			s.push_back({lo, hi});
++		}
++		if (in) continue;
++		auto arc = [&](double x, double y) { // uncovered arc x..y
++			res += R * (R * (y - x) + o.x * (sin(y) - sin(x))
++				- o.y * (cos(y) - cos(x)));
++		};
++		sort(all(s)); double cur = -pi;
++		for (auto [l, h] : s) {
++			if (l > cur) arc(cur, l);
++			cur = max(cur, h);
++		}
++		if (cur < pi) arc(cur, pi);
++	}
++	return res / 2;
++}
+diff --git a/content/geometry/Point3D.h b/content/geometry/Point3D.h
+index cf7f97e..4127764 100644
+--- a/content/geometry/Point3D.h
++++ b/content/geometry/Point3D.h
+@@ -3,10 +3,8 @@
+  * Date: 2009-04-14
+  * License: CC0
+  * Source:
+- * Description: Class to handle points in 3D space.
+- * 	T can be e.g. double or long long.
+- * Usage:
+- * Status: tested, except for phi and theta
++ * Description: Point in 3D; \texttt{T} is e.g. double or long long.
++ * Status: tested
+  */
+ #pragma once
+ 
+diff --git a/content/geometry/PolygonUnion.h b/content/geometry/PolygonUnion.h
+index 9ce057e..bc820b8 100644
+--- a/content/geometry/PolygonUnion.h
++++ b/content/geometry/PolygonUnion.h
+@@ -3,9 +3,7 @@
+  * Date: 2019-10-29
+  * License: Unknown
+  * Source: https://codeforces.com/gym/101673/submission/50481926
+- * Description: Calculates the area of the union of $n$ polygons (not necessarily
+- * convex). The points within each polygon must be given in CCW order.
+- * (Epsilon checks may optionally be added to sideOf/sgn, but shouldn't be needed.)
++ * Description: Area of the union of $n$ polygons, not necessarily convex, each in CCW order.
+  * Time: $O(N^2)$, where $N$ is the total number of points
+  * Status: stress-tested, Submitted on ECNA 2017 Problem A
+  */
+diff --git a/content/geometry/PolyhedronVolume.h b/content/geometry/PolyhedronVolume.h
+index 6ced76c..ffa4877 100644
+--- a/content/geometry/PolyhedronVolume.h
++++ b/content/geometry/PolyhedronVolume.h
+@@ -1,8 +1,8 @@
+ /**
+  * Author: Mattias de Zalenski
+  * Date: 2002-11-04
+- * Description: Magic formula for the volume of a polyhedron. Faces should point outwards.
+- * Status: tested
++ * Description: Volume of a polyhedron with triangular faces pointing outwards, e.g. from \texttt{hull3d}.
++ * Status: stress-tested
+  */
+ #pragma once
+ 
+diff --git a/content/geometry/chapter.tex b/content/geometry/chapter.tex
+index 6759520..105d949 100644
+--- a/content/geometry/chapter.tex
++++ b/content/geometry/chapter.tex
+@@ -19,6 +19,7 @@
+ 	\kactlimport{CirclePolygonIntersection.h}
+ 	\kactlimport{circumcircle.h}
+ 	\kactlimport{MinimumEnclosingCircle.h}
++	\kactlimport{CircleUnion.h}
+ 
+ \section{Polygons}
+ 	\kactlimport{InsidePolygon.h}
+@@ -26,7 +27,7 @@
+ 	\kactlimport{PolygonCenter.h}
+ 	\kactlimport{PolygonCut.h}
+ 	\kactlimport{HalfPlane.h}
+-	% \kactlimport{PolygonUnion.h}
++	\kactlimport{PolygonUnion.h}
+ 	\kactlimport{ConvexHull.h}
+ 	\kactlimport{HullDiameter.h}
+ 	\kactlimport{PointInsideHull.h}
+@@ -41,8 +42,8 @@
+ 	% \kactlimport{DelaunayTriangulation.h}
+ 	% \kactlimport{FastDelaunay.h}
+ 
+-% \section{3D}
+-	% \kactlimport{PolyhedronVolume.h}
+-	% \kactlimport{Point3D.h}
+-	% \kactlimport{3dHull.h}
++\section{3D}
++	\kactlimport{Point3D.h}
++	\kactlimport{3dHull.h}
++	\kactlimport{PolyhedronVolume.h}
+ 	% \kactlimport{sphericalDistance.h}
+diff --git a/content/graph/ChromaticNumber.h b/content/graph/ChromaticNumber.h
+new file mode 100644
+index 0000000..6c8593c
+--- /dev/null
++++ b/content/graph/ChromaticNumber.h
+@@ -0,0 +1,29 @@
++/**
++ * Author: Claude
++ * Date: 2026-11-15
++ * License: CC0
++ * Source: Bjorklund, Husfeldt, Koivisto (2009), inclusion-exclusion
++ * Description: Chromatic number; \texttt{adj[v]} is the bitmask of the neighbours of $v$.
++ * Counts $k$-colourings modulo \texttt{mod}, so a wrong answer has probability about $N/mod$.
++ * Time: O(2^N N)
++ * Status: stress-tested
++ */
++#pragma once
++
++int chromatic(vi adj) {
++	int n = sz(adj), N = 1 << n;
++	vector<ll> I(N, 1), p(N, 1); // I[m]: # independent sets in m
++	rep(m,1,N) {
++		int v = __builtin_ctzll(m), o = m ^ 1 << v;
++		I[m] = (I[o] + I[o & ~adj[v]]) % mod;
++	}
++	rep(k,0,n) {
++		ll s = 0;
++		rep(m,0,N) {
++			p[m] = p[m] * I[m] % mod;
++			s += __builtin_parityll(m) ^ (n & 1) ? mod - p[m] : p[m];
++		}
++		if (s % mod) return k + 1;
++	}
++	return 0;
++}
+diff --git a/content/graph/DominatorTree.h b/content/graph/DominatorTree.h
+new file mode 100644
+index 0000000..6bcfab6
+--- /dev/null
++++ b/content/graph/DominatorTree.h
+@@ -0,0 +1,51 @@
++/**
++ * Author: Claude
++ * Date: 2026-11-15
++ * License: CC0
++ * Source: Lengauer, Tarjan (1979)
++ * Description: Dominator tree of a digraph from root $r$: \texttt{idom[v]} is the last vertex
++ * other than $v$ that every path $r \to v$ passes; $-1$ for $r$ and for vertices not reachable from $r$.
++ * Time: O(M \log N)
++ * Status: stress-tested
++ */
++#pragma once
++
++vi dominators(vector<vi>& g, int r) {
++	int n = sz(g), t = 0;
++	vi num(n, -1), ord, par(n), sdom(n), dom(n), lab(n), dsu(n);
++	vector<vi> rg(n), bk(n);
++	auto dfs = [&](auto& f, int v) -> void {
++		num[v] = t++; ord.push_back(v);
++		for (int u : g[v])
++			if (num[u] < 0) f(f, u), par[num[u]] = num[v];
++	};
++	dfs(dfs, r);
++	rep(v,0,n) if (num[v] >= 0)
++		for (int u : g[v]) rg[num[u]].push_back(num[v]);
++	rep(i,0,t) sdom[i] = lab[i] = dsu[i] = i;
++	// find: min-sdom vertex on the dsu path; compresses it
++	auto find = [&](auto& f, int v, int x) -> int {
++		if (dsu[v] == v) return x ? -1 : v;
++		int p = f(f, dsu[v], x + 1);
++		if (p < 0) return v;
++		if (sdom[lab[dsu[v]]] < sdom[lab[v]]) lab[v] = lab[dsu[v]];
++		dsu[v] = p;
++		return x ? p : lab[v];
++	};
++	for (int i = t - 1; i >= 0; i--) {
++		for (int j : rg[i])
++			sdom[i] = min(sdom[i], sdom[find(find, j, 0)]);
++		if (i) bk[sdom[i]].push_back(i);
++		for (int w : bk[i]) {
++			int v = find(find, w, 0);
++			dom[w] = sdom[v] == sdom[w] ? sdom[w] : v;
++		}
++		if (i) dsu[i] = par[i];
++	}
++	vi res(n, -1);
++	rep(i,1,t) {
++		if (dom[i] != sdom[i]) dom[i] = dom[dom[i]];
++		res[ord[i]] = ord[dom[i]];
++	}
++	return res;
++}
+diff --git a/content/graph/chapter.tex b/content/graph/chapter.tex
+index ecc1ef2..ab012cb 100644
+--- a/content/graph/chapter.tex
++++ b/content/graph/chapter.tex
+@@ -25,6 +25,7 @@
+ 	\kactlimport{SCC.h}
+ 	\kactlimport{BiconnectedComponents.h}
+ 	\kactlimport{BlockCutTree.h}
++	\kactlimport{DominatorTree.h}
+ 	\kactlimport{2sat.h}
+ 	\kactlimport{EulerWalk.h}
+ 
+@@ -35,6 +36,7 @@
+ 	\kactlimport{MaximalCliques.h}
+ 	\kactlimport{MaximumClique.h}
+ 	\kactlimport{MaximumIndependentSet.h}
++	\kactlimport{ChromaticNumber.h}
+ 
+ \section{Trees}
+ 	\kactlimport{BinaryLifting.h}
+diff --git a/content/numerical/IntegrateAdaptive.h b/content/numerical/IntegrateAdaptive.h
+index ea90bc1..4bceed0 100644
+--- a/content/numerical/IntegrateAdaptive.h
++++ b/content/numerical/IntegrateAdaptive.h
+@@ -3,13 +3,13 @@
+  * Date: 2015-02-11
+  * License: CC0
+  * Source: Wikipedia
+- * Description: Fast integration using an adaptive Simpson's rule.
++ * Description: Adaptive Simpson. Use it instead of \texttt{Integrate} when $f$ has kinks or steep parts.
+  * Usage:
+ 	double sphereVolume = quad(-1, 1, [](double x) {
+ 	return quad(-1, 1, [\&](double y) {
+ 	return quad(-1, 1, [\&](double z) {
+ 	return x*x + y*y + z*z < 1; });});});
+- * Status: mostly untested
++ * Status: stress-tested
+  */
+ #pragma once
+ 
+diff --git a/content/numerical/MatrixInverse-mod.h b/content/numerical/MatrixInverse-mod.h
+index e6cd43d..3edc176 100644
+--- a/content/numerical/MatrixInverse-mod.h
++++ b/content/numerical/MatrixInverse-mod.h
+@@ -2,10 +2,8 @@
+  * Author: Simon Lindholm
+  * Date: 2016-12-08
+  * Source: The regular matrix inverse code
+- * Description: Invert matrix $A$ modulo a prime.
+- * Returns rank; result is stored in $A$ unless singular (rank < n).
+- * For prime powers, repeatedly set $A^{-1} = A^{-1} (2I - AA^{-1})\  (\text{mod }p^k)$ where $A^{-1}$ starts as
+- * the inverse of A mod p, and k is doubled in each step.
++ * Description: Inverts $A$ modulo the prime \texttt{mod}. Returns the rank; $A$ holds the inverse unless singular (rank $< n$).
++ * Prime power $p^k$: from the inverse mod $p$, repeat $A^{-1} \gets A^{-1}(2I - AA^{-1})$, doubling $k$.
+  * Time: O(n^3)
+  * Status: stress-tested
+  */
+diff --git a/content/numerical/Simplex.h b/content/numerical/Simplex.h
+index 090026c..f810e7c 100644
+--- a/content/numerical/Simplex.h
++++ b/content/numerical/Simplex.h
+@@ -2,16 +2,14 @@
+  * Author: Stanford
+  * Source: Stanford Notebook
+  * License: MIT
+- * Description: Solves a general linear maximization problem: maximize $c^T x$ subject to $Ax \le b$, $x \ge 0$.
+- * Returns -inf if there is no solution, inf if there are arbitrarily good solutions, or the maximum value of $c^T x$ otherwise.
+- * The input vector is set to an optimal $x$ (or in the unbounded case, an arbitrary solution fulfilling the constraints).
+- * Numerical stability is not guaranteed. For better performance, define variables such that $x = 0$ is viable.
++ * Description: Maximizes $c^T x$ subject to $Ax \le b$, $x \ge 0$. Returns the maximum, $-\infty$ if infeasible,
++ * $\infty$ if unbounded; sets $x$ to an optimum. Doubles, so not exact; faster when $x = 0$ is feasible.
+  * Usage:
+  * vvd A = {{1,-1}, {-1,1}, {-1,-2}};
+  * vd b = {1,1,-4}, c = {-1,-1}, x;
+  * T val = LPSolver(A, b, c).solve(x);
+- * Time: O(NM * \#pivots), where a pivot may be e.g. an edge relaxation. O(2^n) in the general case.
+- * Status: seems to work?
++ * Time: O(NM \cdot \#pivots), exponential in the worst case
++ * Status: stress-tested against brute force over all vertices
+  */
+ #pragma once
+ 
+diff --git a/content/numerical/SubsetConvolution.h b/content/numerical/SubsetConvolution.h
+new file mode 100644
+index 0000000..ea5067c
+--- /dev/null
++++ b/content/numerical/SubsetConvolution.h
+@@ -0,0 +1,28 @@
++/**
++ * Author: Claude
++ * Date: 2026-11-15
++ * License: CC0
++ * Source: ranked zeta transform (folklore)
++ * Description: $c[S] = \sum_{T \subseteq S} a[T] \, b[S \setminus T]$ modulo \texttt{mod}.
++ * Sizes $2^n$, values in $[0, mod)$.
++ * Time: O(2^N N^2)
++ * Status: stress-tested
++ */
++#pragma once
++
++vector<ll> subsetConv(vector<ll> a, vector<ll> b) {
++	int N = sz(a), n = __builtin_ctzll(N);
++	vector<vector<ll>> A(n + 1, vector<ll>(N)), B = A, C = A;
++	auto pc = [](int m) { return __builtin_popcountll(m); };
++	auto zeta = [&](vector<ll>& f, ll s) { // s = -1: inverse
++		rep(i,0,n) rep(m,0,N) if (m >> i & 1)
++			f[m] = (f[m] + s * f[m ^ 1 << i]) % mod;
++	};
++	rep(m,0,N) A[pc(m)][m] = a[m], B[pc(m)][m] = b[m];
++	rep(k,0,n+1) zeta(A[k], 1), zeta(B[k], 1);
++	rep(k,0,n+1) rep(i,0,k+1) rep(m,0,N)
++		C[k][m] = (C[k][m] + A[i][m] * B[k - i][m]) % mod;
++	rep(k,0,n+1) zeta(C[k], mod - 1);
++	rep(m,0,N) a[m] = C[pc(m)][m];
++	return a;
++}
+diff --git a/content/numerical/chapter.tex b/content/numerical/chapter.tex
+index 673ed22..1247639 100644
+--- a/content/numerical/chapter.tex
++++ b/content/numerical/chapter.tex
+@@ -13,8 +13,8 @@
+   % \kactlimport{GoldenSectionSearch.h}
+   \kactlimport{HillClimbing.h}
+   \kactlimport{Integrate.h}
+-  % \kactlimport{IntegrateAdaptive.h}
+-  % \kactlimport{Simplex.h}
++  \kactlimport{IntegrateAdaptive.h}
++  \kactlimport{Simplex.h}
+ 
+ \section{Matrices}
+   \kactlimport{Determinant.h}
+@@ -25,7 +25,7 @@
+   \kactlimport{SolveLinearMod.h}
+   \kactlimport{XorBasis.h}
+   \kactlimport{MatrixInverse.h}
+-  % \kactlimport{MatrixInverse-mod.h}
++  \kactlimport{MatrixInverse-mod.h}
+   % \kactlimport{Tridiagonal.h}
+ 
+ \section{Fourier transforms}
+@@ -33,4 +33,5 @@
+ 	\kactlimport{FastFourierTransformMod.h}
+ 	\kactlimport{NumberTheoreticTransform.h}
+ 	\kactlimport{FastSubsetTransform.h}
++	\kactlimport{SubsetConvolution.h}
+ 	\kactlimport{PolyOps.h}
+diff --git a/stress-tests/geometry/3dHull.cpp b/stress-tests/geometry/3dHull.cpp
+new file mode 100644
+index 0000000..208da39
+--- /dev/null
++++ b/stress-tests/geometry/3dHull.cpp
+@@ -0,0 +1,55 @@
++#include "../utilities/template.h"
++
++#include "../../content/geometry/3dHull.h"
++#include "../../content/geometry/PolyhedronVolume.h"
++
++double rd() { return rand() / (double)RAND_MAX * 20 - 10; }
++
++signed main() {
++	srand(13);
++	rep(it,0,3000) {
++		int n = 4 + rand() % 10;
++		vector<P3> A(n);
++		for (auto& p : A) p = P3(rd(), rd(), rd());
++		vector<F> h = hull3d(A);
++		// brute force: faces are the triples with all other points on one side
++		set<array<int, 3>> bf, hf;
++		double vol = 0;
++		rep(i,0,n) rep(j,i+1,n) rep(k,j+1,n) {
++			P3 q = (A[j] - A[i]).cross(A[k] - A[i]);
++			int pos = 0, neg = 0;
++			rep(l,0,n) if (l != i && l != j && l != k)
++				(q.dot(A[l] - A[i]) > 0 ? pos : neg)++;
++			if (pos && neg) continue;
++			bf.insert({i, j, k});
++			vol += (pos ? -1 : 1) * A[i].cross(A[j]).dot(A[k]) / 6; // outward orientation
++		}
++		for (F& f : h) {
++			array<int, 3> t = {f.a, f.b, f.c}; sort(all(t));
++			assert(!hf.count(t)); hf.insert(t);
++			// outward: every point is on the inner side, and a, b, c is ccw seen from outside
++			rep(l,0,n) assert(f.q.dot(A[l] - A[f.a]) < 1e-9);
++			assert((A[f.b] - A[f.a]).cross(A[f.c] - A[f.a]).dot(f.q) > 0);
++		}
++		assert(hf == bf);
++		double v = signedPolyVolume(A, h);
++		assert(v > 0 && abs(v - vol) < 1e-6);
++	}
++	// volume of the unit cube, slightly perturbed so no four points are coplanar
++	vector<P3> C;
++	rep(m,0,8) C.push_back(P3(m & 1, m >> 1 & 1, m >> 2 & 1) + P3(rd(), rd(), rd()) * 1e-7);
++	assert(abs(signedPolyVolume(C, hull3d(C)) - 1) < 1e-5);
++	// Point3D
++	P3 x(1, 0, 0), y(0, 1, 0), z(0, 0, 1);
++	assert((x.rotate(M_PI / 2, z) - y).dist() < 1e-12); // ccw around the axis
++	assert((y.rotate(M_PI / 2, x) - z).dist() < 1e-12);
++	assert(x.cross(y) == z && abs(P3(3, 4, 12).dist() - 13) < 1e-12);
++	assert((x.normal(y) - z).dist() < 1e-12 && abs(P3(2, 3, 6).unit().dist() - 1) < 1e-12);
++	assert(abs(y.phi() - M_PI / 2) < 1e-12 && abs(P3(1, 0, sqrt(3)).theta() - M_PI / 6) < 1e-12);
++	// big input
++	vector<P3> B(2000);
++	for (auto& p : B) p = P3(rd(), rd(), rd());
++	vector<F> h = hull3d(B);
++	for (F& f : h) for (auto& p : B) assert(f.q.dot(p - B[f.a]) < 1e-9);
++	cout << "Tests passed!" << endl;
++}
+diff --git a/stress-tests/geometry/CircleUnion.cpp b/stress-tests/geometry/CircleUnion.cpp
+new file mode 100644
+index 0000000..46c63ed
+--- /dev/null
++++ b/stress-tests/geometry/CircleUnion.cpp
+@@ -0,0 +1,83 @@
++#include "../utilities/template.h"
++
++#include "../../content/geometry/CircleUnion.h"
++
++// area by integrating over x: union of y-intervals, Gauss-Legendre per piece
++// between all critical x (circle ends, intersection points).
++double brute(vector<P>& c, vector<double>& r) {
++	int n = sz(c);
++	vector<double> xs;
++	rep(i,0,n) xs.push_back(c[i].x - r[i]), xs.push_back(c[i].x + r[i]);
++	rep(i,0,n) rep(j,0,i) {
++		double d = (c[i] - c[j]).dist();
++		if (d < 1e-12 || d > r[i] + r[j] || d < abs(r[i] - r[j])) continue;
++		double a = (r[i]*r[i] - r[j]*r[j] + d*d) / (2*d), h = sqrt(max(0.0, r[i]*r[i] - a*a));
++		P m = c[i] + (c[j] - c[i]) * (a / d), p = (c[j] - c[i]).perp() * (h / d);
++		xs.push_back((m + p).x), xs.push_back((m - p).x);
++	}
++	sort(all(xs));
++	auto f = [&](double x) {
++		vector<pair<double, double>> iv;
++		rep(i,0,n) if (abs(x - c[i].x) < r[i]) {
++			double h = sqrt(r[i]*r[i] - (x - c[i].x) * (x - c[i].x));
++			iv.push_back({c[i].y - h, c[i].y + h});
++		}
++		sort(all(iv));
++		double len = 0, cur = -1e18;
++		for (auto [l, h] : iv) { if (h > cur) len += h - max(l, cur), cur = h; }
++		return len;
++	};
++	// Gauss-Legendre (20 nodes, 4 sub-intervals) after x = a + (b-a)(1-cos t)/2,
++	// which removes the sqrt end singularities: the integrand is smooth in t
++	static vector<double> X, W;
++	if (X.empty()) rep(i,0,20) {
++		double z = cos(M_PI * (i + 0.75) / 20.5), pp = 0;
++		rep(it,0,100) {
++			double p1 = 1, p2 = 0;
++			rep(j,0,20) { double p3 = p2; p2 = p1; p1 = ((2*j + 1) * z * p2 - j * p3) / (j + 1); }
++			pp = 20 * (z * p1 - p2) / (z * z - 1);
++			z -= p1 / pp;
++		}
++		X.push_back(z), W.push_back(2 / ((1 - z * z) * pp * pp));
++	}
++	double res = 0;
++	rep(k,0,sz(xs)-1) {
++		double a = xs[k], b = xs[k+1];
++		if (b - a < 1e-12) continue;
++		rep(q,0,4) rep(i,0,20) {
++			double lo = q * M_PI / 4, t = lo + (X[i] + 1) * M_PI / 8;
++			res += W[i] * M_PI / 8 * f(a + (b - a) * (1 - cos(t)) / 2) * (b - a) * sin(t) / 2;
++		}
++	}
++	return res;
++}
++
++signed main() {
++	srand(11);
++	rep(it,0,3000) {
++		int n = rand() % 6 + 1, R = it % 2 ? 5 : 20;
++		vector<P> c; vector<double> r;
++		rep(i,0,n) {
++			if (i && rand() % 5 == 0) { // duplicate, concentric or tangent cases
++				int j = rand() % i;
++				c.push_back(c[j]);
++				r.push_back(rand() % 2 ? r[j] : (double)(rand() % R + 1));
++				continue;
++			}
++			c.push_back(P(rand() % (2 * R) - R, rand() % (2 * R) - R));
++			r.push_back(rand() % R + (it % 7 == 0 ? 0 : 1));
++		}
++		double a = circleUnion(c, r), b = brute(c, r);
++		if (abs(a - b) > 1e-6 * max(1.0, b)) {
++			cout << a << " " << b << endl;
++			rep(i,0,n) cout << c[i] << " " << r[i] << endl;
++			assert(0);
++		}
++	}
++	// exact checks
++	vector<P> c = {P(0, 0), P(0, 0), P(1, 0)}; vector<double> r = {1, 1, 1};
++	assert(abs(circleUnion(c, r) - (4 * M_PI / 3 + sqrt(3) / 2)) < 1e-9);
++	c = {P(0, 0), P(2, 0)}, r = {1, 1}; // tangent
++	assert(abs(circleUnion(c, r) - 2 * M_PI) < 1e-9);
++	cout << "Tests passed!" << endl;
++}
+diff --git a/stress-tests/graph/ChromaticNumber.cpp b/stress-tests/graph/ChromaticNumber.cpp
+new file mode 100644
+index 0000000..45e8158
+--- /dev/null
++++ b/stress-tests/graph/ChromaticNumber.cpp
+@@ -0,0 +1,39 @@
++#include "../utilities/template.h"
++
++#include "../../content/graph/ChromaticNumber.h"
++
++int brute(int n, vi& adj) {
++	if (n == 0) return 0;
++	for (int k = 1;; k++) {
++		vi col(n);
++		// try all k^n colourings
++		ll total = 1; rep(i,0,n) total *= k;
++		rep(c,0,total) {
++			ll x = c;
++			rep(i,0,n) col[i] = (int)(x % k), x /= k;
++			bool ok = 1;
++			rep(i,0,n) rep(j,0,n) if (adj[i] >> j & 1 && col[i] == col[j]) ok = 0;
++			if (ok) return k;
++		}
++	}
++}
++
++signed main() {
++	srand(3);
++	rep(it,0,3000) {
++		int n = rand() % 8, p = rand() % 101;
++		vi adj(n);
++		rep(i,0,n) rep(j,0,i) if (rand() % 100 < p) adj[i] |= 1 << j, adj[j] |= 1 << i;
++		assert(chromatic(adj) == brute(n, adj));
++	}
++	// known graphs on 20 vertices
++	rep(k,1,21) { // complete graph K_k
++		vi adj(k); rep(i,0,k) adj[i] = ((1 << k) - 1) ^ (1 << i);
++		assert(chromatic(adj) == k);
++	}
++	vi cyc(19); rep(i,0,19) cyc[i] = 1 << (i + 1) % 19 | 1 << (i + 18) % 19;
++	assert(chromatic(cyc) == 3); // odd cycle
++	vi ev(20); rep(i,0,20) ev[i] = 1 << (i + 1) % 20 | 1 << (i + 19) % 20;
++	assert(chromatic(ev) == 2);
++	cout << "Tests passed!" << endl;
++}
+diff --git a/stress-tests/graph/DominatorTree.cpp b/stress-tests/graph/DominatorTree.cpp
+new file mode 100644
+index 0000000..48a477b
+--- /dev/null
++++ b/stress-tests/graph/DominatorTree.cpp
+@@ -0,0 +1,49 @@
++#include "../utilities/template.h"
++
++#include "../../content/graph/DominatorTree.h"
++
++// reachable set from r when vertex `ban` is removed
++vector<bool> reach(vector<vi>& g, int r, int ban) {
++	vector<bool> vis(sz(g));
++	if (r == ban) return vis;
++	vi st = {r}; vis[r] = 1;
++	while (!st.empty()) {
++		int v = st.back(); st.pop_back();
++		for (int u : g[v]) if (u != ban && !vis[u]) vis[u] = 1, st.push_back(u);
++	}
++	return vis;
++}
++
++signed main() {
++	srand(7);
++	rep(it,0,20000) {
++		int n = rand() % 9 + 1, m = rand() % (3 * n + 1), r = rand() % n;
++		vector<vi> g(n);
++		rep(i,0,m) g[rand() % n].push_back(rand() % n); // loops and multi-edges too
++		vi idom = dominators(g, r);
++		vector<bool> all0 = reach(g, r, -1);
++		// D[v] = strict dominators of v
++		vector<vi> D(n);
++		rep(d,0,n) {
++			vector<bool> w = reach(g, r, d);
++			rep(v,0,n) if (v != d && all0[v] && !w[v]) D[v].push_back(d);
++		}
++		rep(v,0,n) {
++			if (!all0[v] || v == r) { assert(idom[v] == -1); continue; }
++			// idom = the strict dominator with the most strict dominators itself
++			int best = -1;
++			for (int d : D[v]) if (best < 0 || sz(D[d]) > sz(D[best])) best = d;
++			assert(sz(D[best]) == sz(D[v]) - 1);
++			assert(idom[v] == best);
++		}
++	}
++	// long path and big random graph: recursion depth and speed
++	int n = 200000;
++	vector<vi> g(n);
++	rep(i,0,n-1) g[i].push_back(i + 1);
++	vi idom = dominators(g, 0);
++	rep(i,1,n) assert(idom[i] == i - 1);
++	rep(i,0,n) rep(k,0,4) g[i].push_back(rand() % n);
++	dominators(g, 0);
++	cout << "Tests passed!" << endl;
++}
+diff --git a/stress-tests/numerical/IntegrateAdaptive.cpp b/stress-tests/numerical/IntegrateAdaptive.cpp
+new file mode 100644
+index 0000000..71d902e
+--- /dev/null
++++ b/stress-tests/numerical/IntegrateAdaptive.cpp
+@@ -0,0 +1,34 @@
++#include "../utilities/template.h"
++
++#include "../../content/numerical/IntegrateAdaptive.h"
++
++signed main() {
++	srand(19);
++	auto near = [](double a, double b) { return abs(a - b) < 1e-6 * max(1.0, abs(b)); };
++	assert(near(quad(0, 1, [](double x) { return x * x; }), 1.0 / 3));
++	int cnt = 0; // adaptive: few evaluations on a smooth function (357 now)
++	assert(near(quad(0, M_PI, [&](double x) { cnt++; return sin(x); }), 2));
++	assert(cnt < 1000);
++	assert(near(quad(-1, 2, [](double x) { return abs(x - 0.3); }), (1.3 * 1.3 + 1.7 * 1.7) / 2));
++	assert(near(quad(0, 1, [](double x) { return sqrt(x); }), 2.0 / 3));
++	assert(near(quad(-5, 5, [](double x) { return exp(-x * x); }), sqrt(M_PI) * erf(5)));
++	assert(near(quad(-1, 1, [](double x) { return 2 * sqrt(max(0.0, 1 - x * x)); }), M_PI));
++	// kink in the middle of a big interval: max of two lines
++	assert(near(quad(0, 10, [](double x) { return max(x, 7.3); }), 7.3 * 7.3 + (100 - 7.3 * 7.3) / 2));
++	// nested: area of the unit disk as a double integral of an indicator-free function
++	double disk = quad(-1, 1, [&](double x) {
++		double h = sqrt(max(0.0, 1 - x * x));
++		return quad(-h, h, [](double) { return 1.0; }); });
++	assert(near(disk, M_PI));
++	// random polynomials
++	rep(it,0,1000) {
++		int deg = rand() % 7; vector<double> p(deg + 1);
++		for (auto& v : p) v = rand() % 21 - 10;
++		double a = rand() % 11 - 5, b = a + rand() % 6 + 1, ex = 0;
++		rep(i,0,deg+1) ex += p[i] * (pow(b, i + 1) - pow(a, i + 1)) / (i + 1);
++		double got = quad(a, b, [&](double x) {
++			double s = 0; for (int i = deg; i >= 0; i--) s = s * x + p[i]; return s; });
++		assert(near(got, ex));
++	}
++	cout << "Tests passed!" << endl;
++}
+diff --git a/stress-tests/numerical/Simplex.cpp b/stress-tests/numerical/Simplex.cpp
+new file mode 100644
+index 0000000..c482de5
+--- /dev/null
++++ b/stress-tests/numerical/Simplex.cpp
+@@ -0,0 +1,72 @@
++#include "../utilities/template.h"
++
++#include "../../content/numerical/Simplex.h"
++
++// Brute force: best vertex of {Ax <= b, x >= 0, x <= box}. A bounded LP with these small
++// integers has its vertices well inside the box; an unbounded one grows with the box.
++T brute(vvd& A, vd& b, vd& c, double box) {
++	int n = sz(c);
++	vvd R = A; vd rhs = b;
++	rep(i,0,n) {
++		vd e(n); e[i] = -1; R.push_back(e); rhs.push_back(0);
++		e[i] = 1; R.push_back(e); rhs.push_back(box);
++	}
++	int K = sz(R); T best = -inf;
++	rep(mask,0,1 << K) if (__builtin_popcount(mask) == n) {
++		vvd M; vd y;
++		rep(i,0,K) if (mask >> i & 1) M.push_back(R[i]), y.push_back(rhs[i]);
++		// Gauss-Jordan
++		bool sing = 0;
++		rep(col,0,n) {
++			int p = col;
++			rep(r,col,n) if (abs(M[r][col]) > abs(M[p][col])) p = r;
++			if (abs(M[p][col]) < 1e-9) { sing = 1; break; }
++			swap(M[p], M[col]); swap(y[p], y[col]);
++			rep(r,0,n) if (r != col) {
++				double f = M[r][col] / M[col][col];
++				rep(k,0,n) M[r][k] -= f * M[col][k];
++				y[r] -= f * y[col];
++			}
++		}
++		if (sing) continue;
++		vd x(n); rep(i,0,n) x[i] = y[i] / M[i][i];
++		bool ok = 1;
++		rep(i,0,K) {
++			double s = 0; rep(j,0,n) s += R[i][j] * x[j];
++			if (s > rhs[i] + 1e-7) ok = 0;
++		}
++		if (!ok) continue;
++		double v = 0; rep(j,0,n) v += c[j] * x[j];
++		best = max(best, v);
++	}
++	return best;
++}
++
++signed main() {
++	srand(17);
++	int cnt[3] = {};
++	rep(it,0,20000) {
++		int n = rand() % 3 + 1, m = rand() % 5;
++		vvd A(m, vd(n)); vd b(m), c(n);
++		for (auto& r : A) for (auto& v : r) v = rand() % 7 - 3;
++		for (auto& v : b) v = rand() % 11 - 5;
++		for (auto& v : c) v = rand() % 7 - 3;
++		vd x;
++		T val = LPSolver(A, b, c).solve(x);
++		T b1 = brute(A, b, c, 1e3), b2 = brute(A, b, c, 2e3);
++		if (b1 == -inf) { assert(val == -inf); cnt[0]++; continue; }
++		if (b2 > b1 + 1e-6) { assert(val == inf); cnt[1]++; continue; }
++		cnt[2]++;
++		assert(abs(val - b1) < 1e-6);
++		// x is feasible and reaches the value
++		double s = 0; rep(j,0,n) s += c[j] * x[j], assert(x[j] > -1e-7);
++		assert(abs(s - val) < 1e-6);
++		rep(i,0,m) { double t = 0; rep(j,0,n) t += A[i][j] * x[j]; assert(t < b[i] + 1e-7); }
++	}
++	assert(cnt[0] > 100 && cnt[1] > 100 && cnt[2] > 1000);
++	// the usage example: min x + y with x - y <= 1, y - x <= 1, x + 2y >= 4: x = 2/3, y = 5/3
++	vvd A = {{1,-1}, {-1,1}, {-1,-2}};
++	vd b = {1,1,-4}, c = {-1,-1}, x;
++	assert(abs(LPSolver(A, b, c).solve(x) + 7.0 / 3) < 1e-9 && abs(x[0] - 2.0 / 3) < 1e-9);
++	cout << "Tests passed! " << cnt[0] << " " << cnt[1] << " " << cnt[2] << endl;
++}
+diff --git a/stress-tests/numerical/SubsetConvolution.cpp b/stress-tests/numerical/SubsetConvolution.cpp
+new file mode 100644
+index 0000000..54290fe
+--- /dev/null
++++ b/stress-tests/numerical/SubsetConvolution.cpp
+@@ -0,0 +1,27 @@
++// TEST_MODS: 998244353 1000000007 7
++#include "../utilities/template.h"
++
++#include "../../content/numerical/SubsetConvolution.h"
++
++signed main() {
++	srand(5);
++	rep(it,0,300) {
++		int n = rand() % 8, N = 1 << n;
++		vector<ll> a(N), b(N);
++		rep(i,0,N) a[i] = rand() % mod, b[i] = rand() % mod;
++		if (it % 3 == 0) rep(i,0,N) a[i] = mod - 1, b[i] = mod - 1;
++		vector<ll> c = subsetConv(a, b), d(N);
++		rep(S,0,N) for (int T = S;; T = (T - 1) & S) {
++			d[S] = (d[S] + a[T] * b[S ^ T]) % mod;
++			if (!T) break;
++		}
++		assert(c == d);
++	}
++	// size 2^20 runs in time
++	int N = 1 << 20;
++	vector<ll> a(N), b(N);
++	rep(i,0,N) a[i] = rand() % mod, b[i] = rand() % mod;
++	vector<ll> c = subsetConv(a, b);
++	ll s = 0; rep(i,0,N) s += c[i];
++	cout << "Tests passed! " << s % 2 << endl;
++}
