@@ -18,7 +18,6 @@ LaTeX `listings`) on the same page: `macros.cpp`, `KMP.h`, `SegmentTree.h`, `Dom
 | 07 | Xcode light | bold purple keywords |
 | 08 | Atom One Light | purple keywords, blue functions, yellow types |
 | 09 | KACTL `\enablecolors` | the colour option that already exists in `kactlpkg.sty` |
-
 | 10 | Catppuccin Latte, Light+ roles | each Light+ role in its nearest Latte colour: keywords Blue, control Mauve, types Sapphire, functions Yellow, numbers Teal, strings Red, comments Green, variables and operators Text (`#4c4f69`) |
 | 11 | Catppuccin Latte, darker | 10 with every accent at 72% brightness: Latte is made for its `#eff1f5` background and is pale on white paper |
 
