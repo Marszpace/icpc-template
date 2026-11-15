@@ -1,0 +1,17 @@
+% Syntax highlighting: shared part. A scheme defines \hlBase, \hlKey, \hlCtrl, \hlType, \hlFunc,
+% \hlIdent, \hlNum, \hlStr, \hlCom, \hlDir (each a style like \color{...}\bfseries).
+\makeatletter
+\newcommand\hlDigit[1]{\ifnum\lst@mode=\lst@Pmode\relax{\hlNum#1}\else#1\fi}
+\makeatother
+\lstdefinelanguage{hlcpp}[ISO]{C++}{
+	keywords={alignas,alignof,auto,bool,char,class,const,constexpr,decltype,delete,double,enum,explicit,extern,false,float,friend,inline,int,long,mutable,namespace,new,noexcept,nullptr,operator,private,protected,public,short,signed,sizeof,static,static_assert,struct,template,this,true,typedef,typename,union,unsigned,using,virtual,void,volatile},
+	moredelim=[is][\hlNum]{`}{`},
+	morekeywords=[2]{if,else,for,while,do,return,break,continue,goto,switch,case,default,try,catch,throw},
+}
+\lstset{
+	keywordstyle=\hlKey, keywordstyle=[2]\hlCtrl,
+	emphstyle=\hlFunc, emphstyle=[2]\hlType,
+	identifierstyle=\hlIdent, commentstyle=\hlCom, stringstyle=\hlStr, directivestyle=\hlDir,
+	basicstyle=\footnotesize\ttfamily\hlBase,
+	literate={^}{\caret}{1} {~}{\tilde}{1} {\{}{\nicelbrace}{1} {\}}{\nicerbrace}{1},
+}
