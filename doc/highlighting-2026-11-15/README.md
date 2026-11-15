@@ -19,6 +19,11 @@ LaTeX `listings`) on the same page: `macros.cpp`, `KMP.h`, `SegmentTree.h`, `Dom
 | 08 | Atom One Light | purple keywords, blue functions, yellow types |
 | 09 | KACTL `\enablecolors` | the colour option that already exists in `kactlpkg.sty` |
 
+| 10 | Catppuccin Latte, Light+ roles | each Light+ role in its nearest Latte colour: keywords Blue, control Mauve, types Sapphire, functions Yellow, numbers Teal, strings Red, comments Green, variables and operators Text (`#4c4f69`) |
+| 11 | Catppuccin Latte, darker | 10 with every accent at 72% brightness: Latte is made for its `#eff1f5` background and is pale on white paper |
+
+`comparison-catppuccin.png` compares 02, 10 and 11; `catppuccin.pdf` has 10 and 11 at print size.
+
 VS Code Dark+ is left out: its colours (light yellow functions, light blue variables) are unreadable on white, and a black
 background does not print well.
 
