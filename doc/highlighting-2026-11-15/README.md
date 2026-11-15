@@ -3,7 +3,7 @@
 Samples only: **the book is unchanged.** Every scheme is rendered through the real build (`preprocessor.py`, `kactlpkg.sty`,
 LaTeX `listings`) on the same page: `macros.cpp`, `KMP.h`, `SegmentTree.h`, `DominatorTree.h` and a check line.
 
-- `comparison.png`: the same excerpt in all 10 schemes, side by side.
+- `comparison.png`: the same excerpt in all 12 schemes, side by side.
 - `all-schemes.pdf`: one page per scheme, at real print size (best way to judge; print one page if you can).
 
 | # | Scheme | Notes |
